@@ -6,11 +6,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons", "Hexalit
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hexalith.Builds", "Hexalith.Builds", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
+		Hexalith.Builds\.gitignore = Hexalith.Builds\.gitignore
 		Hexalith.Builds\Directory.Packages.props = Hexalith.Builds\Directory.Packages.props
+		Hexalith.Builds\HexalithVersion.props = Hexalith.Builds\HexalithVersion.props
+		Hexalith.Builds\LICENSE = Hexalith.Builds\LICENSE
 		Hexalith.Builds\README.md = Hexalith.Builds\README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_builds", "_builds", "{59DCA09D-B7FB-4C07-8CB9-950D4B67AF1A}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
