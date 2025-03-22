@@ -1,0 +1,51 @@
+name: Hexalith $(basename ${{ github.repository }} Build
+on:
+  push:
+    paths-ignore:
+      - '**/*.md'
+      - 'mkdocs.yml'
+      - 'docs/**/*'
+    branches: 
+      - main
+      - release-*
+    tags:
+      - 'v*'
+  pull_request:
+    branches: 
+      - main
+      - release-*
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+  security-events: write
+env:
+  DOTNET_MULTILEVEL_LOOKUP: 0 
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true  # To reduce noise
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages  # Cache NuGet packages
+  HEXALITH_PACKAGE_NAME:  $(basename ${{ github.repository }}
+jobs:
+  initialize:
+    runs-on: ubuntu-latest
+    name: Initialize repository
+    timeout-minutes: 10  # Added timeout for safety
+    steps:
+    - name: Checkout $(basename ${{ github.repository }}Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Initialize Hexalith.Builds submodule
+      run: |
+          git submodule init Hexalith.Builds
+          git submodule update Hexalith.Builds
+          cd Hexalith.Builds
+          git checkout main
+    - name: Setup .NET 9.0
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+        cache: false  
+    - name: Call Build Projects
+      uses: ./Hexalith.Builds/GitHub/build-projects
