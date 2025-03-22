@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hexalith.Builds", "Hexalith
 	ProjectSection(SolutionItems) = preProject
 		Hexalith.Builds\.gitignore = Hexalith.Builds\.gitignore
 		Hexalith.Builds\Directory.Packages.props = Hexalith.Builds\Directory.Packages.props
+		Hexalith.Builds\Hexalith.Build.props = Hexalith.Builds\Hexalith.Build.props
 		Hexalith.Builds\HexalithVersion.props = Hexalith.Builds\HexalithVersion.props
 		Hexalith.Builds\LICENSE = Hexalith.Builds\LICENSE
 		Hexalith.Builds\README.md = Hexalith.Builds\README.md
