@@ -1,7 +1,4 @@
-﻿// <copyright file="SettingsException.cs" company="ITANEO">
-// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-// </copyright>
+﻿// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved. Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace Hexalith.Commons.Configuration;
 
@@ -38,7 +35,8 @@ public class SettingsException<TSettings> : ArgumentException
     /// Initializes a new instance of the <see cref="SettingsException{TSettings}"/> class.
     /// </summary>
     /// <param name="message">The error message that explains the reason for the exception.</param>
-    /// <param name="innerException">The exception that is the cause of the current exception. If the <paramref name="innerException" /> parameter is not a null reference, the current exception is raised in a <see langword="catch" /> block that handles the inner exception.</param>
+    /// <param name="innerException">The exception that is the cause of the current exception.
+    /// If the <paramref name="innerException" /> parameter is not a null reference, the current exception is raised in a <see langword="catch" /> block that handles the inner exception.</param>
     public SettingsException(string? message, Exception? innerException)
         : base(message, innerException)
     {
@@ -49,7 +47,8 @@ public class SettingsException<TSettings> : ArgumentException
     /// </summary>
     /// <param name="message">The error message that explains the reason for the exception.</param>
     /// <param name="paramName">The name of the parameter that caused the current exception.</param>
-    /// <param name="innerException">The exception that is the cause of the current exception. If the <paramref name="innerException" /> parameter is not a null reference, the current exception is raised in a <see langword="catch" /> block that handles the inner exception.</param>
+    /// <param name="innerException">The exception that is the cause of the current exception.
+    /// If the <paramref name="innerException" /> parameter is not a null reference, the current exception is raised in a <see langword="catch" /> block that handles the inner exception.</param>
     public SettingsException(string? message, string? paramName, Exception? innerException)
         : base(message, paramName, innerException)
     {
@@ -70,13 +69,11 @@ public class SettingsException<TSettings> : ArgumentException
     /// </summary>
     /// <param name="argument">The argument.</param>
     /// <param name="paramName">Name of the parameter.</param>
-#pragma warning disable CA1000 // Do not declare static members on generic types
-
     public static void ThrowIfUndefined(
         [NotNull] object? argument,
         [CallerArgumentExpression(nameof(argument))] string? paramName = null)
     {
-        if (argument is null || argument is string str && string.IsNullOrWhiteSpace(str))
+        if (argument is null || (argument is string str && string.IsNullOrWhiteSpace(str)))
         {
             string? settingsName = string.IsNullOrWhiteSpace(paramName)
                 ? string.Empty
@@ -89,8 +86,6 @@ public class SettingsException<TSettings> : ArgumentException
             Throw($"The {settingsName} value is undefined in {TSettings.ConfigurationName()} settings. Argument : {paramName}.", paramName);
         }
     }
-
-#pragma warning restore CA1000 // Do not declare static members on generic types
 
     /// <summary>
     /// Throws the specified message.
