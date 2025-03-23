@@ -4,7 +4,6 @@ VisualStudioVersion = 17.14.35906.104
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hexalith.Builds", "Hexalith.Builds", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
-		Hexalith.Builds\.editorconfig = Hexalith.Builds\.editorconfig
 		Hexalith.Builds\.gitignore = Hexalith.Builds\.gitignore
 		Hexalith.Builds\Directory.Packages.props = Hexalith.Builds\Directory.Packages.props
 		Hexalith.Builds\Environment.Build.props = Hexalith.Builds\Environment.Build.props
@@ -19,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hexalith.Builds", "Hexalith
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_builds", "_builds", "{59DCA09D-B7FB-4C07-8CB9-950D4B67AF1A}"
 	ProjectSection(SolutionItems) = preProject
-		Hexalith.Builds\.editorconfig = Hexalith.Builds\.editorconfig
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
