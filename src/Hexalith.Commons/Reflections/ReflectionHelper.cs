@@ -1,7 +1,4 @@
-﻿// <copyright file="ReflectionHelper.cs" company="ITANEO">
-// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-// </copyright>
+﻿// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved. Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace Hexalith.Commons.Reflections;
 
@@ -22,7 +19,7 @@ public static class ReflectionHelper
     /// Get instances of all instantiable objects of a specified type.
     /// </summary>
     /// <typeparam name="TType">Base type.</typeparam>
-    /// <returns>An instance of each instanciable type that inherit from the given type.</returns>
+    /// <returns>An instance of each instantiable type that inherit from the given type.</returns>
     public static IEnumerable<TType> GetInstantiableObjectsOf<TType>()
         => GetInstantiableTypesOf<TType>()
             .Select(type => (TType)Activator.CreateInstance(type)!)
@@ -33,7 +30,7 @@ public static class ReflectionHelper
     /// </summary>
     /// <typeparam name="TType">Base type.</typeparam>
     /// <param name="excludedTypes">List of excluded types.</param>
-    /// <returns>An instance of each instanciable type that inherit from the given type.</returns>
+    /// <returns>An instance of each instantiable type that inherit from the given type.</returns>
     public static IEnumerable<TType> GetInstantiableObjectsOf<TType>(IEnumerable<Type> excludedTypes)
         => GetInstantiableTypesOf<TType>(excludedTypes)
             .Select(type => (TType)Activator.CreateInstance(type)!)
@@ -69,14 +66,7 @@ public static class ReflectionHelper
                 Debug.WriteLine($"Could not load types for assembly: {assembly.FullName}\nError: {e.FullMessage()}");
                 continue;
             }
-
-            foreach (Type type in types)
-            {
-                if (IsValidType<TType>(type, excluded))
-                {
-                    instantiableTypes.Add(type);
-                }
-            }
+            instantiableTypes.AddRange(types.Where(type => IsValidType<TType>(type, excluded)));
         }
 
         return instantiableTypes;

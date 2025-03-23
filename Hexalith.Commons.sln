@@ -16,7 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hexalith.Builds", "Hexalith
 		Hexalith.Builds\Hexalith.Version.props = Hexalith.Builds\Hexalith.Version.props
 		Hexalith.Builds\LICENSE = Hexalith.Builds\LICENSE
 		Hexalith.Builds\README.md = Hexalith.Builds\README.md
-		Hexalith.Builds\Stylecop.Build.props = Hexalith.Builds\Stylecop.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_builds", "_builds", "{59DCA09D-B7FB-4C07-8CB9-950D4B67AF1A}"

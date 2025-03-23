@@ -1,4 +1,8 @@
-﻿namespace Hexalith.Commons.Tests.Helpers;
+﻿// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved. Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+namespace Hexalith.Commons.Tests.Helpers;
+
+using System.Diagnostics.CodeAnalysis;
 
 using Hexalith.Commons.Common;
 using Hexalith.Commons.Objects;
@@ -109,9 +113,10 @@ public class ExampleTest
         /// </summary>
         /// <value>The value.</value>
         [ExampleValue("Hello")]
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
     }
 
+    [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = TestHelper.TestJustification)]
     private class BasePropertyExample : BaseProperty
     {
     }
@@ -124,6 +129,7 @@ public class ExampleTest
         /// <summary>
         /// The read only value.
         /// </summary>
+        [SuppressMessage("Critical Code Smell", "S4487:Unread \"private\" fields should be removed", Justification = TestHelper.TestJustification)]
         public const string ReadOnlyValue = "Read";
 
         /// <summary>
@@ -131,7 +137,7 @@ public class ExampleTest
         /// </summary>
         /// <value>The value.</value>
         [ExampleValue("Hello")]
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
     }
 
     /// <summary>
@@ -143,7 +149,7 @@ public class ExampleTest
         /// Gets or sets the value.
         /// </summary>
         /// <value>The value.</value>
-        public int Value { get; set; }
+        public int Value { get; set; } = 101;
     }
 
     /// <summary>
@@ -168,7 +174,7 @@ public class ExampleTest
         /// Gets or sets the value.
         /// </summary>
         /// <value>The value.</value>
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
     }
 
     /// <summary>
@@ -181,7 +187,7 @@ public class ExampleTest
         /// </summary>
         /// <value>The value.</value>
         [ExampleValue("Hello")]
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
     }
 
     /// <summary>
@@ -200,13 +206,13 @@ public class ExampleTest
         /// Gets or sets the string default.
         /// </summary>
         /// <value>The string default.</value>
-        public string StringDefault { get; set; }
+        public string StringDefault { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the string value.
         /// </summary>
         /// <value>The string value.</value>
         [ExampleValue("Hello")]
-        public string StringValue { get; set; }
+        public string StringValue { get; set; } = string.Empty;
     }
 }

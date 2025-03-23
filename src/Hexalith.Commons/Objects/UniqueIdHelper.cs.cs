@@ -1,7 +1,4 @@
-// <copyright file="UniqueIdHelper.cs.cs" company="ITANEO">
-// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-// </copyright>
+// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved. Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace Hexalith.Commons.Objects;
 
@@ -27,7 +24,15 @@ public static class UniqueIdHelper
         lock (_lock)
         {
             DateTime now = DateTime.UtcNow;
-            DateTime currentDateTime = new(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond);
+            DateTime currentDateTime = new(
+                now.Year,
+                now.Month,
+                now.Day,
+                now.Hour,
+                now.Minute,
+                now.Second,
+                now.Millisecond,
+                DateTimeKind.Utc);
             while (currentDateTime <= _previous)
             {
                 currentDateTime = currentDateTime.AddMilliseconds(1);
@@ -42,11 +47,8 @@ public static class UniqueIdHelper
     /// Generates a unique 22-character ID string derived from a GUID encoded in Base64 URL-safe format.
     /// </summary>
     /// <returns>A 22-character unique ID string.</returns>
-    public static string GenerateUniqueStringId()
-    {
-        return Convert
+    public static string GenerateUniqueStringId() => Convert
             .ToBase64String(Guid.NewGuid().ToByteArray())[..22]
             .Replace("/", "_", StringComparison.InvariantCulture)
             .Replace("+", "-", StringComparison.InvariantCulture);
-    }
 }

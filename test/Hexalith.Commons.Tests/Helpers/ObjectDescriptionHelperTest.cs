@@ -1,12 +1,10 @@
-﻿// <copyright file="ObjectDescriptionHelperTest.cs" company="ITANEO">
-// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-// </copyright>
+﻿// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved. Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace Hexalith.Commons.Tests.Helpers;
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 using Hexalith.Commons.Helpers;
 using Hexalith.Commons.Reflections;
@@ -119,6 +117,7 @@ public class ObjectDescriptionHelperTest
     /// <summary>
     /// Class NoAttributesTest.
     /// </summary>
+    [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = TestHelper.TestJustification)]
     public class NoAttributesTest
     {
     }

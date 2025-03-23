@@ -1,7 +1,4 @@
-﻿// <copyright file="ObjectToDictionnaryHelper.cs" company="ITANEO">
-// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-// </copyright>
+﻿// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved. Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace Hexalith.Commons.Tests.Helpers;
 
@@ -9,31 +6,31 @@ using System.Collections.Generic;
 
 using Shouldly;
 
-public class ObjectToDictionnaryHelper
+public class ObjectToDictionaryHelper
 {
     [Fact]
     public void Test()
     {
-        // convert an object to a dictionnary
+        // convert an object to a dictionary
         var obj = new { Name = "John", Age = 42 };
-        IDictionary<string, object> dico = ToDictionary(obj);
+        IDictionary<string, object?> dictionary = ToDictionary(obj);
 
-        dico.ShouldNotBeNull();
-        dico.Count.ShouldBe(2);
-        dico.ShouldContainKey("Name");
-        dico.ShouldContainKey("Age");
-        dico["Name"].ShouldBe("John");
-        dico["Age"].ShouldBe(42);
+        _ = dictionary.ShouldNotBeNull();
+        dictionary.Count.ShouldBe(2);
+        dictionary.ShouldContainKey("Name");
+        dictionary.ShouldContainKey("Age");
+        dictionary["Name"].ShouldBe("John");
+        dictionary["Age"].ShouldBe(42);
     }
 
-    private static IDictionary<string, object> ToDictionary(object obj)
+    private static IDictionary<string, object?> ToDictionary(object obj)
     {
-        Dictionary<string, object> dico = new(StringComparer.Ordinal);
+        Dictionary<string, object?> dictionary = new(StringComparer.Ordinal);
         foreach (System.Reflection.PropertyInfo prop in obj.GetType().GetProperties())
         {
-            dico.Add(prop.Name, prop.GetValue(obj));
+            dictionary.Add(prop.Name, prop.GetValue(obj));
         }
 
-        return dico;
+        return dictionary;
     }
 }
