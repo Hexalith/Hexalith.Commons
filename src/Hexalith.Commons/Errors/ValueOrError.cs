@@ -3,10 +3,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace Hexalith.Commons.Common;
-
-using Hexalith.Commons.Errors;
-
+namespace Hexalith.Commons.Errors;
 /// <summary>
 /// Conditional value class.
 /// </summary>

@@ -5,7 +5,7 @@ namespace Hexalith.Commons.Tests.Helpers;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-using Hexalith.Commons.Helpers;
+using Hexalith.Commons.Objects;
 
 using Shouldly;
 

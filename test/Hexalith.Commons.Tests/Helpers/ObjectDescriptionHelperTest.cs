@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-using Hexalith.Commons.Helpers;
+using Hexalith.Commons.Objects;
 using Hexalith.Commons.Reflections;
 
 using Shouldly;

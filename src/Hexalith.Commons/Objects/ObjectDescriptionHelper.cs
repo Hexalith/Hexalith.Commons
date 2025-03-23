@@ -1,9 +1,4 @@
-﻿// <copyright file="ObjectDescriptionHelper.cs" company="ITANEO">
-// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-// </copyright>
-
-namespace Hexalith.Commons.Helpers;
+﻿namespace Hexalith.Commons.Objects;
 
 using System;
 using System.ComponentModel;
@@ -25,15 +20,18 @@ public static class ObjectDescriptionHelper
     /// </summary>
     /// <param name="type">The type.</param>
     /// <returns>System.ValueTuple&lt;System.String, System.String, System.String&gt;.</returns>
-    public static (string TypeName, string DisplayName, string Description) Describe([NotNull] this Type type)
+    public static (string TypeName, string DisplayName, string Description) Describe(
+        [NotNull] this Type type
+    )
     {
         ArgumentNullException.ThrowIfNull(type);
         string? typeName = null;
-        string? name = null;
-        string? description = null;
 
         // Get the TypeMapName if the type implements IMappableType.
-        if (typeof(IMappableType).IsAssignableFrom(type) && Activator.CreateInstance(type) is IMappableType mappable)
+        if (
+            typeof(IMappableType).IsAssignableFrom(type)
+            && Activator.CreateInstance(type) is IMappableType mappable
+        )
         {
             typeName = mappable.TypeMapName;
         }
@@ -41,33 +39,16 @@ public static class ObjectDescriptionHelper
         // Get the Type name if the type does not have an MapTypeName.
         typeName ??= type.Name;
 
-        // Get the type description from the display attribute.
-        DisplayAttribute? displayAttribute = type.GetCustomAttribute<DisplayAttribute>();
-        if (displayAttribute != null)
-        {
-            name = string.IsNullOrWhiteSpace(displayAttribute.Name) ? null : displayAttribute.Name;
-            description = string.IsNullOrWhiteSpace(displayAttribute.Description) ? null : displayAttribute.Description;
-        }
+        string? name;
+        string? description;
 
-        if (name == null)
-        {
-            DisplayNameAttribute? displayNameAttribute = type.GetCustomAttribute<DisplayNameAttribute>();
-            if (displayNameAttribute != null)
-            {
-                name = string.IsNullOrWhiteSpace(displayNameAttribute.DisplayName) ? null : displayNameAttribute.DisplayName;
-            }
-        }
+        (name, description) = NameDescriptionFromDisplayAttribute(type);
+
+        name ??= DisplayNameFromAttribute(type);
 
         name ??= typeName.Humanize(); // If name attributes are not found use the type name converted to a sentence.
 
-        if (description == null)
-        {
-            DescriptionAttribute? descriptionAttribute = type.GetCustomAttribute<DescriptionAttribute>();
-            if (descriptionAttribute != null)
-            {
-                description = string.IsNullOrWhiteSpace(descriptionAttribute.Description) ? null : descriptionAttribute.Description;
-            }
-        }
+        description ??= DescriptionFromAttribute(type);
 
         description ??= name; // If description attributes are not found, use the name.
 
@@ -79,41 +60,24 @@ public static class ObjectDescriptionHelper
     /// </summary>
     /// <param name="property">The property.</param>
     /// <returns>System.ValueTuple&lt;System.String, System.String, System.Nullable&lt;System.Object&gt;, System.Boolean&gt;.</returns>
-    public static (string DisplayName, string Description, object? DefaultValue, bool IsRequired) Describe([NotNull] this PropertyInfo property)
+    public static (
+        string DisplayName,
+        string Description,
+        object? DefaultValue,
+        bool IsRequired
+    ) Describe([NotNull] this PropertyInfo property)
     {
         ArgumentNullException.ThrowIfNull(property);
-        string? name = null;
-        string? description = null;
         object? defaultValue = property.GetCustomAttribute<DefaultValueAttribute>()?.Value;
         bool required = property.GetCustomAttribute<RequiredAttribute>() != null;
 
         // Get the type description from the display attribute.
-        DisplayAttribute? displayAttribute = property.GetCustomAttribute<DisplayAttribute>();
-        if (displayAttribute != null)
-        {
-            name = string.IsNullOrWhiteSpace(displayAttribute.Name) ? null : displayAttribute.Name;
-            description = string.IsNullOrWhiteSpace(displayAttribute.Description) ? null : displayAttribute.Description;
-        }
-
-        if (name == null)
-        {
-            DisplayNameAttribute? displayNameAttribute = property.GetCustomAttribute<DisplayNameAttribute>();
-            if (displayNameAttribute != null)
-            {
-                name = string.IsNullOrWhiteSpace(displayNameAttribute.DisplayName) ? null : displayNameAttribute.DisplayName;
-            }
-        }
+        (string? name, string? description) = property.NameDescriptionFromDisplayAttribute();
+        name ??= property.DisplayNameFromAttribute();
 
         name ??= property.Name.Humanize(); // If name attributes are not found use the type name converted to a sentence.
 
-        if (description == null)
-        {
-            DescriptionAttribute? descriptionAttribute = property.GetCustomAttribute<DescriptionAttribute>();
-            if (descriptionAttribute != null)
-            {
-                description = string.IsNullOrWhiteSpace(descriptionAttribute.Description) ? null : descriptionAttribute.Description;
-            }
-        }
+        description ??= DescriptionFromAttribute(property);
 
         description ??= name; // If description attributes are not found, use the name.
 
@@ -125,11 +89,20 @@ public static class ObjectDescriptionHelper
     /// </summary>
     /// <param name="type">The type.</param>
     /// <returns>IDictionary&lt;System.String, System.ValueTuple&lt;System.String, System.String, System.Nullable&lt;System.Object&gt;, System.Boolean&gt;&gt;.</returns>
-    public static IDictionary<string, (string DisplayName, string Description, object? DefaultValue, bool IsRequired)> DescribeInstanceWriteProperties([NotNull] this Type type)
+    public static IDictionary<
+        string,
+        (string DisplayName, string Description, object? DefaultValue, bool IsRequired)
+    > DescribeInstanceWriteProperties([NotNull] this Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
-        Dictionary<string, (string DisplayName, string Description, object? DefaultValue, bool IsRequired)> result = [];
-        foreach (PropertyInfo property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => p.CanWrite))
+        Dictionary<
+            string,
+            (string DisplayName, string Description, object? DefaultValue, bool IsRequired)
+        > result = [];
+        foreach (
+            PropertyInfo property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(p => p.CanWrite)
+        )
         {
             result.Add(property.Name, property.Describe());
         }
@@ -142,15 +115,49 @@ public static class ObjectDescriptionHelper
     /// </summary>
     /// <param name="type">The type.</param>
     /// <returns>System.ValueTuple&lt;System.String, System.String, System.String&gt;.</returns>
-    public static IDictionary<string, (string DisplayName, string Description, object? DefaultValue, bool IsRequired)> DescribeProperties([NotNull] this Type type)
+    public static IDictionary<
+        string,
+        (string DisplayName, string Description, object? DefaultValue, bool IsRequired)
+    > DescribeProperties([NotNull] this Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
-        Dictionary<string, (string DisplayName, string Description, object? DefaultValue, bool IsRequired)> result = [];
+        Dictionary<
+            string,
+            (string DisplayName, string Description, object? DefaultValue, bool IsRequired)
+        > result = [];
         foreach (PropertyInfo property in type.GetProperties())
         {
             result.Add(property.Name, property.Describe());
         }
 
         return result;
+    }
+
+    public static string? DescriptionFromAttribute(this Type type) =>
+        type.GetCustomAttribute<DescriptionAttribute>()?.Description;
+
+    public static string? DescriptionFromAttribute(this PropertyInfo type) =>
+        type.GetCustomAttribute<DescriptionAttribute>()?.Description;
+
+    public static string? DisplayNameFromAttribute(this Type type) =>
+        type.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
+
+    public static string? DisplayNameFromAttribute(this PropertyInfo type) =>
+        type.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
+
+    public static (string? Name, string? Description) NameDescriptionFromDisplayAttribute(
+        this PropertyInfo type
+    )
+    {
+        DisplayAttribute? displayAttribute = type.GetCustomAttribute<DisplayAttribute>();
+        return (displayAttribute?.Name, displayAttribute?.Description);
+    }
+
+    public static (string? Name, string? Description) NameDescriptionFromDisplayAttribute(
+        this Type type
+    )
+    {
+        DisplayAttribute? displayAttribute = type.GetCustomAttribute<DisplayAttribute>();
+        return (displayAttribute?.Name, displayAttribute?.Description);
     }
 }
