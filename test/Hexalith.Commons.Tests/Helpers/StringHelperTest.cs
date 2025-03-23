@@ -1,15 +1,12 @@
-﻿// <copyright file="StringHelperTest.cs" company="ITANEO">
-// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-// </copyright>
+﻿// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved. Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 namespace Hexalith.Commons.Tests.Helpers;
 
 using System.Globalization;
 
-using Shouldly;
-
 using Hexalith.Extensions.Helpers;
+
+using Shouldly;
 
 public class StringHelperTest
 {
@@ -42,12 +39,9 @@ public class StringHelperTest
     public void DoubleIntoStringAndBackToNumberShouldBeSame(double value) => value.ToInvariantString().ToDouble().ShouldBe(value);
 
     [Fact]
-    public void FormatStringWithNamedPlaceholdersShouldReturnExpected()
-    {
-        StringHelper
+    public void FormatStringWithNamedPlaceholdersShouldReturnExpected() => StringHelper
             .FormatWithNamedPlaceholders(CultureInfo.InvariantCulture, "Say {Hello} {Number} times", ["hello world", 11])
             .ShouldBe("Say hello world 11 times");
-    }
 
     [Theory]
     [InlineData(0, "0")]
