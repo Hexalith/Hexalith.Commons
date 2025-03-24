@@ -1,9 +1,4 @@
-﻿// <copyright file="EquatableHelper.cs" company="ITANEO">
-// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-// </copyright>
-
-namespace Hexalith.Commons.Objects;
+﻿namespace Hexalith.Commons.Objects;
 
 using System.Collections;
 using System.Linq;
@@ -54,7 +49,9 @@ public static class EquatableHelper
         if (a is IEquatableObject aEquatable)
         {
             var bEquatable = (IEquatableObject)b;
-            return aEquatable.GetEqualityComponents().AreSameEnumeration(bEquatable.GetEqualityComponents());
+            return aEquatable
+                .GetEqualityComponents()
+                .AreSameEnumeration(bEquatable.GetEqualityComponents());
         }
 
         return false;
