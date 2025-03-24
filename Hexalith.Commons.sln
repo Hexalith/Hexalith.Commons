@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hexalith.Builds", "Hexalith
 		Hexalith.Builds\.gitignore = Hexalith.Builds\.gitignore
 		Hexalith.Builds\ai-assistant-instructions.md = Hexalith.Builds\ai-assistant-instructions.md
 		.github\copilot-instructions.md = .github\copilot-instructions.md
+		Hexalith.Builds\.github\workflows\copy-ai-assistant-instructions.yml = Hexalith.Builds\.github\workflows\copy-ai-assistant-instructions.yml
 		Hexalith.Builds\Directory.Packages.props = Hexalith.Builds\Directory.Packages.props
 		Hexalith.Builds\Environment.Build.props = Hexalith.Builds\Environment.Build.props
 		Hexalith.Builds\Framework.Build.props = Hexalith.Builds\Framework.Build.props
