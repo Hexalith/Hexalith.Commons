@@ -1,4 +1,7 @@
-﻿// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved. Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿// <copyright file="ReflectionHelper.cs" company="ITANEO">
+// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace Hexalith.Commons.Reflections;
 
@@ -20,8 +23,8 @@ public static class ReflectionHelper
     /// </summary>
     /// <typeparam name="TType">Base type.</typeparam>
     /// <returns>An instance of each instantiable type that inherit from the given type.</returns>
-    public static IEnumerable<TType> GetInstantiableObjectsOf<TType>()
-        => GetInstantiableTypesOf<TType>()
+    public static IEnumerable<TType> GetInstantiableObjectsOf<TType>() =>
+        GetInstantiableTypesOf<TType>()
             .Select(type => (TType)Activator.CreateInstance(type)!)
             .Where(p => p is not null);
 
@@ -31,8 +34,10 @@ public static class ReflectionHelper
     /// <typeparam name="TType">Base type.</typeparam>
     /// <param name="excludedTypes">List of excluded types.</param>
     /// <returns>An instance of each instantiable type that inherit from the given type.</returns>
-    public static IEnumerable<TType> GetInstantiableObjectsOf<TType>(IEnumerable<Type> excludedTypes)
-        => GetInstantiableTypesOf<TType>(excludedTypes)
+    public static IEnumerable<TType> GetInstantiableObjectsOf<TType>(
+        IEnumerable<Type> excludedTypes
+    ) =>
+        GetInstantiableTypesOf<TType>(excludedTypes)
             .Select(type => (TType)Activator.CreateInstance(type)!)
             .Where(p => p is not null);
 
@@ -41,7 +46,8 @@ public static class ReflectionHelper
     /// </summary>
     /// <typeparam name="TType">Base type.</typeparam>
     /// <returns>All types that inherit from the given type.</returns>
-    public static IEnumerable<Type> GetInstantiableTypesOf<TType>() => GetInstantiableTypesOf<TType>(null);
+    public static IEnumerable<Type> GetInstantiableTypesOf<TType>() =>
+        GetInstantiableTypesOf<TType>(null);
 
     /// <summary>
     /// Get all types of a specified type except interfaces and abstract classes.
@@ -63,19 +69,21 @@ public static class ReflectionHelper
             }
             catch (ReflectionTypeLoadException e)
             {
-                Debug.WriteLine($"Could not load types for assembly: {assembly.FullName}\nError: {e.FullMessage()}");
+                Debug.WriteLine(
+                    $"Could not load types for assembly: {assembly.FullName}\nError: {e.FullMessage()}"
+                );
                 continue;
             }
+
             instantiableTypes.AddRange(types.Where(type => IsValidType<TType>(type, excluded)));
         }
 
         return instantiableTypes;
     }
 
-    private static bool IsValidType<TType>(Type type, IEnumerable<Type>? excludedTypes)
-        => IsValidType<TType>(type) &&
-        (excludedTypes is null || !excludedTypes.Any(p => p.IsAssignableFrom(type)));
+    private static bool IsValidType<TType>(Type type, IEnumerable<Type>? excludedTypes) =>
+        IsValidType<TType>(type) && (excludedTypes?.Any(p => p.IsAssignableFrom(type)) != true);
 
-    private static bool IsValidType<TType>(Type type)
-        => type is { IsAbstract: false, IsInterface: false } && typeof(TType).IsAssignableFrom(type);
+    private static bool IsValidType<TType>(Type type) =>
+        type is { IsAbstract: false, IsInterface: false } && typeof(TType).IsAssignableFrom(type);
 }

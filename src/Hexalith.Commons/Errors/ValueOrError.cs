@@ -4,6 +4,7 @@
 // </copyright>
 
 namespace Hexalith.Commons.Errors;
+
 /// <summary>
 /// Conditional value class.
 /// </summary>
@@ -50,7 +51,8 @@ public class ValueOrError<T>
     /// </summary>
     /// <value><c>true</c> if this instance is success; otherwise, <c>false</c>.</value>
     /// <exception cref="InvalidOperationException">No error.</exception>
-    public ApplicationError Error => HasValue || _error == null ? throw new InvalidOperationException("No error") : _error;
+    public ApplicationError Error =>
+        HasValue || _error == null ? throw new InvalidOperationException("No error") : _error;
 
     /// <summary>
     /// Gets a value indicating whether this instance is success.
@@ -70,9 +72,5 @@ public class ValueOrError<T>
     /// </summary>
     /// <param name="error">The error.</param>
     /// <returns>ValueOrError&lt;T&gt;.</returns>
-#pragma warning disable CA1000 // Do not declare static members on generic types
-
-    public static ValueOrError<T> WithError(ApplicationError error)
-#pragma warning restore CA1000 // Do not declare static members on generic types
-        => new(default!, error, false);
+    public static ValueOrError<T> WithError(ApplicationError error) => new(default!, error, false);
 }

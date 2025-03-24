@@ -19,8 +19,7 @@ using Microsoft.Extensions.Options;
 /// Implementation of <see cref="IValidateOptions{TOptions}"/> that uses FluentValidation <see cref="Validator"/> for validation.
 /// </summary>
 /// <typeparam name="TOptions">The instance being validated.</typeparam>
-public partial class FluentValidateOptions<TOptions>
-    : IValidateOptions<TOptions>
+public partial class FluentValidateOptions<TOptions> : IValidateOptions<TOptions>
     where TOptions : class
 {
     private readonly ILogger<FluentValidateOptions<TOptions>> _logger;
@@ -46,6 +45,17 @@ public partial class FluentValidateOptions<TOptions>
     public string? Name { get; }
 
     /// <summary>
+    /// Logs a warning message when the validator is not found in the dependency injection container.
+    /// </summary>
+    /// <param name="validatorName">The name of the validator.</param>
+    [LoggerMessage(
+        EventId = 1,
+        Level = LogLevel.Warning,
+        Message = "Validator '{ValidatorName}' not found in dependency injection container."
+    )]
+    public static partial void ValidatorNotFound(ILogger logger, string validatorName);
+
+    /// <summary>
     /// Validates a specific named options instance (or all when <paramref name="name"/> is null).
     /// </summary>
     /// <param name="name">The name of the options instance being validated.</param>
@@ -63,7 +73,7 @@ public partial class FluentValidateOptions<TOptions>
         // The fluent validator is missing.
         if (_validator == null)
         {
-            ValidatorNotFound(typeof(IValidator<TOptions>).Name);
+            ValidatorNotFound(_logger, typeof(IValidator<TOptions>).Name);
 
             // Ignored if not validating this instance.
             return ValidateOptionsResult.Skip;
@@ -81,19 +91,11 @@ public partial class FluentValidateOptions<TOptions>
         string typeName = options.GetType().Name;
         foreach (FluentValidation.Results.ValidationFailure? result in results.Errors)
         {
-            errors.Add($"Validation failed for '{typeName}': '{string.Join(",", result.AttemptedValue)}' with the error: '{result.ErrorMessage}'.");
+            errors.Add(
+                $"Validation failed for '{typeName}': '{string.Join(",", result.AttemptedValue)}' with the error: '{result.ErrorMessage}'."
+            );
         }
 
         return ValidateOptionsResult.Fail(errors);
     }
-
-    /// <summary>
-    /// Logs a warning message when the validator is not found in the dependency injection container.
-    /// </summary>
-    /// <param name="validatorName">The name of the validator.</param>
-    [LoggerMessage(
-    EventId = 1,
-    Level = LogLevel.Warning,
-    Message = "Validator '{ValidatorName}' not found in dependency injection container.")]
-    public partial void ValidatorNotFound(string validatorName);
 }

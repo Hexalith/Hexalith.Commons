@@ -1,4 +1,7 @@
-﻿// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved. Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿// <copyright file="VersionHelper.cs" company="ITANEO">
+// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace Hexalith.Commons.Assemblies;
 
@@ -18,7 +21,9 @@ public static class VersionHelper
     public static string EntryProductVersion()
     {
         var assembly = Assembly.GetEntryAssembly();
-        return assembly is null ? throw new InvalidOperationException("Entry assembly not found.") : assembly.GetAssemblyVersion();
+        return assembly is null
+            ? throw new InvalidOperationException("Entry assembly not found.")
+            : assembly.GetAssemblyVersion();
     }
 
     /// <summary>
@@ -26,7 +31,8 @@ public static class VersionHelper
     /// </summary>
     /// <param name="location">The location of the file.</param>
     /// <returns>The product version of the file.</returns>
-    public static string? FileProductVersion(string location) => FileVersionInfo.GetVersionInfo(location).ProductVersion;
+    public static string? FileProductVersion(string location) =>
+        FileVersionInfo.GetVersionInfo(location).ProductVersion;
 
     /// <summary>
     /// Retrieves the version of the specified assembly.

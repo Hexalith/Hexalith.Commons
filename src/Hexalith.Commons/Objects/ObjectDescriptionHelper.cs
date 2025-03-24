@@ -1,13 +1,16 @@
-﻿namespace Hexalith.Commons.Objects;
+﻿// <copyright file="ObjectDescriptionHelper.cs" company="ITANEO">
+// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+namespace Hexalith.Commons.Objects;
 
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-
 using Hexalith.Commons.Reflections;
-
 using Humanizer;
 
 /// <summary>

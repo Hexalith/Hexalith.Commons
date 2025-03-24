@@ -1,4 +1,9 @@
-﻿namespace Hexalith.Commons.Common;
+﻿// <copyright file="ExampleValueAttribute.cs" company="ITANEO">
+// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+namespace Hexalith.Commons.Common;
 
 using System;
 
@@ -16,5 +21,5 @@ public sealed class ExampleValueAttribute(object value) : Attribute
     /// Gets the value.
     /// </summary>
     /// <value>The value.</value>
-    public object Value { get; private set; } = value;
+    public object Value { get; } = value;
 }
