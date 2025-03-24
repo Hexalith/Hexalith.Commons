@@ -4,7 +4,11 @@ VisualStudioVersion = 17.14.35906.104
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hexalith.Builds", "Hexalith.Builds", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
+		Hexalith.Builds\.clinerules = Hexalith.Builds\.clinerules
+		Hexalith.Builds\.cursorrules = Hexalith.Builds\.cursorrules
 		Hexalith.Builds\.gitignore = Hexalith.Builds\.gitignore
+		Hexalith.Builds\ai-assistant-instructions.md = Hexalith.Builds\ai-assistant-instructions.md
+		.github\copilot-instructions.md = .github\copilot-instructions.md
 		Hexalith.Builds\Directory.Packages.props = Hexalith.Builds\Directory.Packages.props
 		Hexalith.Builds\Environment.Build.props = Hexalith.Builds\Environment.Build.props
 		Hexalith.Builds\Framework.Build.props = Hexalith.Builds\Framework.Build.props
@@ -15,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hexalith.Builds", "Hexalith
 		Hexalith.Builds\LICENSE = Hexalith.Builds\LICENSE
 		Hexalith.Builds\README.md = Hexalith.Builds\README.md
 		Hexalith.Builds\stylecop.json = Hexalith.Builds\stylecop.json
+		.github\workflows\update-version.yml = .github\workflows\update-version.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_builds", "_builds", "{59DCA09D-B7FB-4C07-8CB9-950D4B67AF1A}"

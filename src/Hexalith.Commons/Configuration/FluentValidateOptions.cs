@@ -45,17 +45,6 @@ public partial class FluentValidateOptions<TOptions> : IValidateOptions<TOptions
     public string? Name { get; }
 
     /// <summary>
-    /// Logs a warning message when the validator is not found in the dependency injection container.
-    /// </summary>
-    /// <param name="validatorName">The name of the validator.</param>
-    [LoggerMessage(
-        EventId = 1,
-        Level = LogLevel.Warning,
-        Message = "Validator '{ValidatorName}' not found in dependency injection container."
-    )]
-    public static partial void ValidatorNotFound(ILogger logger, string validatorName);
-
-    /// <summary>
     /// Validates a specific named options instance (or all when <paramref name="name"/> is null).
     /// </summary>
     /// <param name="name">The name of the options instance being validated.</param>
@@ -98,4 +87,11 @@ public partial class FluentValidateOptions<TOptions> : IValidateOptions<TOptions
 
         return ValidateOptionsResult.Fail(errors);
     }
+
+    [LoggerMessage(
+            EventId = 1,
+        Level = LogLevel.Warning,
+        Message = "Validator '{ValidatorName}' not found in dependency injection container."
+    )]
+    private static partial void ValidatorNotFound(ILogger logger, string validatorName);
 }

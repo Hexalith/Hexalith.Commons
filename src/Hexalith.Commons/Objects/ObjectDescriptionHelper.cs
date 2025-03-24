@@ -10,11 +10,13 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+
 using Hexalith.Commons.Reflections;
+
 using Humanizer;
 
 /// <summary>
-/// Class ObjectDescriptionHelper.
+/// Provides helper methods for describing objects using attributes.
 /// </summary>
 public static class ObjectDescriptionHelper
 {
@@ -22,7 +24,7 @@ public static class ObjectDescriptionHelper
     /// Describes the type using attributes.
     /// </summary>
     /// <param name="type">The type.</param>
-    /// <returns>System.ValueTuple&lt;System.String, System.String, System.String&gt;.</returns>
+    /// <returns>A tuple containing the type name, display name, and description.</returns>
     public static (string TypeName, string DisplayName, string Description) Describe(
         [NotNull] this Type type
     )
@@ -62,7 +64,7 @@ public static class ObjectDescriptionHelper
     /// Describes the specified property.
     /// </summary>
     /// <param name="property">The property.</param>
-    /// <returns>System.ValueTuple&lt;System.String, System.String, System.Nullable&lt;System.Object&gt;, System.Boolean&gt;.</returns>
+    /// <returns>A tuple containing the display name, description, default value, and whether the property is required.</returns>
     public static (
         string DisplayName,
         string Description,
@@ -91,7 +93,7 @@ public static class ObjectDescriptionHelper
     /// Describes the instance write properties.
     /// </summary>
     /// <param name="type">The type.</param>
-    /// <returns>IDictionary&lt;System.String, System.ValueTuple&lt;System.String, System.String, System.Nullable&lt;System.Object&gt;, System.Boolean&gt;&gt;.</returns>
+    /// <returns>A dictionary containing the property names and their descriptions.</returns>
     public static IDictionary<
         string,
         (string DisplayName, string Description, object? DefaultValue, bool IsRequired)
@@ -117,7 +119,7 @@ public static class ObjectDescriptionHelper
     /// Describes the type using attributes.
     /// </summary>
     /// <param name="type">The type.</param>
-    /// <returns>System.ValueTuple&lt;System.String, System.String, System.String&gt;.</returns>
+    /// <returns>A dictionary containing the property names and their descriptions.</returns>
     public static IDictionary<
         string,
         (string DisplayName, string Description, object? DefaultValue, bool IsRequired)
@@ -136,18 +138,43 @@ public static class ObjectDescriptionHelper
         return result;
     }
 
+    /// <summary>
+    /// Gets the description from the Description attribute.
+    /// </summary>
+    /// <param name="type">The type.</param>
+    /// <returns>The description.</returns>
     public static string? DescriptionFromAttribute(this Type type) =>
         type.GetCustomAttribute<DescriptionAttribute>()?.Description;
 
+    /// <summary>
+    /// Gets the description from the Description attribute.
+    /// </summary>
+    /// <param name="type">The property.</param>
+    /// <returns>The description.</returns>
     public static string? DescriptionFromAttribute(this PropertyInfo type) =>
         type.GetCustomAttribute<DescriptionAttribute>()?.Description;
 
+    /// <summary>
+    /// Gets the display name from the DisplayName attribute.
+    /// </summary>
+    /// <param name="type">The type.</param>
+    /// <returns>The display name.</returns>
     public static string? DisplayNameFromAttribute(this Type type) =>
         type.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
 
+    /// <summary>
+    /// Gets the display name from the DisplayName attribute.
+    /// </summary>
+    /// <param name="type">The property.</param>
+    /// <returns>The display name.</returns>
     public static string? DisplayNameFromAttribute(this PropertyInfo type) =>
         type.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
 
+    /// <summary>
+    /// Gets the name and description from the Display attribute.
+    /// </summary>
+    /// <param name="type">The property.</param>
+    /// <returns>A tuple containing the name and description.</returns>
     public static (string? Name, string? Description) NameDescriptionFromDisplayAttribute(
         this PropertyInfo type
     )
@@ -156,6 +183,11 @@ public static class ObjectDescriptionHelper
         return (displayAttribute?.Name, displayAttribute?.Description);
     }
 
+    /// <summary>
+    /// Gets the name and description from the Display attribute.
+    /// </summary>
+    /// <param name="type">The type.</param>
+    /// <returns>A tuple containing the name and description.</returns>
     public static (string? Name, string? Description) NameDescriptionFromDisplayAttribute(
         this Type type
     )
