@@ -10,10 +10,18 @@ using Hexalith.Commons.Objects;
 using Shouldly;
 
 /// <summary>
-/// Class ObjectDescriptionHelperTest.
+/// Test class for ObjectDescriptionHelper's property description functionality.
+/// Contains unit tests to verify the behavior of property description extraction
+/// from various attribute decorations including DefaultValue, Description, Display,
+/// DisplayName, and Required attributes.
 /// </summary>
 public class ObjectPropertyDescriptionHelperTest
 {
+    /// <summary>
+    /// Tests that when a property is decorated with DefaultValue attribute,
+    /// the helper correctly extracts the default value while maintaining
+    /// appropriate display name and description.
+    /// </summary>
     [Fact]
     public void ObjectPropertyWithDefaultValueAttributeShouldReturnDefinedValue()
     {
@@ -26,7 +34,9 @@ public class ObjectPropertyDescriptionHelperTest
     }
 
     /// <summary>
-    /// Defines the test method Object_property_with_description_attribute_should_return_defined_value.
+    /// Tests that when a property is decorated with Description attribute,
+    /// the helper correctly extracts the description while maintaining
+    /// appropriate display name and null default value.
     /// </summary>
     [Fact]
     public void ObjectPropertyWithDescriptionAttributeShouldReturnDefinedValue()
@@ -39,6 +49,11 @@ public class ObjectPropertyDescriptionHelperTest
         isRequired.ShouldBeFalse();
     }
 
+    /// <summary>
+    /// Tests that when a property is decorated with Display attribute,
+    /// the helper correctly extracts both the name and description values
+    /// while maintaining appropriate null default value.
+    /// </summary>
     [Fact]
     public void ObjectPropertyWithDisplayAttributeShouldReturnDefinedValue()
     {
@@ -50,6 +65,11 @@ public class ObjectPropertyDescriptionHelperTest
         isRequired.ShouldBeFalse();
     }
 
+    /// <summary>
+    /// Tests that when a property is decorated with DisplayName attribute,
+    /// the helper correctly extracts the display name and uses it for both
+    /// name and description while maintaining appropriate null default value.
+    /// </summary>
     [Fact]
     public void ObjectPropertyWithDisplayNameAttributeShouldReturnDefinedValue()
     {
@@ -61,6 +81,11 @@ public class ObjectPropertyDescriptionHelperTest
         isRequired.ShouldBeFalse();
     }
 
+    /// <summary>
+    /// Tests that when a property is decorated with Required attribute,
+    /// the helper correctly sets the IsRequired flag while maintaining
+    /// appropriate display name and description.
+    /// </summary>
     [Fact]
     public void ObjectPropertyWithRequiredValueAttributeShouldReturnDefinedValue()
     {
@@ -72,35 +97,67 @@ public class ObjectPropertyDescriptionHelperTest
         isRequired.ShouldBeTrue();
     }
 
+    /// <summary>
+    /// Test class with a property decorated with DefaultValue attribute
+    /// to verify default value extraction.
+    /// </summary>
     public class DefaultValuePropertyAttributeTest
     {
+        /// <summary>
+        /// Gets or sets a value with a default value of "this value is for me".
+        /// </summary>
         [DefaultValue("this value is for me")]
         public string MyValue { get; set; } = string.Empty;
     }
 
     /// <summary>
-    /// Class DescriptionPropertyAttributeTest.
+    /// Test class with a property decorated with Description attribute
+    /// to verify description extraction.
     /// </summary>
     public class DescriptionPropertyAttributeTest
     {
+        /// <summary>
+        /// Gets or sets a value with a custom description.
+        /// </summary>
         [Description("This class is used to test a class property with a description attribute")]
         public string MyValue { get; set; } = string.Empty;
     }
 
+    /// <summary>
+    /// Test class with a property decorated with DisplayName attribute
+    /// to verify display name extraction.
+    /// </summary>
     public class DisplayNamePropertyAttributeTest
     {
+        /// <summary>
+        /// Gets or sets a value with a custom display name.
+        /// </summary>
         [DisplayName("My property value")]
         public string MyValue { get; set; } = string.Empty;
     }
 
+    /// <summary>
+    /// Test class with a property decorated with Display attribute
+    /// to verify name and description extraction.
+    /// </summary>
     public class DisplayPropertyAttributeTest
     {
+        /// <summary>
+        /// Gets or sets a value with custom display name and description.
+        /// </summary>
         [Display(Name = "My property value", Description = "This class is used to test a class property with a description attribute")]
         public string MyValue { get; set; } = string.Empty;
     }
 
+    /// <summary>
+    /// Test class with a property decorated with Required attribute
+    /// to verify required flag extraction.
+    /// </summary>
     public class RequiredValuePropertyAttributeTest
     {
+        /// <summary>
+        /// Gets or sets a required value.
+        /// </summary>
         [Required]
         public string MyValue { get; set; } = string.Empty;
     }

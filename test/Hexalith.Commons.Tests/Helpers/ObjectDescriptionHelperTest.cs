@@ -12,12 +12,15 @@ using Hexalith.Commons.Reflections;
 using Shouldly;
 
 /// <summary>
-/// Class ObjectDescriptionHelperTest.
+/// Test class for ObjectDescriptionHelper functionality.
+/// Contains unit tests to verify the behavior of object description extraction
+/// from various attribute decorations and type implementations.
 /// </summary>
 public class ObjectDescriptionHelperTest
 {
     /// <summary>
-    /// Defines the test method Mappable_type_object_should_return_mapper_value.
+    /// Tests that when a type implements IMappableType, the helper returns
+    /// the correct mapped type name from the implementation.
     /// </summary>
     [Fact]
     public void MappableTypeObjectShouldReturnMapperValue()
@@ -29,7 +32,8 @@ public class ObjectDescriptionHelperTest
     }
 
     /// <summary>
-    /// Defines the test method Object_with_description_attribute_should_return_defined_value.
+    /// Tests that when a type is decorated with Description attribute,
+    /// the helper correctly extracts the description value.
     /// </summary>
     [Fact]
     public void ObjectWithDescriptionAttributeShouldReturnDefinedValue()
@@ -41,7 +45,8 @@ public class ObjectDescriptionHelperTest
     }
 
     /// <summary>
-    /// Defines the test method Object_with_display_attribute_should_return_defined_value.
+    /// Tests that when a type is decorated with Display attribute,
+    /// the helper correctly extracts both the name and description values.
     /// </summary>
     [Fact]
     public void ObjectWithDisplayAttributeShouldReturnDefinedValue()
@@ -53,7 +58,8 @@ public class ObjectDescriptionHelperTest
     }
 
     /// <summary>
-    /// Defines the test method Object_with_display_name_attribute_should_return_defined_value.
+    /// Tests that when a type is decorated with DisplayName attribute,
+    /// the helper correctly extracts the display name and uses it for both name and description.
     /// </summary>
     [Fact]
     public void ObjectWithDisplayNameAttributeShouldReturnDefinedValue()
@@ -65,7 +71,8 @@ public class ObjectDescriptionHelperTest
     }
 
     /// <summary>
-    /// Defines the test method Object_with_no_attributes_should_return_type_name.
+    /// Tests that when a type has no descriptive attributes,
+    /// the helper falls back to using the type name in a humanized format.
     /// </summary>
     [Fact]
     public void ObjectWithNoAttributesShouldReturnTypeName()
@@ -77,7 +84,7 @@ public class ObjectDescriptionHelperTest
     }
 
     /// <summary>
-    /// Class DescriptionAttributeTest.
+    /// Test class decorated with Description attribute to verify description extraction.
     /// </summary>
     [Description("This class is used to test a class with a description attribute")]
     public class DescriptionAttributeTest
@@ -85,7 +92,7 @@ public class ObjectDescriptionHelperTest
     }
 
     /// <summary>
-    /// Class DisplayAttributeTest.
+    /// Test class decorated with Display attribute to verify name and description extraction.
     /// </summary>
     [Display(Name = "Display attribute example", Description = "Example of using the display attribute to defined name and description")]
     public class DisplayAttributeTest
@@ -93,7 +100,7 @@ public class ObjectDescriptionHelperTest
     }
 
     /// <summary>
-    /// Class DisplayNameAttributeTest.
+    /// Test class decorated with DisplayName attribute to verify display name extraction.
     /// </summary>
     [DisplayName("Display name attribute example")]
     public class DisplayNameAttributeTest
@@ -101,21 +108,20 @@ public class ObjectDescriptionHelperTest
     }
 
     /// <summary>
-    /// Class MappableTypeTestV2.
-    /// Implements the <see cref="IMappableType" />.
+    /// Test class implementing IMappableType to verify type mapping functionality.
+    /// Demonstrates how custom type names can be provided through interface implementation.
     /// </summary>
-    /// <seealso cref="IMappableType" />
     public class MappableTypeTestV2 : IMappableType
     {
         /// <summary>
-        /// Gets the name of the type.
+        /// Gets the mapped type name that should be used for this type.
         /// </summary>
-        /// <value>The name of the type.</value>
         public string TypeMapName => "MappableTest";
     }
 
     /// <summary>
-    /// Class NoAttributesTest.
+    /// Test class with no descriptive attributes to verify default behavior.
+    /// Used to test the fallback to type name when no attributes are present.
     /// </summary>
     [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = TestHelper.TestJustification)]
     public class NoAttributesTest

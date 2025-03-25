@@ -1,6 +1,6 @@
 ﻿// <copyright file="FibonacciTest.cs" company="ITANEO">
-// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+//     Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved. Licensed under the MIT
+//     license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace Hexalith.Commons.Tests.Maths;
@@ -9,8 +9,16 @@ using Hexalith.Commons.Maths;
 
 using Shouldly;
 
+/// <summary>
+/// Provides unit tests for the Fibonacci sequence calculations.
+/// </summary>
 public class FibonacciTest
 {
+    /// <summary>
+    /// Checks the first Fibonacci values.
+    /// </summary>
+    /// <param name="sequence">The position in the Fibonacci sequence.</param>
+    /// <param name="value">The expected Fibonacci value at the given position.</param>
     [Theory]
     [InlineData(0, 0)]
     [InlineData(1, 1)]

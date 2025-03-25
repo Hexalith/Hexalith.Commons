@@ -11,8 +11,19 @@ using Hexalith.Commons.Errors;
 
 using Shouldly;
 
+/// <summary>
+/// Test class for ExceptionHelper functionality.
+/// Contains unit tests to verify the behavior of exception message
+/// concatenation and formatting, particularly for nested exceptions.
+/// </summary>
 public class ExceptionHelperTest
 {
+    /// <summary>
+    /// Tests that the FullMessage extension method correctly concatenates
+    /// all exception messages in a nested exception chain, preserving
+    /// the order from outer to inner exceptions and maintaining proper
+    /// spacing between messages.
+    /// </summary>
     [Fact]
     public void GetFullMessageOnNestedExceptionsShouldReturnAllMessages()
     {
