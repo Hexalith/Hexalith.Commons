@@ -17,7 +17,6 @@ on:
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  MINVERBUILDMETADATA: build.${{ github.run_id }}.${{ github.run_attempt}}
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -33,6 +32,10 @@ jobs:
       uses: Hexalith/Hexalith.Builds/Github/initialize-build@main
     - name: Get Version
       uses: Hexalith/Hexalith.Builds/Github/version@main
+      with:
+        preview: ${{ !startsWith(github.ref, 'refs/tags/') && 'preview' || '' }}
+        buildId: ${{ github.run_number }}
+        buildAttempt: ${{ github.run_attempt }}
     - name: Run Unit Tests
       uses: Hexalith/Hexalith.Builds/Github/unit-tests@main
       with:
