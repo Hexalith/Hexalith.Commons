@@ -67,8 +67,13 @@ public class AreSameEnumerationTest
     [Fact]
     public void EquatableListAreSameShouldReturnTrue()
     {
-        List<DummyEquatable> a = [new DummyEquatable(), new DummyEquatable { Property3 = 10 }];
-        List<DummyEquatable> b = [new DummyEquatable { Property3 = 10 }];
+        var first = new DummyEquatable { Property1 = "Test1", Property2 = "Test2", Property3 = 10 };
+        var second = new DummyEquatable { Property1 = "Test3", Property2 = "Test4", Property3 = 20 };
+        List<DummyEquatable> a = [first, second];
+        List<DummyEquatable> b = [
+            new DummyEquatable { Property1 = "Test1", Property2 = "Test2", Property3 = 10 },
+            new DummyEquatable { Property1 = "Test3", Property2 = "Test4", Property3 = 20 }
+        ];
         a.AreSameEnumeration(b).ShouldBeTrue();
         a.AreSame(b).ShouldBeTrue();
     }
