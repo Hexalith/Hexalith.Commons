@@ -27,10 +27,13 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+ 
     - name: Initialize .NET
       uses: Hexalith/Hexalith.Builds/Github/initialize-dotnet@main
+
     - name: Initialize Build
       uses: Hexalith/Hexalith.Builds/Github/initialize-build@main
+
     - name: Get Version
       id: version
       uses: Hexalith/Hexalith.Builds/Github/version@main
@@ -43,10 +46,12 @@ jobs:
       uses: Hexalith/Hexalith.Builds/Github/unit-tests@main
       with:
         project-name: ${{ github.event.repository.name }}
+
     - name: Build Packages version (${{ steps.version.outputs.version }})
       uses: Hexalith/Hexalith.Builds/Github/build-packages@main
       with:
         version: ${{ steps.version.outputs.version }}
+        
     - name: Publish Packages
       uses: Hexalith/Hexalith.Builds/Github/publish-packages@main
       with:
