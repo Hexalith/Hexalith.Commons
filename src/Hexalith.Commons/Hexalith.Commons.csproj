@@ -2,9 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>$(DefaultTargetFramework)</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable> 
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>Hexalith.Commons</PackageId>
     <Description>Common utilities and helpers for Hexalith projects</Description>
     <PackageProjectUrl>https://github.com/Hexalith/Hexalith.Commons</PackageProjectUrl>
