@@ -1,4 +1,4 @@
-name: Hexalith Build
+name: Build Packages
 on:
   push:
     paths-ignore:
