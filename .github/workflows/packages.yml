@@ -34,12 +34,19 @@ jobs:
       id: version
       uses: Hexalith/Hexalith.Builds/Github/version@main
       with:
-        preview: ${{ !startsWith(github.ref, 'refs/tags/') && 'preview' || '' }}
+        ref: ${{ github.ref}}
         buildId: ${{ github.run_number }}
         buildAttempt: ${{ github.run_attempt }}
+        
     - name: Run Unit Tests of version (${{ steps.version.outputs.version }})
       uses: Hexalith/Hexalith.Builds/Github/unit-tests@main
       with:
         project-name: ${{ github.event.repository.name }}
+    - name: Publish Packages version (${{ steps.version.outputs.version }})
+      uses: Hexalith/Hexalith.Builds/Github/publish-packages@main
+      with:
+        version: ${{ steps.version.outputs.version }}
+        nuget-api-key: ${{ secrets.NUGET_API_KEY }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
     
