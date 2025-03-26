@@ -21,7 +21,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     environment: Staging 
-    name: Build, Test, Publish
+    name: Build, Test, Publish (${{ github.ref_name }})
     steps:
     - uses: actions/checkout@v4
       with:
@@ -31,6 +31,7 @@ jobs:
     - name: Initialize Build
       uses: Hexalith/Hexalith.Builds/Github/initialize-build@main
     - name: Get Version
+      id: version
       uses: Hexalith/Hexalith.Builds/Github/version@main
       with:
         preview: ${{ !startsWith(github.ref, 'refs/tags/') && 'preview' || '' }}
