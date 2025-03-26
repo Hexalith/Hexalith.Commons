@@ -48,6 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Github", "Github", "{EC0AC9
 		Hexalith.Builds\Github\build-packages.yml = Hexalith.Builds\Github\build-packages.yml
 		Hexalith.Builds\Github\build-projects.yml = Hexalith.Builds\Github\build-projects.yml
 		Hexalith.Builds\Github\deploy-container-app.yml = Hexalith.Builds\Github\deploy-container-app.yml
+		Hexalith.Builds\Github\initialize-dotnet.yml = Hexalith.Builds\Github\initialize-dotnet.yml
 		Hexalith.Builds\Github\publish-container.yml = Hexalith.Builds\Github\publish-container.yml
 	EndProjectSection
 EndProject
