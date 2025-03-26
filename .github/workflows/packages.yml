@@ -28,4 +28,4 @@ jobs:
       with:
         fetch-depth: 0
     - name: Initialize .NET
-      uses: ./Hexalith.Builds/Github/initialize-dotnet.yml
+      uses: Hexalith/Hexalith.Builds/Github/initialize-dotnet@main
