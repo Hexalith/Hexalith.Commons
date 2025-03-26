@@ -29,3 +29,9 @@ jobs:
         fetch-depth: 0
     - name: Initialize .NET
       uses: Hexalith/Hexalith.Builds/Github/initialize-dotnet@main
+    - name: Run Unit Tests
+      uses: Hexalith/Hexalith.Builds/Github/unit-tests@main
+      with:
+        project-name: ${{ github.event.repository.name }}
+
+    
