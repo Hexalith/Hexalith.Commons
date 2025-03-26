@@ -31,6 +31,8 @@ jobs:
       uses: Hexalith/Hexalith.Builds/Github/initialize-dotnet@main
     - name: Initialize Build
       uses: Hexalith/Hexalith.Builds/Github/initialize-build@main
+    - name: Get Version
+      uses: Hexalith/Hexalith.Builds/Github/version@main
     - name: Run Unit Tests
       uses: Hexalith/Hexalith.Builds/Github/unit-tests@main
       with:
