@@ -4,6 +4,16 @@
     <TargetFramework>$(DefaultTargetFramework)</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    
+    <!-- Package Metadata -->
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Hexalith.Commons</PackageId>
+    <Authors>Hexalith</Authors>
+    <Company>Hexalith</Company>
+    <Description>Common utilities and helpers for Hexalith projects</Description>
+    <PackageProjectUrl>https://github.com/Hexalith/Hexalith.Commons</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Hexalith/Hexalith.Commons</RepositoryUrl>
+    <PackageTags>hexalith;commons;utilities</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
