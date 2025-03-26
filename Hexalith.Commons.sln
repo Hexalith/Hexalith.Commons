@@ -29,8 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_builds", "_builds", "{59DC
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
-		hexalith-build.yml = hexalith-build.yml
 		LICENSE = LICENSE
+		.github\workflows\packages.yml = .github\workflows\packages.yml
 		README.md = README.md
 	EndProjectSection
 EndProject

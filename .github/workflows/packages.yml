@@ -1,0 +1,31 @@
+name: Hexalith Build
+on:
+  push:
+    paths-ignore:
+      - '**/*.md'
+      - 'mkdocs.yml'
+      - 'docs/**/*'
+    branches: 
+      - main
+      - release-*
+    tags:
+      - 'v*'
+  pull_request:
+    branches: 
+      - master
+      - release-*
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  MINVERBUILDMETADATA: build.${{ github.run_id }}.${{ github.run_attempt}}
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: Staging 
+    name: Build, Test, Publish
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Initialize .NET
+      uses: ./Hexalith.Builds/Github/initialize-dotnet.yml
