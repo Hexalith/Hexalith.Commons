@@ -6,9 +6,7 @@ A comprehensive .NET utility library providing common functionality for Hexalith
 [![Discord](https://img.shields.io/discord/1063152441819942922?label=Discord&logo=discord&logoColor=white&color=d82679)](https://discordapp.com/channels/1102166958918610994/1102166958918610997)
 
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/27051/badge.svg)](https://scan.coverity.com/projects/hexalith-commons)
-
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/11d3f1af6b0f4d168552c2626d588294)](https://app.codacy.com/gh/Hexalith/Hexalith.Commons/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.Commons&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.Commons)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.Commons&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.Commons)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.Commons&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.Commons)
