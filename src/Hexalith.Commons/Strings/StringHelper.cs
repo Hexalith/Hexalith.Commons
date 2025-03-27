@@ -43,7 +43,7 @@ public static partial class StringHelper
         }
         catch (Exception e)
         {
-            IEnumerable<string> argValues = (args ?? []).Select(p => $"{p?.GetType().Name ?? "null"}:{p ?? "null"}");
+            IEnumerable<string> argValues = args is null ? [] : args.Select(p => $"{p?.GetType().Name ?? "null"}:{p ?? "null"}");
             throw new InvalidOperationException(
                 $"Could not format :\nOriginal={value}\nIndexed={format}\nValues={string.Join("\n", argValues)}", e);
         }

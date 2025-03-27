@@ -84,9 +84,15 @@ public static class TypeMapper
         {
             try
             {
-                foreach (Type? type in assembly.GetTypes().Where(CanCreateMappableType<TMappable>))
+                var types = assembly.GetTypes();
+                var mappableTypes = types?.Where(t => t != null && CanCreateMappableType<TMappable>(t));
+                
+                if (mappableTypes != null)
                 {
-                    map.Add(type);
+                    foreach (Type type in mappableTypes)
+                    {
+                        map.Add(type);
+                    }
                 }
             }
             catch (ReflectionTypeLoadException)
