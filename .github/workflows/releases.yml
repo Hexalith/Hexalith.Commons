@@ -1,0 +1,19 @@
+name: Create Release
+description: Create a release using automatic versionning
+on:
+  push:
+    branches:
+      - main
+jobs:
+  release:
+    runs-on: Ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Semantic Release
+        uses: Hexalith/Hexalith.Builds/Github/create-release@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
