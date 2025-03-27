@@ -65,6 +65,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit-tests", "unit-tests", 
 		Hexalith.Builds\Github\unit-tests\action.yml = Hexalith.Builds\Github\unit-tests\action.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "version", "version", "{D175F4E2-154D-4927-94D9-30E14093453E}"
+	ProjectSection(SolutionItems) = preProject
+		Hexalith.Builds\Github\version\action.yml = Hexalith.Builds\Github\version\action.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +94,7 @@ Global
 		{852DACBC-23DE-449F-972C-828E4C667296} = {EC0AC9AA-8F03-49E6-92E5-331EEB5389A0}
 		{AE5C6DA0-02E1-4CF7-AEC4-32493CD4340A} = {EC0AC9AA-8F03-49E6-92E5-331EEB5389A0}
 		{8B3A3ACA-AF96-4030-9564-1D65989ABF97} = {EC0AC9AA-8F03-49E6-92E5-331EEB5389A0}
+		{D175F4E2-154D-4927-94D9-30E14093453E} = {EC0AC9AA-8F03-49E6-92E5-331EEB5389A0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BC16B71-F1A1-430A-8F59-1C0A20D3E1AD}
