@@ -24,6 +24,7 @@ Stable (version tag):
 
 [![Build status](https://github.com/Hexalith/Hexalith.Commons/actions/workflows/packages.yml/badge.svg)](https://github.com/Hexalith/Hexalith.Commons/actions)
 [![NuGet](https://img.shields.io/nuget/v/Hexalith.Commons.svg)](https://www.nuget.org/packages/Hexalith.Commons)
+[![Latest](https://img.shields.io/github/v/release/Hexalith/Hexalith.Commons?label=GitHub%20Packages)](https://github.com/Hexalith/Hexalith.Commons/packages)
 
 ## Overview
 
