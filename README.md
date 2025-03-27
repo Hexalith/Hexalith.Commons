@@ -2,6 +2,34 @@
 
 A comprehensive .NET utility library providing common functionality for Hexalith projects.
 
+[![License: MIT](https://img.shields.io/github/license/hexalith/hexalith.commons)](https://github.com/hexalith/hexalith/blob/main/LICENSE)
+[![Discord](https://img.shields.io/discord/1063152441819942922?label=Discord&logo=discord&logoColor=white&color=d82679)](https://discordapp.com/channels/1102166958918610994/1102166958918610997)
+<br/>
+<a href="https://scan.coverity.com/projects/hexalith-commons">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/27051/badge.svg"/>
+</a>
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/11d3f1af6b0f4d168552c2626d588294)](https://app.codacy.com/gh/Hexalith/Hexalith/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+<br/>
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Commons&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Hexalith_Commons)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Commons&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Hexalith_Commons)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Commons&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Hexalith_Commons)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Commons&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Hexalith_Commons)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Commons&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Hexalith_Commons)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Commons&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Hexalith_Commons)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Commons&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Hexalith_Commons)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Commons&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Hexalith_Commons)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Commons&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Hexalith_Commons)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Commons&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Hexalith_Commons)
+
+## Build Status
+
+Stable (version tag): 
+
+[![Build status](https://github.com/Hexalith/Hexalith.Commons/actions/workflows/packages.yml/badge.svg)](https://github.com/Hexalith/Hexalith.Commons/actions)
+[![NuGet](https://img.shields.io/nuget/v/Hexalith.Commons.svg)](https://www.nuget.org/packages/Hexalith.Commons)
+
+
 ## Overview
 
 Hexalith.Commons is a collection of utility classes, helpers, and extensions designed to support development across Hexalith projects. This library provides consistent and reusable components for handling common programming tasks.
