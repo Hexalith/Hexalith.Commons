@@ -86,10 +86,7 @@ public static class TypeMapper
 
                 if (mappableTypes != null)
                 {
-                    foreach (Type type in mappableTypes)
-                    {
-                        map.Add(type);
-                    }
+                    map.AddRange(mappableTypes);
                 }
             }
             catch (ReflectionTypeLoadException)
