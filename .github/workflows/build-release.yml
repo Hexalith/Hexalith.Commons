@@ -38,6 +38,8 @@ jobs:
     - name: Get Version
       id: version
       uses: Hexalith/Hexalith.Builds/Github/version@main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Run Unit Tests of version (${{ steps.version.outputs.version }})
       uses: Hexalith/Hexalith.Builds/Github/unit-tests@main
