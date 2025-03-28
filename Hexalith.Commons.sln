@@ -75,6 +75,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "create-release", "create-re
 		Hexalith.Builds\Github\create-release\action.yml = Hexalith.Builds\Github\create-release\action.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "package-release", "package-release", "{E4F34C38-8244-46B0-9582-6FAC967B61EF}"
+	ProjectSection(SolutionItems) = preProject
+		Hexalith.Builds\Github\package-release\action.yml = Hexalith.Builds\Github\package-release\action.yml
+		Hexalith.Builds\Github\package-release\README.md = Hexalith.Builds\Github\package-release\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +107,7 @@ Global
 		{8B3A3ACA-AF96-4030-9564-1D65989ABF97} = {EC0AC9AA-8F03-49E6-92E5-331EEB5389A0}
 		{D175F4E2-154D-4927-94D9-30E14093453E} = {EC0AC9AA-8F03-49E6-92E5-331EEB5389A0}
 		{1BD7841A-56E0-4C05-820F-17A321F2E3A9} = {EC0AC9AA-8F03-49E6-92E5-331EEB5389A0}
+		{E4F34C38-8244-46B0-9582-6FAC967B61EF} = {EC0AC9AA-8F03-49E6-92E5-331EEB5389A0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BC16B71-F1A1-430A-8F59-1C0A20D3E1AD}
