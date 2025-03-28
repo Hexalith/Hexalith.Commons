@@ -1,19 +1,8 @@
 name: Build Packages
 on:
   push:
-    paths-ignore:
-      - '**/*.md'
-      - 'mkdocs.yml'
-      - 'docs/**/*'
-    branches: 
-      - main
-      - release-*
     tags:
       - 'v*'
-  pull_request:
-    branches: 
-      - master
-      - release-*
 
 permissions:
   packages: write

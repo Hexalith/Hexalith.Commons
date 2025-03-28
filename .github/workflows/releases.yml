@@ -1,9 +1,13 @@
 name: Create Release
-description: Create a release using automatic versionning
 on:
   push:
-    branches:
+    paths-ignore:
+      - '**/*.md'
+      - 'mkdocs.yml'
+      - 'docs/**/*'
+    branches: 
       - main
+      - release-*
 
 permissions:
   packages: write
