@@ -59,6 +59,11 @@ jobs:
         version: ${{ steps.version.outputs.version }}
         nuget-api-key: ${{ secrets.NUGET_API_KEY }}
         github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create Release
+      uses: Hexalith/Hexalith.Builds/Github/create-release@main
+      with:
+        dry_run: false
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
 
     
