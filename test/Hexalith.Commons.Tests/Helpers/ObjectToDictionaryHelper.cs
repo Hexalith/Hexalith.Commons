@@ -1,4 +1,7 @@
-﻿// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved. Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿// <copyright file="ObjectToDictionaryHelper.cs" company="ITANEO">
+// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace Hexalith.Commons.Tests.Helpers;
 
@@ -23,7 +26,7 @@ public class ObjectToDictionaryHelper
     {
         // Create a test object with sample properties
         var obj = new { Name = "John", Age = 42 };
-        IDictionary<string, object?> dictionary = ToDictionary(obj);
+        Dictionary<string, object?> dictionary = ToDictionary(obj);
 
         // Verify the dictionary was created correctly
         _ = dictionary.ShouldNotBeNull();
@@ -41,7 +44,7 @@ public class ObjectToDictionaryHelper
     /// </summary>
     /// <param name="obj">The object to convert to a dictionary.</param>
     /// <returns>A dictionary containing the object's property names and values.</returns>
-    private static IDictionary<string, object?> ToDictionary(object obj)
+    private static Dictionary<string, object?> ToDictionary(object obj)
     {
         Dictionary<string, object?> dictionary = new(StringComparer.Ordinal);
         foreach (System.Reflection.PropertyInfo prop in obj.GetType().GetProperties())

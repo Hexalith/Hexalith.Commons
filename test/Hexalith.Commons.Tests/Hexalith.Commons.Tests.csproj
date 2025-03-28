@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>$(DefaultTargetFramework)</TargetFramework>
     <IsPackable>false</IsPackable>
-    <NoWarn>$(NoWarn);IDE0079;</NoWarn>
+    <NoWarn>$(NoWarn);IDE0079;RCS1251;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

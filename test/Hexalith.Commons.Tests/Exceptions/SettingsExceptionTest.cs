@@ -1,5 +1,7 @@
-﻿// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved. Licensed under the MIT
-// license. See LICENSE file in the project root for full license information.
+﻿// <copyright file="SettingsExceptionTest.cs" company="ITANEO">
+// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace Hexalith.Commons.Tests.Exceptions;
 
@@ -24,6 +26,7 @@ public class SettingsExceptionTest
         IOptions<DummySettings> settings = Options.Create(
             new DummySettings() { Name = "hello world" }
         );
+
         // Verify that no exception is thrown for defined settings
         Should.NotThrow(
             () => SettingsException<DummySettings>.ThrowIfUndefined(settings.Value.Name)
@@ -48,6 +51,7 @@ public class SettingsExceptionTest
     {
         // Create options with default settings (empty name)
         IOptions<DummySettings> options = Options.Create(new DummySettings());
+
         // Verify that appropriate exception is thrown with correct parameter name and message
         SettingsException<DummySettings> ex = Should.Throw<SettingsException<DummySettings>>(
             () => SettingsException<DummySettings>.ThrowIfUndefined(options.Value.Name)
@@ -83,6 +87,7 @@ public class SettingsExceptionTest
     {
         // Create settings with empty sub-configuration
         DummySettings settings = new() { SubConfig = new SubConfiguration() };
+
         // Verify that appropriate exception is thrown for undefined sub-property
         SettingsException<DummySettings> ex = Should.Throw<SettingsException<DummySettings>>(
             () => SettingsException<DummySettings>.ThrowIfUndefined(settings.SubConfig.Hello)

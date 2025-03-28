@@ -22,6 +22,7 @@ public class UniqueHelperTest
     /// produces unique values without any duplicates, verifying
     /// thread-safety of the generation process.
     /// </summary>
+    /// <returns>A task that represents the asynchronous operation. The task result contains an array of generated IDs.</returns>
     [Fact]
     public async Task GetAHundredConcurrentDateTimeIdStringWithoutAnyDuplicatesAsync()
     {
