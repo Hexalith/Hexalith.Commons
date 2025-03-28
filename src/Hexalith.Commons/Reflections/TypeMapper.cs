@@ -23,11 +23,8 @@ public static class TypeMapper
     /// <typeparam name="TMappable">The type of the mappable object.</typeparam>
     /// <param name="type">The type.</param>
     /// <returns>bool.</returns>
-    public static bool CanCreateMappableType<TMappable>([NotNull] Type type)
-    {
-        return IsMappableConcreteClass<TMappable>(type)
+    public static bool CanCreateMappableType<TMappable>([NotNull] Type type) => IsMappableConcreteClass<TMappable>(type)
             && type.GetConstructor(Type.EmptyTypes)?.IsPublic == true;
-    }
 
     /// <summary>
     /// Gets the map of mappable types.
@@ -84,9 +81,9 @@ public static class TypeMapper
         {
             try
             {
-                var types = assembly.GetTypes();
-                var mappableTypes = types?.Where(t => t != null && CanCreateMappableType<TMappable>(t));
-                
+                Type[] types = assembly.GetTypes();
+                IEnumerable<Type>? mappableTypes = types?.Where(t => t != null && CanCreateMappableType<TMappable>(t));
+
                 if (mappableTypes != null)
                 {
                     foreach (Type type in mappableTypes)
