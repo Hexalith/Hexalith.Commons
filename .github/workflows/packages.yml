@@ -1,13 +1,20 @@
 name: Build Packages
 on:
   push:
-    tags:
-      - 'v*'
+    branches: 
+      - main
+      - next
+      - next-major
+      - aplha
+      - beta
+      - '[0-9]+.[0-9]+.x'
 
 permissions:
   packages: write
-  contents: read
-     
+  contents: write
+  issues: write
+  pull-requests: write
+  
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
@@ -31,10 +38,6 @@ jobs:
     - name: Get Version
       id: version
       uses: Hexalith/Hexalith.Builds/Github/version@main
-      with:
-        ref: ${{ github.ref}}
-        buildId: ${{ github.run_number }}
-        buildAttempt: ${{ github.run_attempt }}
         
     - name: Run Unit Tests of version (${{ steps.version.outputs.version }})
       uses: Hexalith/Hexalith.Builds/Github/unit-tests@main
@@ -42,11 +45,13 @@ jobs:
         project-name: ${{ github.event.repository.name }}
 
     - name: Build Packages version (${{ steps.version.outputs.version }})
+      if: ${{ steps.version.outputs.published == 'true' }}
       uses: Hexalith/Hexalith.Builds/Github/build-packages@main
       with:
         version: ${{ steps.version.outputs.version }}
         
     - name: Publish Packages
+      if: ${{ steps.version.outputs.published == 'true' }}
       uses: Hexalith/Hexalith.Builds/Github/publish-packages@main
       with:
         version: ${{ steps.version.outputs.version }}
