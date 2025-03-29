@@ -25,25 +25,27 @@ public static partial class StringHelper
     public static string FormatWithNamedPlaceholders(IFormatProvider provider, string value, IEnumerable<object>? args)
     {
         string format = ReplacePlaceholderNamesByIndex(value);
+        if (args is null)
+        {
+            return value;
+        }
+
         try
         {
-            if (args != null)
+            object[] arguments = [.. args];
+            if (arguments.Length > 0)
             {
-                object[] arguments = [.. args];
-                if (arguments.Length > 0)
-                {
-                    return string.Format(
-                        provider,
-                        format,
-                        arguments);
-                }
+                return string.Format(
+                    provider,
+                    format,
+                    arguments);
             }
 
             return value;
         }
         catch (Exception e)
         {
-            IEnumerable<string> argValues = args?.Select(p => $"{p?.GetType().Name ?? "null"}:{p ?? "null"}") ?? [];
+            IEnumerable<string> argValues = args.Select(p => $"{p?.GetType().Name ?? "null"}:{p ?? "null"}") ?? [];
             throw new InvalidOperationException(
                 $"Could not format :\nOriginal={value}\nIndexed={format}\nValues={string.Join("\n", argValues)}", e);
         }
@@ -105,9 +107,8 @@ public static partial class StringHelper
     /// <returns>System.String.</returns>
     public static string ReplacePlaceholderNamesByIndex(string value)
     {
-        string pattern = @"\{\w+\}";
         int i = 0;
-        return Regex.Replace(value, pattern, match => "{" + i++ + "}");
+        return EmptyJson().Replace(value, _ => "{" + i++ + "}");
     }
 
     /// <summary>
@@ -173,6 +174,9 @@ public static partial class StringHelper
     /// <returns>The number.</returns>
     public static long ToLong(this string value)
         => long.Parse(value, CultureInfo.InvariantCulture);
+
+    [GeneratedRegex(@"\{\w+\}")]
+    private static partial Regex EmptyJson();
 
     [GeneratedRegex(@"^[a-zA-Z0-9\-]+$")]
     private static partial Regex MyRegex();
