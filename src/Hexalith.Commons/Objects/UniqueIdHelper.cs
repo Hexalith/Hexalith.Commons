@@ -24,7 +24,7 @@ public static class UniqueIdHelper
     /// <returns>A unique 17-character ID string derived from the current date/time.</returns>
     public static string GenerateDateTimeId()
     {
-        lock (_lock)
+        using (_lock.EnterScope())
         {
             DateTime now = DateTime.UtcNow;
             DateTime currentDateTime = new(
