@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <!-- Define a property to store the path of the parent Directory.Build.props. -->
+    <ParentDirectoryBuildProps>$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))</ParentDirectoryBuildProps>
+    <!-- Define a property to store the path of the Directory.Package.props in Hexalith.Builds project. This directory can be in the current project or a parent project. -->
+    <HexalithPackageProps>$([MSBuild]::GetDirectoryNameOfFileAbove('Hexalith.Builds', 'Hexalith.Package.props'))</HexalithPackageProps>
+  </PropertyGroup>
+
+  <!-- Import the parent Directory.Build.props file if it exists -->
+  <Import Project="$(ParentDirectoryBuildProps)" Condition="Exists('$(ParentDirectoryBuildProps)')" />
+
+  <!-- Import the Hexalith.Package.props file in Hexalith.Builds. This file must exist. -->
+  <Import Project="$(HexalithPackageProps)/Hexalith.Package.props" />
+</Project>
