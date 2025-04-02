@@ -32,8 +32,9 @@ string uniqueId = UniqueIdHelper.GenerateUniqueStringId();
 ### `GenerateDateTimeId()`
 
 Generates a unique 17-character ID based on UTC date/time with format "yyyyMMddHHmmssfff". 
-This method ensures uniqueness even when called multiple times within the same millisecond by incrementing
-the time if necessary. Caution : Only one ID can be generated per millisecond.
+This method ensures uniqueness even when called multiple times within the same millisecond by incrementing the time if necessary.
+
+Caution : Only one ID can be generated per millisecond.
 
 ### `GenerateUniqueStringId()`
 
@@ -42,3 +43,4 @@ This produces shorter, URL-friendly unique identifiers compared to standard GUID
 
 ## Github Project
 
+[Hexalith.Commons](https://github.com/Hexalith/Hexalith.Commons) - A comprehensive .NET utility library providing common functionality for Hexalith projects.
