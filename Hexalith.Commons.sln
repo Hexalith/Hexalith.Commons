@@ -11,9 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hexalith.Builds", "Hexalith
 		Hexalith.Builds\ai-commit-prompt.md = Hexalith.Builds\ai-commit-prompt.md
 		.github\copilot-instructions.md = .github\copilot-instructions.md
 		Hexalith.Builds\.github\workflows\copy-ai-assistant-instructions.yml = Hexalith.Builds\.github\workflows\copy-ai-assistant-instructions.yml
-		Hexalith.Builds\Directory.Packages.props = Hexalith.Builds\Directory.Packages.props
-		Hexalith.Builds\Environment.Build.props = Hexalith.Builds\Environment.Build.props
-		Hexalith.Builds\Framework.Build.props = Hexalith.Builds\Framework.Build.props
 		Hexalith.Builds\Hexalith.Build.props = Hexalith.Builds\Hexalith.Build.props
 		Hexalith.Builds\Hexalith.globalconfig = Hexalith.Builds\Hexalith.globalconfig
 		Hexalith.Builds\Hexalith.Package.props = Hexalith.Builds\Hexalith.Package.props
@@ -87,6 +84,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "publish-packages", "publish
 		Hexalith.Builds\Github\publish-packages\README.md = Hexalith.Builds\Github\publish-packages\README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{6720CC2E-1CCC-4012-AAD2-2A3973B6AA6E}"
+	ProjectSection(SolutionItems) = preProject
+		Hexalith.Builds\Props\Directory.Packages.props = Hexalith.Builds\Props\Directory.Packages.props
+		Hexalith.Builds\Props\Environment.Build.props = Hexalith.Builds\Props\Environment.Build.props
+		Hexalith.Builds\Props\Framework.Build.props = Hexalith.Builds\Props\Framework.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons.UniqueIds", "src\Hexalith.Commons.UniqueIds\Hexalith.Commons.UniqueIds.csproj", "{B2E01C15-DEA1-A493-0CFA-7FEBF856FEEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +107,10 @@ Global
 		{3BEE5A6C-053E-49E7-9F79-C4AF0EDD63AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BEE5A6C-053E-49E7-9F79-C4AF0EDD63AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BEE5A6C-053E-49E7-9F79-C4AF0EDD63AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2E01C15-DEA1-A493-0CFA-7FEBF856FEEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2E01C15-DEA1-A493-0CFA-7FEBF856FEEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2E01C15-DEA1-A493-0CFA-7FEBF856FEEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2E01C15-DEA1-A493-0CFA-7FEBF856FEEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +125,7 @@ Global
 		{1BD7841A-56E0-4C05-820F-17A321F2E3A9} = {EC0AC9AA-8F03-49E6-92E5-331EEB5389A0}
 		{E4F34C38-8244-46B0-9582-6FAC967B61EF} = {EC0AC9AA-8F03-49E6-92E5-331EEB5389A0}
 		{93A55163-2550-4CE6-BDFE-AF553CB55409} = {EC0AC9AA-8F03-49E6-92E5-331EEB5389A0}
+		{6720CC2E-1CCC-4012-AAD2-2A3973B6AA6E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BC16B71-F1A1-430A-8F59-1C0A20D3E1AD}
