@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Hexalith.Commons.UniqueIds\Hexalith.Commons.UniqueIds.csproj" />
     <ProjectReference Include="..\..\src\Hexalith.Commons\Hexalith.Commons.csproj" />
   </ItemGroup>
 

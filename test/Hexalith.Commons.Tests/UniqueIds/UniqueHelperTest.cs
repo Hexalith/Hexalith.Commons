@@ -3,9 +3,9 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-namespace Hexalith.Commons.Tests.Helpers;
+namespace Hexalith.Commons.Tests.UniqueIds;
 
-using Hexalith.Commons.Objects;
+using Hexalith.Commons.UniqueIds;
 
 using Shouldly;
 
