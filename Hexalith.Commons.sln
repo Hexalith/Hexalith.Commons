@@ -99,6 +99,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3B09EF48-705
 		src\README.md = src\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons.Configurations", "src\Hexalith.Commons.Configurations\Hexalith.Commons.Configurations.csproj", "{0C4E03FA-AD5E-5F15-DBCB-10FC7ABCA5A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{B2E01C15-DEA1-A493-0CFA-7FEBF856FEEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2E01C15-DEA1-A493-0CFA-7FEBF856FEEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2E01C15-DEA1-A493-0CFA-7FEBF856FEEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C4E03FA-AD5E-5F15-DBCB-10FC7ABCA5A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C4E03FA-AD5E-5F15-DBCB-10FC7ABCA5A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C4E03FA-AD5E-5F15-DBCB-10FC7ABCA5A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C4E03FA-AD5E-5F15-DBCB-10FC7ABCA5A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,6 +140,7 @@ Global
 		{93A55163-2550-4CE6-BDFE-AF553CB55409} = {EC0AC9AA-8F03-49E6-92E5-331EEB5389A0}
 		{6720CC2E-1CCC-4012-AAD2-2A3973B6AA6E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{B2E01C15-DEA1-A493-0CFA-7FEBF856FEEE} = {3B09EF48-705E-4FE9-A9DD-A435282EBD60}
+		{0C4E03FA-AD5E-5F15-DBCB-10FC7ABCA5A9} = {3B09EF48-705E-4FE9-A9DD-A435282EBD60}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BC16B71-F1A1-430A-8F59-1C0A20D3E1AD}

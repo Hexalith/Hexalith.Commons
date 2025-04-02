@@ -5,7 +5,7 @@
 
 namespace Hexalith.Commons.Tests.Exceptions;
 
-using Hexalith.Commons.Configuration;
+using Hexalith.Commons.Configurations;
 
 using Microsoft.Extensions.Options;
 
