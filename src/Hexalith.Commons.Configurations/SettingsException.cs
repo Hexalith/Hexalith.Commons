@@ -68,7 +68,7 @@ public class SettingsException<TSettings> : ArgumentException
         [CallerArgumentExpression(nameof(argument))] string? paramName = null
     )
     {
-        if (argument is null || argument is string str && string.IsNullOrWhiteSpace(str))
+        if (argument is null || (argument is string str && string.IsNullOrWhiteSpace(str)))
         {
             string? settingsName = string.IsNullOrWhiteSpace(paramName)
                 ? string.Empty
