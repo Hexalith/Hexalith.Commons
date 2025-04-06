@@ -30,6 +30,15 @@ Stable (version tag):
 
 Hexalith.Commons is a collection of utility classes, helpers, and extensions designed to support development across Hexalith projects. This library provides consistent and reusable components for handling common programming tasks.
 
+## Packages
+
+The Hexalith.Commons solution includes several NuGet packages:
+
+- **Hexalith.Commons**: The core utility library with a wide range of helpers and extensions
+- **Hexalith.Commons.Configurations**: Utilities for handling configuration settings in .NET applications
+- **Hexalith.Commons.StringEncoders**: Utilities for encoding and decoding strings to be RFC 1123 compliant
+- **Hexalith.Commons.UniqueIds**: Utilities for generating unique identifiers in various formats
+
 ## Features
 
 The library is organized into several key utility areas:
@@ -80,9 +89,10 @@ Reflection-based utilities for working with types, properties, and methods at ru
 String manipulation utilities:
 
 - Format strings with named placeholders
-- RFC1123 compliance checking
+- RFC1123 compliance checking and encoding/decoding
 - Culture-invariant string conversions
 - String to number conversions with proper culture handling
+- Reversible encoding of arbitrary strings to RFC1123 compliant format
 
 ### Tests
 
@@ -115,6 +125,21 @@ int number = numberStr.ToInteger();
 
 // Check if a hostname is RFC 1123 compliant
 bool isValid = "valid-host.example.com".IsRfc1123Compliant();
+```
+
+### RFC1123 String Encoding
+
+```csharp
+using Hexalith.Commons.StringEncoders;
+
+// Encode a string to be RFC 1123 compliant
+string original = "Hello World! 你好世界";
+string encoded = original.ToRFC1123();
+// Result: "Hello_20World_21_20_E4_BD_A0_E5_A5_BD_E4_B8_96_E7_95_8C"
+
+// Decode back to the original string
+string decoded = encoded.FromRFC1123();
+// Result: "Hello World! 你好世界"
 ```
 
 ### Configuration utilities
