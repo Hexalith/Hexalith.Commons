@@ -102,7 +102,7 @@ Converts a string previously escaped using ToRFC1123 back to its original form. 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](../../LICENSE) file in the project root for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Hexalith/Hexalith.Commons/LICENSE) file in the project root for details.
 
 ## Links
 
