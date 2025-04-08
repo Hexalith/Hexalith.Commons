@@ -36,7 +36,7 @@ public record ContextMetadata(
     DateTimeOffset? ReceivedDate,
     [property:DataMember(Order = 4)]
     [property:JsonPropertyOrder(4)]
-    DateTimeOffset? TimeToLive,
+    TimeSpan? TimeToLive,
     [property:DataMember(Order = 5)]
     [property:JsonPropertyOrder(5)]
     long? SequenceNumber,
