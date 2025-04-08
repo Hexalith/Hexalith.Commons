@@ -15,6 +15,7 @@ using System.Text.Json.Serialization;
 /// <param name="UserId">The user identifier.</param>
 /// <param name="PartitionId">The partition identifier.</param>
 /// <param name="ReceivedDate">The received date.</param>
+/// <param name="TimeToLive">The time to live.</param>
 /// <param name="SequenceNumber">The sequence number.</param>
 /// <param name="Etag">The etag.</param>
 /// <param name="SessionId">The session identifier.</param>
@@ -35,15 +36,18 @@ public record ContextMetadata(
     DateTimeOffset? ReceivedDate,
     [property:DataMember(Order = 4)]
     [property:JsonPropertyOrder(4)]
+    DateTimeOffset? TimeToLive,
+    [property:DataMember(Order = 5)]
+    [property:JsonPropertyOrder(5)]
     long? SequenceNumber,
-    [property:DataMember(Order = 5)]
-    [property:JsonPropertyOrder(5)]
+    [property:DataMember(Order = 6)]
+    [property:JsonPropertyOrder(6)]
     string? Etag,
-    [property:DataMember(Order = 5)]
-    [property:JsonPropertyOrder(5)]
+    [property:DataMember(Order = 7)]
+    [property:JsonPropertyOrder(7)]
     string? SessionId,
-    [property: DataMember(Order = 6)]
-    [property: JsonPropertyOrder(6)]
+    [property: DataMember(Order = 8)]
+    [property: JsonPropertyOrder(8)]
     IEnumerable<string> Scopes)
 {
     /// <summary>
@@ -58,7 +62,9 @@ public record ContextMetadata(
               context.UserId,
               context.PartitionId,
               receivedDate,
+              context.TimeToLive,
               context.SequenceNumber,
+              context.Etag,
               context.SessionId,
               context.Scopes)
     {
