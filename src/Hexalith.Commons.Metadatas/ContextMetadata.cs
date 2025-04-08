@@ -16,6 +16,7 @@ using System.Text.Json.Serialization;
 /// <param name="PartitionId">The partition identifier.</param>
 /// <param name="ReceivedDate">The received date.</param>
 /// <param name="SequenceNumber">The sequence number.</param>
+/// <param name="Etag">The etag.</param>
 /// <param name="SessionId">The session identifier.</param>
 /// <param name="Scopes">The scopes.</param>
 [DataContract]
@@ -35,6 +36,9 @@ public record ContextMetadata(
     [property:DataMember(Order = 4)]
     [property:JsonPropertyOrder(4)]
     long? SequenceNumber,
+    [property:DataMember(Order = 5)]
+    [property:JsonPropertyOrder(5)]
+    string? Etag,
     [property:DataMember(Order = 5)]
     [property:JsonPropertyOrder(5)]
     string? SessionId,
