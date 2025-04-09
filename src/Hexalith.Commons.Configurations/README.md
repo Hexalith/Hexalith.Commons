@@ -46,20 +46,39 @@ public class MyAppSettings : ISettings
 
 ```csharp
 using Hexalith.Commons.Configurations;
-using Microsoft.Extensions.Configuration;
-
-// Get configuration from appsettings.json
-IConfiguration configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .Build();
 
 // Get settings using the helper method
 MyAppSettings settings = configuration.GetSettings<MyAppSettings>();
 
-// Use the settings
-Console.WriteLine($"Connection String: {settings.ConnectionString}");
-Console.WriteLine($"Timeout: {settings.Timeout}");
 ```
+
+### Dependency Injection
+Add the settings to the service collection and configure them using the `ConfigureSettings` method.
+```csharp
+using Hexalith.Commons.Configurations;
+
+// Register services
+builder.Services.ConfigureSettings<MyAppSettings>(builder.Configuration);
+
+```
+Get a comprehensive error message on the invalid setting in your application.
+```csharp
+using Hexalith.Commons.Configurations;
+
+public class MyClass 
+{
+    private readonly string _connectionString;
+
+    public MyClass(IOptions<MyAppSettings> options)
+    {
+        // Check if the options are valid and throw a detailed exception if not
+        SettingsException<MyAppSettings>.ThrowIfUndefined(options.Value.ConnectionString);
+        _connectionString = options.Value.ConnectionString;
+    }
+}
+
+```
+
 
 ### Validating Settings with FluentValidation
 
@@ -79,35 +98,17 @@ public class MyAppSettingsValidator : AbstractValidator<MyAppSettings>
     }
 }
 
-// Register services
-var services = new ServiceCollection();
-
-// Register configuration
-services.AddSingleton<IConfiguration>(configuration);
-
-// Register validator
-services.AddSingleton<IValidator<MyAppSettings>, MyAppSettingsValidator>();
-
 // Register settings with validation
-services.AddOptions<MyAppSettings>()
-    .Bind(configuration.GetSection(MyAppSettings.ConfigurationName()))
-    .ValidateFluentValidation()
-    .ValidateOnStart();
+services.ConfigureSettings<MyAppSettings>(configuration);
 
-// Build service provider
-var serviceProvider = services.BuildServiceProvider();
-
-// Get validated options
-var options = serviceProvider.GetRequiredService<IOptions<MyAppSettings>>().Value;
 ```
-
-## API Reference
 
 ### ISettings Interface
 
 ```csharp
 public interface ISettings
 {
+    // The name of the configuration section. For example, "MyApp:MySettings".
     static abstract string ConfigurationName();
 }
 ```
