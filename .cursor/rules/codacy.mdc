@@ -1,0 +1,27 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+{
+  "name": "Codacy Rules",
+  "description": "Configuration for AI behavior when interacting with Codacy",
+  "rules": [
+    {
+      "when": "using any tool that has either one of the following arguments: provider, organization or repository",
+      "enforce": [
+        "use gh for provider, Hexalith for organization and Hexalith.Builds for repository, and avoid calling 'git remote -v' unless really necessary"
+      ]
+    },
+    {
+      "when": "after ANY successful edit_file or reapply tool call",
+      "enforce": [
+        "IMMEDIATELY run codacy_cli_analyze tool with:",
+        "rootPath set to the workspace path",
+        "file set to the edited file path",
+        "If issues are found, propose fixes for them"
+      ]
+    }
+  ]
+}
