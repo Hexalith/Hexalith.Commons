@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_builds", "_builds", "{59DC
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons", "D:\Hexalith.Commons\src\packages\Hexalith.Commons\Hexalith.Commons.csproj", "{B5E3F37D-428A-396A-3D16-CF55B87F9492}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons", "D:\Hexalith.Commons\src\libraries\Hexalith.Commons\Hexalith.Commons.csproj", "{B5E3F37D-428A-396A-3D16-CF55B87F9492}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons.Tests", "D:\Hexalith.Commons\test\Hexalith.Commons.Tests\Hexalith.Commons.Tests.csproj", "{3BEE5A6C-053E-49E7-9F79-C4AF0EDD63AB}"
 EndProject
@@ -90,7 +90,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Props", "Props", "{6720CC2E
 		Hexalith.Builds\Props\Environment.Build.props = Hexalith.Builds\Props\Environment.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons.UniqueIds", "src\packages\Hexalith.Commons.UniqueIds\Hexalith.Commons.UniqueIds.csproj", "{B2E01C15-DEA1-A493-0CFA-7FEBF856FEEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons.UniqueIds", "src\libraries\Hexalith.Commons.UniqueIds\Hexalith.Commons.UniqueIds.csproj", "{B2E01C15-DEA1-A493-0CFA-7FEBF856FEEE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3B09EF48-705E-4FE9-A9DD-A435282EBD60}"
 	ProjectSection(SolutionItems) = preProject
@@ -98,16 +98,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3B09EF48-705
 		src\README.md = src\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons.Configurations", "src\packages\Hexalith.Commons.Configurations\Hexalith.Commons.Configurations.csproj", "{0C4E03FA-AD5E-5F15-DBCB-10FC7ABCA5A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons.Configurations", "src\libraries\Hexalith.Commons.Configurations\Hexalith.Commons.Configurations.csproj", "{0C4E03FA-AD5E-5F15-DBCB-10FC7ABCA5A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons.StringEncoders", "src\packages\Hexalith.Commons.StringEncoders\Hexalith.Commons.StringEncoders.csproj", "{9885D4A0-DFDC-CB46-22B6-EEA3CB9F1044}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons.StringEncoders", "src\libraries\Hexalith.Commons.StringEncoders\Hexalith.Commons.StringEncoders.csproj", "{9885D4A0-DFDC-CB46-22B6-EEA3CB9F1044}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons.Metadatas", "src\packages\Hexalith.Commons.Metadatas\Hexalith.Commons.Metadatas.csproj", "{4AB218E9-847C-05D6-39E6-E3AAF058B59F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexalith.Commons.Metadatas", "src\libraries\Hexalith.Commons.Metadatas\Hexalith.Commons.Metadatas.csproj", "{4AB218E9-847C-05D6-39E6-E3AAF058B59F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{0697B85D-5688-4208-A63B-DFAE3B17D64A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libraries", "libraries", "{0697B85D-5688-4208-A63B-DFAE3B17D64A}"
 	ProjectSection(SolutionItems) = preProject
-		src\packages\Directory.Build.props = src\packages\Directory.Build.props
-		src\packages\README.md = src\packages\README.md
+		src\libraries\Directory.Build.props = src\libraries\Directory.Build.props
+		src\libraries\README.md = src\libraries\README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{472D678E-A50B-4988-8455-F2DE65838729}"
