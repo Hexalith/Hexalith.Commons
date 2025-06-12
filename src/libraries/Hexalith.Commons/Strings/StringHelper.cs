@@ -22,6 +22,9 @@ public static partial class StringHelper
     /// <param name="value">The value.</param>
     /// <param name="args">The arguments.</param>
     /// <returns>System.String.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when the formatting operation fails due to invalid arguments or placeholders.
+    /// </exception>
     public static string FormatWithNamedPlaceholders(IFormatProvider provider, string value, IEnumerable<object>? args)
     {
         string format = ReplacePlaceholderNamesByIndex(value);
@@ -75,8 +78,7 @@ public static partial class StringHelper
         }
 
         // Check each label between dots
-        string[] labels = hostname.Split('.');
-        foreach (string label in labels)
+        foreach (string label in hostname.Split('.'))
         {
             // Each label must be between 1-63 characters
             if (label.Length is < 1 or > 63)
@@ -85,7 +87,7 @@ public static partial class StringHelper
             }
 
             // Cannot start or end with hyphen
-            if (label.StartsWith(_dash) || label.EndsWith(_dash))
+            if (label.StartsWith(_dash, StringComparison.Ordinal) || label.EndsWith(_dash, StringComparison.Ordinal))
             {
                 return false;
             }

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <NoWarn>$(NoWarn);IDE0079;RCS1251;</NoWarn>
+    <NoWarn>$(NoWarn);IDE0079;RCS1251;CA2201;VSTHRD111;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

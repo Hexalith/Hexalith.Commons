@@ -13,26 +13,24 @@ using System.Runtime.CompilerServices;
 /// Class SettingsException.
 /// Implements the <see cref="ArgumentException" />.
 /// </summary>
-/// <typeparam name="TSettings">The type of the t settings.</typeparam>
 /// <seealso cref="ArgumentException" />
-public class SettingsException<TSettings> : ArgumentException
-    where TSettings : ISettings
+public class SettingsException : ArgumentException
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsException{TSettings}" /> class.
+    /// Initializes a new instance of the <see cref="SettingsException" /> class.
     /// </summary>
     /// <param name="message">The error message that explains the reason for the exception.</param>
     public SettingsException(string message)
         : base(message) { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsException{TSettings}"/> class.
+    /// Initializes a new instance of the <see cref="SettingsException"/> class.
     /// </summary>
     public SettingsException()
     { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsException{TSettings}"/> class.
+    /// Initializes a new instance of the <see cref="SettingsException"/> class.
     /// </summary>
     /// <param name="message">The error message that explains the reason for the exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception.
@@ -41,7 +39,7 @@ public class SettingsException<TSettings> : ArgumentException
         : base(message, innerException) { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsException{TSettings}"/> class.
+    /// Initializes a new instance of the <see cref="SettingsException"/> class.
     /// </summary>
     /// <param name="message">The error message that explains the reason for the exception.</param>
     /// <param name="paramName">The name of the parameter that caused the current exception.</param>
@@ -51,7 +49,7 @@ public class SettingsException<TSettings> : ArgumentException
         : base(message, paramName, innerException) { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsException{TSettings}"/> class.
+    /// Initializes a new instance of the <see cref="SettingsException"/> class.
     /// </summary>
     /// <param name="message">The error message that explains the reason for the exception.</param>
     /// <param name="paramName">The name of the parameter that caused the current exception.</param>
@@ -63,10 +61,12 @@ public class SettingsException<TSettings> : ArgumentException
     /// </summary>
     /// <param name="argument">The argument.</param>
     /// <param name="paramName">Name of the parameter.</param>
-    public static void ThrowIfUndefined(
+    /// <typeparam name="TSettings">The type of the settings.</typeparam>
+    public static void ThrowIfUndefined<TSettings>(
         [NotNull] object? argument,
         [CallerArgumentExpression(nameof(argument))] string? paramName = null
     )
+        where TSettings : ISettings
     {
         if (argument is null || (argument is string str && string.IsNullOrWhiteSpace(str)))
         {
@@ -78,7 +78,7 @@ public class SettingsException<TSettings> : ArgumentException
                 settingsName = "Unknown";
             }
 
-            Throw(
+            Throw<TSettings>(
                 $"The {settingsName} value is undefined in {TSettings.ConfigurationName()} settings. Argument : {paramName}.",
                 paramName
             );
@@ -91,7 +91,9 @@ public class SettingsException<TSettings> : ArgumentException
     /// <param name="message">The message.</param>
     /// <param name="paramName">Name of the parameter.</param>
     /// <exception cref="SettingsException{TSettings}">Throw settings exception.</exception>
+    /// <typeparam name="TSettings">The type of the settings.</typeparam>
     [DoesNotReturn]
-    internal static void Throw(string? message, string? paramName) =>
-        throw new SettingsException<TSettings>(message, paramName);
+    internal static void Throw<TSettings>(string? message, string? paramName)
+        where TSettings : ISettings
+        => throw new SettingsException<TSettings>(message, paramName);
 }

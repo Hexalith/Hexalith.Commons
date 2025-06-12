@@ -59,8 +59,8 @@ public class ApplicationErrorException : Exception
     }
 
     /// <summary>
-    /// Gets the error.
+    /// Gets or sets the error.
     /// </summary>
     /// <value>The error.</value>
-    public ApplicationError? Error { get; private set; }
+    public ApplicationError? Error { get; set; }
 }

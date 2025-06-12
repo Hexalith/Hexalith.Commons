@@ -3,7 +3,4 @@
   <Import Project="$(ParentDirectoryPackages)" Condition="Exists('$(ParentDirectoryPackages)')" />
   <!-- Import the Directory.Package.props file in Hexalith.Builds. -->
   <Import Project="$(MSBuildThisFileDirectory)../../Hexalith.Builds/Props/Directory.Packages.props" />
-  <ItemGroup>
-    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
-  </ItemGroup>
 </Project>

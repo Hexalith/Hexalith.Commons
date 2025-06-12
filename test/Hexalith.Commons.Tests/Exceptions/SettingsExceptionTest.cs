@@ -29,7 +29,7 @@ public class SettingsExceptionTest
 
         // Verify that no exception is thrown for defined settings
         Should.NotThrow(
-            () => SettingsException<DummySettings>.ThrowIfUndefined(settings.Value.Name)
+            () => SettingsException.ThrowIfUndefined<DummySettings>(settings.Value.Name)
         );
     }
 
@@ -40,7 +40,7 @@ public class SettingsExceptionTest
     public void DefinedSettingsShouldNotThrowException()
     {
         DummySettings settings = new() { Name = "hello world" };
-        Should.NotThrow(() => SettingsException<DummySettings>.ThrowIfUndefined(settings.Name));
+        Should.NotThrow(() => SettingsException.ThrowIfUndefined<DummySettings>(settings.Name));
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public class SettingsExceptionTest
 
         // Verify that appropriate exception is thrown with correct parameter name and message
         SettingsException<DummySettings> ex = Should.Throw<SettingsException<DummySettings>>(
-            () => SettingsException<DummySettings>.ThrowIfUndefined(options.Value.Name)
+            () => SettingsException.ThrowIfUndefined<DummySettings>(options.Value.Name)
         );
 
         // Assert the exception details
@@ -71,7 +71,7 @@ public class SettingsExceptionTest
     {
         DummySettings settings = new();
         SettingsException<DummySettings> ex = Should.Throw<SettingsException<DummySettings>>(
-            () => SettingsException<DummySettings>.ThrowIfUndefined(settings.Name)
+            () => SettingsException.ThrowIfUndefined<DummySettings>(settings.Name)
         );
 
         ex.ParamName.ShouldBe("settings.Name");
@@ -90,7 +90,7 @@ public class SettingsExceptionTest
 
         // Verify that appropriate exception is thrown for undefined sub-property
         SettingsException<DummySettings> ex = Should.Throw<SettingsException<DummySettings>>(
-            () => SettingsException<DummySettings>.ThrowIfUndefined(settings.SubConfig.Hello)
+            () => SettingsException.ThrowIfUndefined<DummySettings>(settings.SubConfig.Hello)
         );
 
         // Assert the exception details
@@ -102,7 +102,7 @@ public class SettingsExceptionTest
     /// <summary>
     /// Represents dummy settings for testing purposes.
     /// </summary>
-    internal class DummySettings : ISettings
+    internal sealed class DummySettings : ISettings
     {
         /// <summary>
         /// Gets or sets the name.
@@ -124,7 +124,7 @@ public class SettingsExceptionTest
     /// <summary>
     /// Represents a sub-configuration for testing purposes.
     /// </summary>
-    internal class SubConfiguration
+    internal sealed class SubConfiguration
     {
         /// <summary>
         /// Gets or sets the hello property.

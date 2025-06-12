@@ -18,6 +18,7 @@ public static class VersionHelper
     /// Retrieves the product version of the entry assembly.
     /// </summary>
     /// <returns>The product version of the entry assembly.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the entry assembly cannot be found.</exception>
     public static string EntryProductVersion()
     {
         var assembly = Assembly.GetEntryAssembly();

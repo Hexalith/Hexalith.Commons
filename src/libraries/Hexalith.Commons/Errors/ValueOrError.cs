@@ -8,8 +8,7 @@ namespace Hexalith.Commons.Errors;
 /// <summary>
 /// Conditional value class.
 /// </summary>
-/// <typeparam name="T">The type of the value.</typeparam>
-public class ValueOrError<T>
+public class ValueOrError
 {
     /// <summary>
     /// The error.
@@ -19,14 +18,14 @@ public class ValueOrError<T>
     /// <summary>
     /// The value.
     /// </summary>
-    private readonly T _value;
+    private readonly object? _value;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ValueOrError{T}" /> class.
-    /// Initializes a new valued instance of the <see cref="ValueOrError{T}" /> class.
+    /// Initializes a new instance of the <see cref="ValueOrError" /> class.
+    /// Initializes a new valued instance of the <see cref="ValueOrError" /> class.
     /// </summary>
     /// <param name="value">The value.</param>
-    public ValueOrError(T value)
+    public ValueOrError(object? value)
     {
         HasValue = true;
         _value = value;
@@ -34,12 +33,12 @@ public class ValueOrError<T>
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ValueOrError{T}"/> class.
+    /// Initializes a new instance of the <see cref="ValueOrError"/> class.
     /// </summary>
     /// <param name="value">The value.</param>
     /// <param name="error">The error.</param>
     /// <param name="hasValue">if set to <c>true</c> [has value].</param>
-    private ValueOrError(T value, ApplicationError error, bool hasValue)
+    protected ValueOrError(object? value, ApplicationError error, bool hasValue)
     {
         HasValue = hasValue;
         _value = value;
@@ -65,12 +64,13 @@ public class ValueOrError<T>
     /// </summary>
     /// <value>The value.</value>
     /// <exception cref="InvalidOperationException">No value.</exception>
-    public T Value => HasValue ? _value : throw new InvalidOperationException("No value");
+    public object? Value => HasValue ? _value : throw new InvalidOperationException("No value");
 
     /// <summary>
     /// Withes the error.
     /// </summary>
     /// <param name="error">The error.</param>
+    /// <typeparam name="T">The type of the value.</typeparam>
     /// <returns>ValueOrError&lt;T&gt;.</returns>
-    public static ValueOrError<T> WithError(ApplicationError error) => new(default!, error, false);
+    public static ValueOrError<T> WithError<T>(ApplicationError error) => new(default!, error, false);
 }

@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
     <!-- Define a property to store the path of the parent Directory.Build.props. -->
     <ParentDirectoryBuildProps>$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))</ParentDirectoryBuildProps>
     <!-- Define a property to store the path of the Directory.Build.props in Hexalith.Builds project. This directory can be in the current project or a parent project. -->
@@ -15,5 +16,8 @@
   <PropertyGroup>
     <Product>Hexalith.Commons</Product>
     <RepositoryUrl>https://github.com/Hexalith/Hexalith.Commons</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Hexalith/Hexalith.Commons</PackageProjectUrl>
+    <PackageTags>hexalith;commons;utilities</PackageTags>
+    <Description>Common utilities and helpers for Hexalith projects</Description>
   </PropertyGroup>
 </Project>

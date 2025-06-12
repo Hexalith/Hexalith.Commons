@@ -20,13 +20,15 @@ public static class Rfc1123StringExtensions
 {
     private const char _escapeChar = '_';
 
-    // Define the set of characters considered "compliant" and won't be escaped.
-    // RFC 1123 itself mostly defines a date format (letters, digits, ',', ':', ' ').
-    // For broader string compatibility (like headers or identifiers potentially
-    // used alongside RFC 1123 dates), a stricter set is often safer.
-    // We'll use Alphanumeric, Hyphen, and Dot as the base "safe" set.
-    // All other characters, including space, comma, colon, control chars,
-    // and Unicode chars will be escaped to ensure lossless round-tripping.
+    /// <summary>
+    /// Define the set of characters considered "compliant" and won't be escaped.
+    /// RFC 1123 itself mostly defines a date format (letters, digits, ',', ':', ' ').
+    /// For broader string compatibility (like headers or identifiers potentially
+    /// used alongside RFC 1123 dates), a stricter set is often safer.
+    /// We'll use Alphanumeric, Hyphen, and Dot as the base "safe" set.
+    /// All other characters, including space, comma, colon, control chars,
+    /// and Unicode chars will be escaped to ensure lossless round-tripping.
+    /// </summary>
     private static readonly HashSet<char> _allowedChars = [.. "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-."];
 
     /// <summary>
@@ -57,8 +59,9 @@ public static class Rfc1123StringExtensions
                 {
                     i = Escape(input, resultBuilder, byteStream, i);
                 }
-                else // Not an escape character
+                else
                 {
+                    // Not an escape character
                     // Decode any pending bytes before appending the literal char
                     DecodePendingBytes(byteStream, resultBuilder);
                     _ = resultBuilder.Append(c);
@@ -84,8 +87,9 @@ public static class Rfc1123StringExtensions
     /// RFC 1123 contexts (like headers), ensuring reversibility.
     /// </summary>
     /// <param name="input">The string to convert.</param>
+    /// <param name="provider">The format provider to use for formatting byte values.</param>
     /// <returns>The escaped string, or the original string if null or empty.</returns>
-    public static string ToRFC1123(this string input)
+    public static string ToRFC1123(this string input, IFormatProvider? provider = null)
     {
         if (string.IsNullOrEmpty(input))
         {
@@ -107,11 +111,10 @@ public static class Rfc1123StringExtensions
             else
             {
                 // Character is not allowed, escape its UTF-8 bytes
-                byte[] utf8Bytes = Encoding.UTF8.GetBytes(c.ToString());
-                foreach (byte b in utf8Bytes)
+                foreach (byte b in Encoding.UTF8.GetBytes(c.ToString()))
                 {
                     // Append _XX where XX is the uppercase hex representation of the byte
-                    _ = sb.Append(_escapeChar).Append(b.ToString("X2"));
+                    _ = sb.Append(_escapeChar).Append(b.ToString("X2", provider));
                 }
             }
         }
@@ -119,7 +122,11 @@ public static class Rfc1123StringExtensions
         return sb.ToString();
     }
 
-    // Helper to decode collected bytes from the MemoryStream
+    /// <summary>
+    /// Helper to decode collected bytes from the MemoryStream.
+    /// </summary>
+    /// <param name="byteStream">MemoryStream containing pending bytes to decode.</param>
+    /// <param name="resultBuilder">StringBuilder to append the decoded string.</param>
     private static void DecodePendingBytes(MemoryStream byteStream, StringBuilder resultBuilder)
     {
         if (byteStream.Length > 0)
@@ -143,15 +150,17 @@ public static class Rfc1123StringExtensions
 
         char nextChar = input[i + 1];
 
-        if (nextChar == _escapeChar) // It's '__', representing a literal '_'
+        if (nextChar == _escapeChar)
         {
+            // It's '__', representing a literal '_'
             // Decode any pending bytes before appending the literal char
             DecodePendingBytes(byteStream, resultBuilder);
             _ = resultBuilder.Append(_escapeChar);
             i += 2; // Consumed '__'
         }
-        else // Should be '_XX' (hex byte representation)
+        else
         {
+            // Should be '_XX' (hex byte representation)
             if (i + 2 >= input.Length)
             {
                 // Not enough characters for _XX
@@ -169,8 +178,9 @@ public static class Rfc1123StringExtensions
             {
                 throw new FormatException($"Invalid hex sequence '{hex}' in escape sequence at index {i}.", ex);
             }
-            catch (ArgumentOutOfRangeException ex) // Convert.ToByte can throw this for non-hex chars
+            catch (ArgumentOutOfRangeException ex)
             {
+                // Convert.ToByte can throw this for non-hex chars
                 throw new FormatException($"Invalid hex sequence '{hex}' in escape sequence at index {i}.", ex);
             }
         }

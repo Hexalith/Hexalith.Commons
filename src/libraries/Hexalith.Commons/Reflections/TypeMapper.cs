@@ -31,6 +31,8 @@ public static class TypeMapper
     /// </summary>
     /// <typeparam name="TMappable">The type of the mappable object.</typeparam>
     /// <returns>A dictionary containing the map of mappable types.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when a type cannot be initialized or added to the map.</exception>
+    /// <exception cref="TypeInitializationException">Thrown when a type cannot be initialized.</exception>
     public static FrozenDictionary<string, TMappable> GetMap<TMappable>()
        where TMappable : IMappableType
     {
@@ -91,7 +93,10 @@ public static class TypeMapper
             }
             catch (ReflectionTypeLoadException)
             {
-                continue;
+                // Handle the case where some types in the assembly cannot be loaded.
+                // This can happen if the assembly is not fully compatible with the current runtime.
+                // We can skip these types and continue with the rest of the assembly.
+                Debug.WriteLine($"Assembly {assembly.FullName} could not be loaded completely. Some types may not be available.");
             }
         }
 
@@ -104,6 +109,7 @@ public static class TypeMapper
     /// <typeparam name="TMappable">The type of the mappable object.</typeparam>
     /// <param name="name">The name of the mappable object.</param>
     /// <returns>The mappable object.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the mappable type with the specified name is not found.</exception>
     public static TMappable GetObject<TMappable>(string name)
         where TMappable : IMappableType
     {

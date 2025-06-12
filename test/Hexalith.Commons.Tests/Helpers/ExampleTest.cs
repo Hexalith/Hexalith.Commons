@@ -136,7 +136,7 @@ public class ExampleTest
     /// Empty derived class used to test inheritance of ExampleValue attributes.
     /// </summary>
     [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = TestHelper.TestJustification)]
-    private class BasePropertyExample : BaseProperty
+    private sealed class BasePropertyExample : BaseProperty
     {
     }
 
@@ -144,7 +144,7 @@ public class ExampleTest
     /// Test class combining readonly and ExampleValue-decorated properties.
     /// Used to verify handling of mixed property types.
     /// </summary>
-    private class BaseReadOnlyPropertyExample
+    private sealed class BaseReadOnlyPropertyExample
     {
         /// <summary>
         /// A constant string value used for testing readonly property behavior.
@@ -163,7 +163,7 @@ public class ExampleTest
     /// Test class with an integer property having a default value.
     /// Used to verify default value retention during example creation.
     /// </summary>
-    private class IntegerDefaultExample
+    private sealed class IntegerDefaultExample
     {
         /// <summary>
         /// Gets or sets an integer value with a default initialization.
@@ -175,7 +175,7 @@ public class ExampleTest
     /// Test class with an ExampleValue-decorated integer property.
     /// Used to verify attribute-based initialization of numeric types.
     /// </summary>
-    private class IntegerExample
+    private sealed class IntegerExample
     {
         /// <summary>
         /// Gets or sets an integer value initialized through ExampleValue attribute.
@@ -188,7 +188,7 @@ public class ExampleTest
     /// Test class with a string property having a default value.
     /// Used to verify default value retention during example creation.
     /// </summary>
-    private class StringDefaultExample
+    private sealed class StringDefaultExample
     {
         /// <summary>
         /// Gets or sets a string value with a default initialization.
@@ -200,7 +200,7 @@ public class ExampleTest
     /// Test class with an ExampleValue-decorated string property.
     /// Used to verify attribute-based initialization of string types.
     /// </summary>
-    private class StringExample
+    private sealed class StringExample
     {
         /// <summary>
         /// Gets or sets a string value initialized through ExampleValue attribute.
@@ -213,7 +213,7 @@ public class ExampleTest
     /// Comprehensive test class with multiple properties of different types.
     /// Used to verify correct handling of mixed property scenarios.
     /// </summary>
-    private class TestExample
+    private sealed class TestExample
     {
         /// <summary>
         /// Gets or sets an integer value initialized through ExampleValue attribute.

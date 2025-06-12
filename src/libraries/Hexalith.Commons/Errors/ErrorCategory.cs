@@ -13,15 +13,15 @@ public enum ErrorCategory
     /// <summary>
     /// Unknown error type.
     /// </summary>
-    Unknown,
+    Unknown = 0,
 
     /// <summary>
     /// Functional error type.
     /// </summary>
-    Functional,
+    Functional = 1,
 
     /// <summary>
     /// Technical error type.
     /// </summary>
-    Technical,
+    Technical = 2,
 }
