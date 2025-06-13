@@ -21,12 +21,13 @@ public class SettingsException<TSettings> : SettingsException
     /// </summary>
     /// <param name="message">The error message that explains the reason for the exception.</param>
     public SettingsException(string message)
-        : base(message) { }
+        : base(message, null, null, TSettings.ConfigurationName()) { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsException{TSettings}"/> class.
     /// </summary>
     public SettingsException()
+        : base(null, null, null, TSettings.ConfigurationName())
     { }
 
     /// <summary>
@@ -36,7 +37,7 @@ public class SettingsException<TSettings> : SettingsException
     /// <param name="innerException">The exception that is the cause of the current exception.
     /// If the <paramref name="innerException" /> parameter is not a null reference, the current exception is raised in a <see langword="catch" /> block that handles the inner exception.</param>
     public SettingsException(string? message, Exception? innerException)
-        : base(message, innerException) { }
+        : base(message, null, innerException, TSettings.ConfigurationName()) { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsException{TSettings}"/> class.
@@ -46,7 +47,7 @@ public class SettingsException<TSettings> : SettingsException
     /// <param name="innerException">The exception that is the cause of the current exception.
     /// If the <paramref name="innerException" /> parameter is not a null reference, the current exception is raised in a <see langword="catch" /> block that handles the inner exception.</param>
     public SettingsException(string? message, string? paramName, Exception? innerException)
-        : base(message, paramName, innerException) { }
+        : base(message, paramName, innerException, TSettings.ConfigurationName()) { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsException{TSettings}"/> class.
@@ -54,5 +55,17 @@ public class SettingsException<TSettings> : SettingsException
     /// <param name="message">The error message that explains the reason for the exception.</param>
     /// <param name="paramName">The name of the parameter that caused the current exception.</param>
     public SettingsException(string? message, string? paramName)
-        : base(message, paramName) { }
+        : base(message, paramName, null, TSettings.ConfigurationName()) { }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SettingsException{TSettings}"/> class.
+    /// </summary>
+    /// <param name="message">The error message that explains the reason for the exception.</param>
+    /// <param name="paramName">The name of the parameter that caused the current exception.</param>
+    /// <param name="innerException">The exception that is the cause of the current exception.</param>
+    /// <param name="settingsName">The settings name.</param>
+    public SettingsException(string? message, string? paramName, Exception? innerException, string settingsName)
+        : base(message, paramName, innerException, settingsName)
+    {
+    }
 }
