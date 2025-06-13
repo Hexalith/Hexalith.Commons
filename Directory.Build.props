@@ -11,7 +11,7 @@
   <Import Project="$(ParentDirectoryBuildProps)" Condition="Exists('$(ParentDirectoryBuildProps)')" />
 
   <!-- Import the Hexalith.Package.props file in Hexalith.Builds. This file must exist. -->
-  <Import Project="$(HexalithBuildProps)/Hexalith.Build.props" />
+  <Import Project="./Hexalith.Builds/Hexalith.Build.props" />
 
   <PropertyGroup>
     <Product>Hexalith.Commons</Product>
