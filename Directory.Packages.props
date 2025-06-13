@@ -2,5 +2,5 @@
   <!-- Import the parent Directory.Packages.props file if it exists -->
   <Import Project="$(ParentDirectoryPackages)" Condition="Exists('$(ParentDirectoryPackages)')" />
   <!-- Import the Directory.Package.props file in Hexalith.Builds. -->
-  <Import Project="$(MSBuildThisFileDirectory)../../Hexalith.Builds/Props/Directory.Packages.props" />
+  <Import Project="./Hexalith.Builds/Props/Directory.Packages.props" />
 </Project>
