@@ -7,9 +7,9 @@
   </PropertyGroup>
   <Import Project="$(ParentDirectoryPackageProps)" Condition="Exists('$(ParentDirectoryPackageProps)')" />
   <!-- Import the Directory.Package.props file in Hexalith.Builds. -->
-  <Import Project="$(Hexalith1BuildPackageProps)" Condition="Exists('$(Hexalith1BuildPackageProps)') And !Exists('$(ParentDirectoryPackageProps)')" />
-  <Import Project="$(Hexalith2BuildPackageProps)" Condition="Exists('$(Hexalith2BuildPackageProps)') And !Exists('$(ParentDirectoryPackageProps)')" />
-  <Import Project="$(Hexalith3BuildPackageProps)" Condition="!Exists('$(ParentDirectoryPackageProps)')" />
+  <Import Project="$(Hexalith1BuildPackageProps)" Condition="Exists('$(Hexalith1BuildPackageProps)') And '$(HexalithVersionsLoaded)' != 'true'" />
+  <Import Project="$(Hexalith2BuildPackageProps)" Condition="Exists('$(Hexalith2BuildPackageProps)') And '$(HexalithVersionsLoaded)' != 'true'" />
+  <Import Project="$(Hexalith3BuildPackageProps)" Condition="'$(HexalithVersionsLoaded)' != 'true'" />
   <ItemGroup Condition="!Exists('$(ParentDirectoryPackageProps)')">
   </ItemGroup>
 </Project>
