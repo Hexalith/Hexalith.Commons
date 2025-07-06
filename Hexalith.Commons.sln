@@ -112,6 +112,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libraries", "libraries", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{472D678E-A50B-4988-8455-F2DE65838729}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{6A68A923-817D-0D08-68BA-FDF8A5B7B9B2}"
+	ProjectSection(SolutionItems) = preProject
+		Hexalith.Builds\Samples\Module.Directory.Build.props = Hexalith.Builds\Samples\Module.Directory.Build.props
+		Hexalith.Builds\Samples\Module.Directory.Packages.props = Hexalith.Builds\Samples\Module.Directory.Packages.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -164,6 +170,7 @@ Global
 		{9885D4A0-DFDC-CB46-22B6-EEA3CB9F1044} = {0697B85D-5688-4208-A63B-DFAE3B17D64A}
 		{4AB218E9-847C-05D6-39E6-E3AAF058B59F} = {0697B85D-5688-4208-A63B-DFAE3B17D64A}
 		{0697B85D-5688-4208-A63B-DFAE3B17D64A} = {3B09EF48-705E-4FE9-A9DD-A435282EBD60}
+		{6A68A923-817D-0D08-68BA-FDF8A5B7B9B2} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BC16B71-F1A1-430A-8F59-1C0A20D3E1AD}
