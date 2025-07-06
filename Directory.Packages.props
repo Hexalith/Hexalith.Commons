@@ -1,6 +1,15 @@
 ﻿<Project>
-  <!-- Import the parent Directory.Packages.props file if it exists -->
-  <Import Project="$(ParentDirectoryPackages)" Condition="Exists('$(ParentDirectoryPackages)')" />
+  <PropertyGroup>
+    <ParentDirectoryPackageProps>$([MSBuild]::GetPathOfFileAbove('Directory.Packages.props', '$(MSBuildThisFileDirectory)../'))</ParentDirectoryPackageProps>
+    <Hexalith1BuildPackageProps>$(MSBuildThisFileDirectory)Hexalith.Builds/Props/Directory.Packages.props</Hexalith1BuildPackageProps>
+    <Hexalith2BuildPackageProps>$(MSBuildThisFileDirectory)../Hexalith.Builds/Props/Directory.Packages.props</Hexalith2BuildPackageProps>
+    <Hexalith3BuildPackageProps>$(MSBuildThisFileDirectory)../../Hexalith.Builds/Props/Directory.Packages.props</Hexalith3BuildPackageProps>
+  </PropertyGroup>
+  <Import Project="$(ParentDirectoryPackageProps)" Condition="Exists('$(ParentDirectoryPackageProps)')" />
   <!-- Import the Directory.Package.props file in Hexalith.Builds. -->
-  <Import Project="./Hexalith.Builds/Props/Directory.Packages.props" />
+  <Import Project="$(Hexalith1BuildPackageProps)" Condition="Exists('$(Hexalith1BuildPackageProps)') And !Exists('$(ParentDirectoryPackageProps)')" />
+  <Import Project="$(Hexalith2BuildPackageProps)" Condition="Exists('$(Hexalith2BuildPackageProps)') And !Exists('$(ParentDirectoryPackageProps)')" />
+  <Import Project="$(Hexalith3BuildPackageProps)" Condition="!Exists('$(ParentDirectoryPackageProps)')" />
+  <ItemGroup Condition="!Exists('$(ParentDirectoryPackageProps)')">
+  </ItemGroup>
 </Project>

@@ -1,17 +1,19 @@
 <Project>
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
     <!-- Define a property to store the path of the parent Directory.Build.props. -->
     <ParentDirectoryBuildProps>$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))</ParentDirectoryBuildProps>
-    <!-- Define a property to store the path of the Directory.Build.props in Hexalith.Builds project. This directory can be in the current project or a parent project. -->
-    <HexalithBuildProps>$(MSBuildThisFileDirectory)Hexalith.Builds</HexalithBuildProps>
+    <Hexalith1BuildBuildProps>$(MSBuildThisFileDirectory)Hexalith.Builds/Hexalith.Build.props</Hexalith1BuildBuildProps>
+    <Hexalith2BuildBuildProps>$(MSBuildThisFileDirectory)../Hexalith.Builds/Hexalith.Build.props</Hexalith2BuildBuildProps>
+    <Hexalith3BuildBuildProps>$(MSBuildThisFileDirectory)../../Hexalith.Builds/Hexalith.Build.props</Hexalith3BuildBuildProps>
   </PropertyGroup>
 
   <!-- Import the parent Directory.Build.props file if it exists -->
   <Import Project="$(ParentDirectoryBuildProps)" Condition="Exists('$(ParentDirectoryBuildProps)')" />
 
-  <!-- Import the Hexalith.Package.props file in Hexalith.Builds. This file must exist. -->
-  <Import Project="./Hexalith.Builds/Hexalith.Build.props" />
+  <!-- Import the Hexalith.Build.props file in Hexalith.Builds. This file must exist. -->
+  <Import Project="$(Hexalith1BuildBuildProps)" Condition="Exists('$(Hexalith1BuildBuildProps)') And !Exists('$(ParentDirectoryBuildProps)')" />
+  <Import Project="$(Hexalith2BuildBuildProps)" Condition="Exists('$(Hexalith2BuildBuildProps)') And !Exists('$(ParentDirectoryBuildProps)')" />
+  <Import Project="$(Hexalith3BuildBuildProps)" Condition="!Exists('$(ParentDirectoryBuildProps)')" />
 
   <PropertyGroup>
     <Product>Hexalith.Commons</Product>
