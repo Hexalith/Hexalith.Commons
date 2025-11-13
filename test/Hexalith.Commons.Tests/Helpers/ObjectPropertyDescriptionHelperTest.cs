@@ -7,6 +7,7 @@ namespace Hexalith.Commons.Tests.Helpers;
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 using Hexalith.Commons.Objects;
 
@@ -104,6 +105,8 @@ public class ObjectPropertyDescriptionHelperTest
     /// Test class with a property decorated with DefaultValue attribute
     /// to verify default value extraction.
     /// </summary>
+    [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test helper class")]
+    [SuppressMessage("Design", "CA1515:Consider making public types internal", Justification = "Test helper class")]
     public class DefaultValuePropertyAttributeTest
     {
         /// <summary>
@@ -117,6 +120,8 @@ public class ObjectPropertyDescriptionHelperTest
     /// Test class with a property decorated with Description attribute
     /// to verify description extraction.
     /// </summary>
+    [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test helper class")]
+    [SuppressMessage("Design", "CA1515:Consider making public types internal", Justification = "Test helper class")]
     public class DescriptionPropertyAttributeTest
     {
         /// <summary>
@@ -130,6 +135,8 @@ public class ObjectPropertyDescriptionHelperTest
     /// Test class with a property decorated with DisplayName attribute
     /// to verify display name extraction.
     /// </summary>
+    [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test helper class")]
+    [SuppressMessage("Design", "CA1515:Consider making public types internal", Justification = "Test helper class")]
     public class DisplayNamePropertyAttributeTest
     {
         /// <summary>
@@ -143,6 +150,8 @@ public class ObjectPropertyDescriptionHelperTest
     /// Test class with a property decorated with Display attribute
     /// to verify name and description extraction.
     /// </summary>
+    [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test helper class")]
+    [SuppressMessage("Design", "CA1515:Consider making public types internal", Justification = "Test helper class")]
     public class DisplayPropertyAttributeTest
     {
         /// <summary>
@@ -156,6 +165,8 @@ public class ObjectPropertyDescriptionHelperTest
     /// Test class with a property decorated with Required attribute
     /// to verify required flag extraction.
     /// </summary>
+    [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test helper class")]
+    [SuppressMessage("Design", "CA1515:Consider making public types internal", Justification = "Test helper class")]
     public class RequiredValuePropertyAttributeTest
     {
         /// <summary>

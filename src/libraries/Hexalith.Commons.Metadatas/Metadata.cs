@@ -5,6 +5,7 @@
 
 namespace Hexalith.Commons.Metadatas;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
@@ -14,6 +15,7 @@ using System.Text.Json.Serialization;
 /// <param name="Message">The message-specific metadata.</param>
 /// <param name="Context">The context-related metadata.</param>
 [DataContract]
+[SuppressMessage("Naming", "CA1724:Type names should not match namespaces", Justification = "Metadata is the appropriate name for this domain concept; System.Runtime.Remoting is obsolete")]
 public record Metadata(
     [property: DataMember(Order = 1)]
     [property: JsonPropertyOrder(1)]

@@ -12,7 +12,7 @@ using Hexalith.Commons.Objects;
 /// <summary>
 /// A dummy class that implements the <see cref="IEquatableObject"/> interface.
 /// </summary>
-internal class DummyEquatable : IEquatableObject
+internal sealed class DummyEquatable : IEquatableObject
 {
     /// <summary>
     /// Gets or sets the first property.

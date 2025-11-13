@@ -5,9 +5,12 @@
 
 namespace Hexalith.Commons.Tests;
 
+using System.Diagnostics.CodeAnalysis;
+
 /// <summary>
 /// Provides helper methods and constants for tests.
 /// </summary>
+[SuppressMessage("Naming", "CA1724:Type names should not match namespaces", Justification = "TestHelper is a common name for test utilities")]
 public static class TestHelper
 {
     /// <summary>

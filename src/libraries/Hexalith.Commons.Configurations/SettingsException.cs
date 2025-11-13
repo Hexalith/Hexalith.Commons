@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 /// </summary>
 /// <seealso cref="ArgumentException" />
 [SuppressMessage("Roslynator", "RCS1194:Implement exception constructors", Justification = "Base class")]
+[SuppressMessage("Design", "CA1032:Implement standard exception constructors", Justification = "Base class requires settingsName parameter")]
 public abstract class SettingsException : ArgumentException
 {
     /// <summary>

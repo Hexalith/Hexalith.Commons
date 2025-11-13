@@ -8,7 +8,7 @@ namespace Hexalith.Commons.Tests.Common;
 /// <summary>
 /// Represents a dummy class with non-equatable properties.
 /// </summary>
-public class DummyNonEquatable
+internal sealed class DummyNonEquatable
 {
     /// <summary>
     /// Gets or sets the first property.

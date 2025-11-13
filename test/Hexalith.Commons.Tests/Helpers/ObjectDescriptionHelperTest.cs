@@ -90,6 +90,8 @@ public class ObjectDescriptionHelperTest
     /// Test class decorated with Description attribute to verify description extraction.
     /// </summary>
     [Description("This class is used to test a class with a description attribute")]
+    [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test helper class")]
+    [SuppressMessage("Design", "CA1515:Consider making public types internal", Justification = "Test helper class")]
     public class DescriptionAttributeTest
     {
     }
@@ -98,6 +100,8 @@ public class ObjectDescriptionHelperTest
     /// Test class decorated with Display attribute to verify name and description extraction.
     /// </summary>
     [Display(Name = "Display attribute example", Description = "Example of using the display attribute to defined name and description")]
+    [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test helper class")]
+    [SuppressMessage("Design", "CA1515:Consider making public types internal", Justification = "Test helper class")]
     public class DisplayAttributeTest
     {
     }
@@ -106,6 +110,8 @@ public class ObjectDescriptionHelperTest
     /// Test class decorated with DisplayName attribute to verify display name extraction.
     /// </summary>
     [DisplayName("Display name attribute example")]
+    [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test helper class")]
+    [SuppressMessage("Design", "CA1515:Consider making public types internal", Justification = "Test helper class")]
     public class DisplayNameAttributeTest
     {
     }
@@ -114,6 +120,8 @@ public class ObjectDescriptionHelperTest
     /// Test class implementing IMappableType to verify type mapping functionality.
     /// Demonstrates how custom type names can be provided through interface implementation.
     /// </summary>
+    [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test helper class")]
+    [SuppressMessage("Design", "CA1515:Consider making public types internal", Justification = "Test helper class")]
     public class MappableTypeTestV2 : IMappableType
     {
         /// <summary>
@@ -127,6 +135,8 @@ public class ObjectDescriptionHelperTest
     /// Used to test the fallback to type name when no attributes are present.
     /// </summary>
     [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = TestHelper.TestJustification)]
+    [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test helper class")]
+    [SuppressMessage("Design", "CA1515:Consider making public types internal", Justification = "Test helper class")]
     public class NoAttributesTest
     {
     }

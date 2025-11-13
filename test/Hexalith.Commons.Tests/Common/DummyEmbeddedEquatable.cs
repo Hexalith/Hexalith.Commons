@@ -12,7 +12,7 @@ using Hexalith.Commons.Objects;
 /// <summary>
 /// Represents a dummy embedded equatable object.
 /// </summary>
-public class DummyEmbeddedEquatable : IEquatableObject
+internal sealed class DummyEmbeddedEquatable : IEquatableObject
 {
     /// <summary>
     /// Gets or sets the first property.
