@@ -14,10 +14,8 @@ using System.Collections.Frozen;
 internal static class NameTypeMapper<TMappable>
     where TMappable : IMappableType
 {
-    private static FrozenDictionary<string, TMappable>? _map;
-
     /// <summary>
     /// Gets the mapping between string keys and the mappable type.
     /// </summary>
-    internal static FrozenDictionary<string, TMappable> Map => _map ??= TypeMapper.GetMap<TMappable>();
+    internal static FrozenDictionary<string, TMappable> Map => field ??= TypeMapper.GetMap<TMappable>();
 }

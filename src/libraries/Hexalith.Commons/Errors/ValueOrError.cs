@@ -11,16 +11,6 @@ namespace Hexalith.Commons.Errors;
 public class ValueOrError
 {
     /// <summary>
-    /// The error.
-    /// </summary>
-    private readonly ApplicationError? _error;
-
-    /// <summary>
-    /// The value.
-    /// </summary>
-    private readonly object? _value;
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="ValueOrError" /> class.
     /// Initializes a new valued instance of the <see cref="ValueOrError" /> class.
     /// </summary>
@@ -28,8 +18,8 @@ public class ValueOrError
     public ValueOrError(object? value)
     {
         HasValue = true;
-        _value = value;
-        _error = null;
+        Value = value;
+        Error = null;
     }
 
     /// <summary>
@@ -41,8 +31,8 @@ public class ValueOrError
     protected ValueOrError(object? value, ApplicationError error, bool hasValue)
     {
         HasValue = hasValue;
-        _value = value;
-        _error = error;
+        Value = value;
+        Error = error;
     }
 
     /// <summary>
@@ -51,7 +41,7 @@ public class ValueOrError
     /// <value><c>true</c> if this instance is success; otherwise, <c>false</c>.</value>
     /// <exception cref="InvalidOperationException">No error.</exception>
     public ApplicationError Error =>
-        HasValue || _error == null ? throw new InvalidOperationException("No error") : _error;
+        HasValue || field == null ? throw new InvalidOperationException("No error") : field;
 
     /// <summary>
     /// Gets a value indicating whether this instance is success.
@@ -64,7 +54,7 @@ public class ValueOrError
     /// </summary>
     /// <value>The value.</value>
     /// <exception cref="InvalidOperationException">No value.</exception>
-    public object? Value => HasValue ? _value : throw new InvalidOperationException("No value");
+    public object? Value => HasValue ? field : throw new InvalidOperationException("No value");
 
     /// <summary>
     /// Withes the error.

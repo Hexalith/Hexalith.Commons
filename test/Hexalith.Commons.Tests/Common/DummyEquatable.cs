@@ -12,7 +12,7 @@ using Hexalith.Commons.Objects;
 /// <summary>
 /// A dummy class that implements the <see cref="IEquatableObject"/> interface.
 /// </summary>
-public class DummyEquatable : IEquatableObject
+internal class DummyEquatable : IEquatableObject
 {
     /// <summary>
     /// Gets or sets the first property.
@@ -31,5 +31,5 @@ public class DummyEquatable : IEquatableObject
 
     /// <inheritdoc/>
     public IEnumerable<object> GetEqualityComponents()
-                    => new object[] { Property1, Property2, Property3 };
+                    => [Property1, Property2, Property3];
 }

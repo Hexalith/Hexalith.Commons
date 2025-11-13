@@ -12,11 +12,6 @@ namespace Hexalith.Commons.Errors;
 public class ConditionalValue<T>
 {
     /// <summary>
-    /// The value.
-    /// </summary>
-    private readonly T _value;
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="ConditionalValue{T}"/> class.
     /// Initializes a new valued instance of the <see cref="ConditionalValue{T}" /> class.
     /// </summary>
@@ -24,7 +19,7 @@ public class ConditionalValue<T>
     public ConditionalValue(T value)
     {
         HasValue = true;
-        _value = value;
+        Value = value;
     }
 
     /// <summary>
@@ -34,7 +29,7 @@ public class ConditionalValue<T>
     public ConditionalValue()
     {
         HasValue = false;
-        _value = default!;
+        Value = default!;
     }
 
     /// <summary>
@@ -48,5 +43,5 @@ public class ConditionalValue<T>
     /// </summary>
     /// <value>The value.</value>
     /// <exception cref="InvalidOperationException">No value.</exception>
-    public T Value => HasValue ? _value : throw new InvalidOperationException("No value");
+    public T Value => HasValue ? field : throw new InvalidOperationException("No value");
 }
