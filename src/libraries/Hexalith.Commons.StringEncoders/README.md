@@ -8,7 +8,9 @@
 
 ## Overview
 
-**Hexalith.Commons.StringEncoders** provides a mechanism to encode arbitrary strings into an RFC1123-compliant format and decode them back to the original. This is essential when working with systems that have restricted character sets.
+**Hexalith.Commons.StringEncoders** encodes arbitrary strings into RFC1123-compliant
+format and decodes them back to the original.
+Essential for systems with restricted character sets.
 
 ### Key Features
 

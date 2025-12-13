@@ -8,7 +8,9 @@
 
 ## Overview
 
-**Hexalith.Commons** is the foundational utility library of the Hexalith framework. It provides a comprehensive set of helpers, extensions, and patterns for common programming tasks including string manipulation, error handling, reflection, object comparison, and more.
+**Hexalith.Commons** is the foundational utility library of the Hexalith framework.
+It provides helpers, extensions, and patterns for common programming tasks
+including string manipulation, error handling, reflection, and object comparison.
 
 ---
 

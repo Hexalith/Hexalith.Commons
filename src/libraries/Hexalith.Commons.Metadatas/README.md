@@ -8,7 +8,8 @@
 
 ## Overview
 
-**Hexalith.Commons.Metadatas** provides a standardized set of record types for tracking messages as they flow through distributed systems. These metadata structures enable:
+**Hexalith.Commons.Metadatas** provides standardized record types for tracking
+messages in distributed systems. These metadata structures enable:
 
 - **Message identification**: Unique IDs and versioning
 - **Domain context**: Aggregate tracking for DDD/Event Sourcing

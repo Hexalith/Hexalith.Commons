@@ -6,13 +6,13 @@
 
 ## Package Overview
 
-| Package | Description | NuGet |
-|---------|-------------|-------|
-| [Hexalith.Commons](./Hexalith.Commons/) | Core utilities: strings, errors, objects, reflection, dates | [![NuGet](https://img.shields.io/nuget/v/Hexalith.Commons.svg)](https://www.nuget.org/packages/Hexalith.Commons) |
-| [Hexalith.Commons.Configurations](./Hexalith.Commons.Configurations/) | Type-safe settings with FluentValidation | [![NuGet](https://img.shields.io/nuget/v/Hexalith.Commons.Configurations.svg)](https://www.nuget.org/packages/Hexalith.Commons.Configurations) |
-| [Hexalith.Commons.StringEncoders](./Hexalith.Commons.StringEncoders/) | RFC1123 string encoding/decoding | [![NuGet](https://img.shields.io/nuget/v/Hexalith.Commons.StringEncoders.svg)](https://www.nuget.org/packages/Hexalith.Commons.StringEncoders) |
-| [Hexalith.Commons.UniqueIds](./Hexalith.Commons.UniqueIds/) | Unique identifier generation | [![NuGet](https://img.shields.io/nuget/v/Hexalith.Commons.UniqueIds.svg)](https://www.nuget.org/packages/Hexalith.Commons.UniqueIds) |
-| [Hexalith.Commons.Metadatas](./Hexalith.Commons.Metadatas/) | Message metadata for distributed systems | [![NuGet](https://img.shields.io/nuget/v/Hexalith.Commons.Metadatas.svg)](https://www.nuget.org/packages/Hexalith.Commons.Metadatas) |
+| Package | Description |
+|---------|-------------|
+| [Hexalith.Commons](./Hexalith.Commons/) | Core utilities |
+| [Hexalith.Commons.Configurations](./Hexalith.Commons.Configurations/) | Type-safe settings |
+| [Hexalith.Commons.StringEncoders](./Hexalith.Commons.StringEncoders/) | RFC1123 encoding |
+| [Hexalith.Commons.UniqueIds](./Hexalith.Commons.UniqueIds/) | ID generation |
+| [Hexalith.Commons.Metadatas](./Hexalith.Commons.Metadatas/) | Message metadata |
 
 ---
 

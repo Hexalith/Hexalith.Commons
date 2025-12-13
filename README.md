@@ -11,7 +11,9 @@
 
 ## Overview
 
-**Hexalith.Commons** is a collection of focused .NET libraries that provide reusable utilities for common programming tasks. Each package is designed to be lightweight, well-tested, and easy to integrate.
+**Hexalith.Commons** is a collection of focused .NET libraries that provide
+reusable utilities for common programming tasks.
+Each package is lightweight, well-tested, and easy to integrate.
 
 ### Key Capabilities
 
