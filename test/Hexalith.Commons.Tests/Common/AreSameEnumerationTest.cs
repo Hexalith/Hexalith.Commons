@@ -35,7 +35,7 @@ public class AreSameEnumerationTest
     }
 
     /// <summary>
-    /// Tests that AreSameDictionary and AreSame return true when dictionaries have the same values.
+    /// Tests that AreSameDictionary and AreSame return true when dictionaries have the same values regardless of insertion order.
     /// </summary>
     [Fact]
     public void EquatableDictionaryAreSameShouldReturnTrue()
@@ -47,8 +47,8 @@ public class AreSameEnumerationTest
         };
         Dictionary<int, DummyEquatable> b = new()
         {
-            [100] = new DummyEquatable(),
             [101] = new DummyEquatable { Property3 = 10 },
+            [100] = new DummyEquatable(),
         };
         a.AreSameDictionary(b).ShouldBeTrue();
         a.AreSame(b).ShouldBeTrue();

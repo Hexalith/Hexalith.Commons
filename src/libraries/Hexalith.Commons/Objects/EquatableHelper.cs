@@ -5,8 +5,8 @@
 
 namespace Hexalith.Commons.Objects;
 
+using System;
 using System.Collections;
-using System.Linq;
 
 /// <summary>
 /// Class EquatableHelper.
@@ -70,6 +70,11 @@ public static class EquatableHelper
     /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
     public static bool AreSameDictionary(this IDictionary? a, IDictionary? b)
     {
+        if (ReferenceEquals(a, b))
+        {
+            return true;
+        }
+
         if (a is null)
         {
             return b is null;
@@ -80,12 +85,25 @@ public static class EquatableHelper
             return false;
         }
 
-        object?[] aKeys = [.. a.Keys.Cast<object?>()];
-        object?[] aValues = [.. a.Values.Cast<object?>()];
-        object?[] bKeys = [.. b.Keys.Cast<object?>()];
-        object?[] bValues = [.. b.Values.Cast<object?>()];
+        if (a.Count != b.Count)
+        {
+            return false;
+        }
 
-        return aKeys.AreSameEnumeration(bKeys) && aValues.AreSameEnumeration(bValues);
+        foreach (DictionaryEntry entry in a)
+        {
+            if (!b.Contains(entry.Key))
+            {
+                return false;
+            }
+
+            if (!entry.Value.AreSame(b[entry.Key]))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -96,6 +114,11 @@ public static class EquatableHelper
     /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
     public static bool AreSameEnumeration(this IEnumerable? a, IEnumerable? b)
     {
+        if (ReferenceEquals(a, b))
+        {
+            return true;
+        }
+
         if (a is null)
         {
             return b is null;
@@ -106,31 +129,35 @@ public static class EquatableHelper
             return false;
         }
 
-        object?[]? aArray = [.. a.Cast<object?>()];
-        object?[]? bArray = [.. b.Cast<object?>()];
-        if (aArray is null)
+        IEnumerator aEnumerator = a.GetEnumerator();
+        IEnumerator bEnumerator = b.GetEnumerator();
+        try
         {
-            return bArray is null;
-        }
-
-        if (bArray is null)
-        {
-            return false;
-        }
-
-        if (aArray.Length != bArray.Length)
-        {
-            return false;
-        }
-
-        for (int i = 0; i < aArray.Length; i++)
-        {
-            if (!aArray[i].AreSame(bArray[i]))
+            while (true)
             {
-                return false;
+                bool aHasNext = aEnumerator.MoveNext();
+                bool bHasNext = bEnumerator.MoveNext();
+
+                if (aHasNext != bHasNext)
+                {
+                    return false;
+                }
+
+                if (!aHasNext)
+                {
+                    return true;
+                }
+
+                if (!aEnumerator.Current.AreSame(bEnumerator.Current))
+                {
+                    return false;
+                }
             }
         }
-
-        return true;
+        finally
+        {
+            (aEnumerator as IDisposable)?.Dispose();
+            (bEnumerator as IDisposable)?.Dispose();
+        }
     }
 }
