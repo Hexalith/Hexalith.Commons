@@ -10,6 +10,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text.Json;
 
+using Hexalith.Commons.UniqueIds;
+
 /// <summary>
 /// Provides helper methods for working with metadata.
 /// </summary>
@@ -75,5 +77,75 @@ public static class MetadataHelpers
         return id == null || name == null
             ? throw new InvalidOperationException($"Invalid domain instance: the {DomainIdentifierPropertyName} or {DomainNamePropertyName} properties are missing or undefined. Add these properties to your class or set their values. {JsonSerializer.Serialize(instance)}")
             : new DomainMetadata(id, name);
+    }
+
+    /// <summary>
+    /// Creates a new instance of the <see cref="MessageMetadata"/> class for a specific message.
+    /// </summary>
+    /// <param name="message">The message object.</param>
+    /// <param name="dateTimeOffset">The creation date of the message.</param>
+    /// <returns>A new instance of <see cref="MessageMetadata"/>.</returns>
+    public static MessageMetadata CreateMessageMetadata([NotNull] this object message, DateTimeOffset dateTimeOffset)
+    {
+        ArgumentNullException.ThrowIfNull(message);
+        (string name, string _, int version) = message.GetPolymorphicTypeDiscriminator();
+        return new MessageMetadata(
+            UniqueIdHelper.GenerateUniqueStringId(),
+            name,
+            version,
+            message.CreateDomainMetadata(),
+            dateTimeOffset);
+    }
+
+    /// <summary>
+    /// Creates a new instance of the <see cref="Metadata"/> class with updated message information.
+    /// </summary>
+    /// <param name="message">The new message object to be included in the metadata.</param>
+    /// <param name="metadata">The existing metadata to derive context from.</param>
+    /// <param name="dateTime">The timestamp for the new message.</param>
+    /// <returns>A new instance of the <see cref="Metadata"/> class with updated message information and existing context.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="message"/> or <paramref name="metadata"/> is null.</exception>
+    public static Metadata CreateMetadata(this object message, Metadata metadata, DateTimeOffset dateTime)
+    {
+        ArgumentNullException.ThrowIfNull(message);
+        ArgumentNullException.ThrowIfNull(metadata);
+        return new Metadata(message.CreateMessageMetadata(dateTime), metadata.Context);
+    }
+
+    /// <summary>
+    /// Creates a new instance of the <see cref="Metadata"/> class with new message and context information.
+    /// </summary>
+    /// <param name="message">The new message object to be included in the metadata.</param>
+    /// <param name="userId">The identifier of the user associated with this message.</param>
+    /// <param name="partitionId">The identifier of the partition this message belongs to.</param>
+    /// <param name="dateTime">The timestamp for the new message.</param>
+    /// <returns>A new instance of the <see cref="Metadata"/> class with new message and context information.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="message"/> is null.</exception>
+    public static Metadata CreateMetadata(this object message, string userId, string partitionId, DateTimeOffset dateTime)
+    {
+        ArgumentNullException.ThrowIfNull(message);
+        MessageMetadata msgMeta = message.CreateMessageMetadata(dateTime);
+        return new Metadata(
+            msgMeta,
+            new ContextMetadata(msgMeta.Id, userId, partitionId, dateTime, null, null, null, null, []));
+    }
+
+    /// <summary>
+    /// Creates a new instance of the <see cref="Metadata"/> class with new message, context, and session information.
+    /// </summary>
+    /// <param name="message">The new message object to be included in the metadata.</param>
+    /// <param name="userId">The identifier of the user associated with this message.</param>
+    /// <param name="partitionId">The identifier of the partition this message belongs to.</param>
+    /// <param name="sessionId">The session identifier associated with this message.</param>
+    /// <param name="dateTime">The timestamp for the new message.</param>
+    /// <returns>A new instance of the <see cref="Metadata"/> class with new message, context, and session information.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="message"/> is null.</exception>
+    public static Metadata CreateNew(object message, string userId, string partitionId, string sessionId, DateTimeOffset dateTime)
+    {
+        ArgumentNullException.ThrowIfNull(message);
+        MessageMetadata msgMeta = message.CreateMessageMetadata(dateTime);
+        return new Metadata(
+            msgMeta,
+            new ContextMetadata(msgMeta.Id, userId, partitionId, dateTime, null, null, null, sessionId, []));
     }
 }
