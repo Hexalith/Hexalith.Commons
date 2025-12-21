@@ -9,7 +9,7 @@ using System;
 using System.Globalization;
 
 using Hexalith.Commons.Errors;
-using Hexalith.Extensions.Helpers;
+using Hexalith.Commons.Strings;
 
 using Microsoft.Extensions.Logging;
 

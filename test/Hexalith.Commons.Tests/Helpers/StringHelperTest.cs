@@ -7,7 +7,7 @@ namespace Hexalith.Commons.Tests.Helpers;
 
 using System.Globalization;
 
-using Hexalith.Extensions.Helpers;
+using Hexalith.Commons.Strings;
 
 using Shouldly;
 

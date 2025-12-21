@@ -8,7 +8,7 @@ namespace Hexalith.Commons.Errors;
 using System;
 using System.Runtime.Serialization;
 
-using Hexalith.Extensions.Helpers;
+using Hexalith.Commons.Strings;
 
 /// <summary>
 /// Event deserialization error.
