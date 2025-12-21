@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text.Json;
 
 using Hexalith.Commons.UniqueIds;
+using Hexalith.PolymorphicSerializations;
 
 /// <summary>
 /// Provides helper methods for working with metadata.
