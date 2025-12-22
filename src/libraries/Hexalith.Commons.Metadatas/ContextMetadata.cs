@@ -21,6 +21,7 @@ using System.Text.Json.Serialization;
 /// <param name="SessionId">The session identifier.</param>
 /// <param name="Scopes">The scopes.</param>
 [DataContract]
+[method: JsonConstructor]
 public record ContextMetadata(
     [property:DataMember(Order = 1)]
     [property:JsonPropertyOrder(1)]

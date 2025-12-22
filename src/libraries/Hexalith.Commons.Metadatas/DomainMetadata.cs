@@ -14,6 +14,7 @@ using System.Text.Json.Serialization;
 /// <param name="Id">The identifier of the domain aggregate.</param>
 /// <param name="Name">The name of the domain aggregate.</param>
 [DataContract]
+[method: JsonConstructor]
 public record DomainMetadata(
     [property:DataMember(Order = 1)]
     [property:JsonPropertyOrder(1)]

@@ -17,6 +17,7 @@ using System.Text.Json.Serialization;
 /// <param name="Domain">The domain metadata.</param>
 /// <param name="CreatedDate">The message creation date.</param>
 [DataContract]
+[method: JsonConstructor]
 public record MessageMetadata(
     [property: DataMember(Order = 1)]
     [property: JsonPropertyOrder(1)]
