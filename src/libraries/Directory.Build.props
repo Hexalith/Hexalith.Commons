@@ -9,4 +9,9 @@
 
   <!-- Import the Hexalith.Package.props file in Hexalith.Builds. This file must exist. -->
   <Import Project="$(MSBuildThisFileDirectory)../../Hexalith.Builds/Hexalith.Package.props" />
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Hexalith.Commons.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>
