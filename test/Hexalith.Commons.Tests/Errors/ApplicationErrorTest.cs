@@ -27,13 +27,13 @@ public class ApplicationErrorTest
         {
             Title = "Error",
             Detail = "Detail",
-            Category = ErrorCategory.Functional,
+            Category = ErrorCategory.Business,
         };
         ApplicationError error2 = new()
         {
             Title = "Error",
             Detail = "Detail",
-            Category = ErrorCategory.Functional,
+            Category = ErrorCategory.Business,
         };
 
         // Assert
