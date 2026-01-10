@@ -18,31 +18,16 @@ using Shouldly;
 public class MetadataTest
 {
     /// <summary>
-    /// Tests that ContextMetadata can be created with all properties.
+    /// Tests that ContextMetadata copy constructor throws on null context.
     /// </summary>
     [Fact]
-    public void ContextMetadataShouldStoreAllProperties()
+    public void ContextMetadataCopyConstructorShouldThrowOnNullContext()
     {
-        // Arrange & Act
-        ContextMetadata context = new(
-            "correlation-123",
-            "user-456",
-            "partition-789",
-            DateTimeOffset.UtcNow,
-            TimeSpan.FromMinutes(5),
-            100L,
-            "etag-value",
-            "session-abc",
-            ["scope1", "scope2"]);
+        // Arrange
+        ContextMetadata? nullContext = null;
 
-        // Assert
-        context.CorrelationId.ShouldBe("correlation-123");
-        context.UserId.ShouldBe("user-456");
-        context.PartitionId.ShouldBe("partition-789");
-        context.SequenceNumber.ShouldBe(100L);
-        context.Etag.ShouldBe("etag-value");
-        context.SessionId.ShouldBe("session-abc");
-        context.Scopes.ShouldBe(["scope1", "scope2"]);
+        // Act & Assert
+        _ = Should.Throw<ArgumentNullException>(() => new ContextMetadata(nullContext!, DateTimeOffset.UtcNow));
     }
 
     /// <summary>
@@ -74,16 +59,44 @@ public class MetadataTest
     }
 
     /// <summary>
-    /// Tests that ContextMetadata copy constructor throws on null context.
+    /// Tests that ContextMetadata can be created with all properties.
     /// </summary>
     [Fact]
-    public void ContextMetadataCopyConstructorShouldThrowOnNullContext()
+    public void ContextMetadataShouldStoreAllProperties()
     {
-        // Arrange
-        ContextMetadata? nullContext = null;
+        // Arrange & Act
+        ContextMetadata context = new(
+            "correlation-123",
+            "user-456",
+            "partition-789",
+            DateTimeOffset.UtcNow,
+            TimeSpan.FromMinutes(5),
+            100L,
+            "etag-value",
+            "session-abc",
+            ["scope1", "scope2"]);
 
-        // Act & Assert
-        _ = Should.Throw<ArgumentNullException>(() => new ContextMetadata(nullContext!, DateTimeOffset.UtcNow));
+        // Assert
+        context.CorrelationId.ShouldBe("correlation-123");
+        context.UserId.ShouldBe("user-456");
+        context.PartitionId.ShouldBe("partition-789");
+        context.SequenceNumber.ShouldBe(100L);
+        context.Etag.ShouldBe("etag-value");
+        context.SessionId.ShouldBe("session-abc");
+        context.Scopes.ShouldBe(["scope1", "scope2"]);
+    }
+
+    /// <summary>
+    /// Tests that Metadata.CreateDomainGlobalId static method works correctly.
+    /// </summary>
+    [Fact]
+    public void CreateDomainGlobalIdStaticMethodShouldWork()
+    {
+        // Act
+        string result = Metadata.CreateDomainGlobalId("part1", "Aggregate", "id123");
+
+        // Assert
+        result.ShouldBe("part1-Aggregate-id123");
     }
 
     /// <summary>
@@ -115,6 +128,43 @@ public class MetadataTest
         empty.Version.ShouldBe(0);
         empty.Domain.ShouldBe(DomainMetadata.Empty);
         empty.CreatedDate.ShouldBe(DateTimeOffset.MinValue);
+    }
+
+    /// <summary>
+    /// Tests that Metadata can be serialized and deserialized.
+    /// </summary>
+    [Fact]
+    public void MetadataShouldBeSerializable()
+    {
+        // Arrange - DomainMetadata(Id, Name)
+        DomainMetadata domain = new("domain-id", "TestDomain");
+        MessageMetadata message = new(
+            "msg-id",
+            "TestMsg",
+            2,
+            domain,
+            new DateTimeOffset(2024, 1, 1, 12, 0, 0, TimeSpan.Zero));
+        ContextMetadata context = new(
+            "corr-id",
+            "user-id",
+            "part-id",
+            new DateTimeOffset(2024, 1, 1, 12, 5, 0, TimeSpan.Zero),
+            TimeSpan.FromMinutes(10),
+            42L,
+            "etag",
+            "session",
+            ["scope1"]);
+        Metadata original = new(message, context);
+
+        // Act
+        string json = JsonSerializer.Serialize(original);
+        Metadata? deserialized = JsonSerializer.Deserialize<Metadata>(json);
+
+        // Assert
+        _ = deserialized.ShouldNotBeNull();
+        deserialized.Message.Id.ShouldBe(original.Message.Id);
+        deserialized.Message.Name.ShouldBe(original.Message.Name);
+        deserialized.Context.CorrelationId.ShouldBe(original.Context.CorrelationId);
     }
 
     /// <summary>
@@ -151,19 +201,6 @@ public class MetadataTest
     }
 
     /// <summary>
-    /// Tests that Metadata.CreateDomainGlobalId static method works correctly.
-    /// </summary>
-    [Fact]
-    public void CreateDomainGlobalIdStaticMethodShouldWork()
-    {
-        // Act
-        string result = Metadata.CreateDomainGlobalId("part1", "Aggregate", "id123");
-
-        // Assert
-        result.ShouldBe("part1-Aggregate-id123");
-    }
-
-    /// <summary>
     /// Tests that ToLogString returns formatted log string.
     /// </summary>
     [Fact]
@@ -197,42 +234,5 @@ public class MetadataTest
         logString.ShouldContain("MessageId=msg-123");
         logString.ShouldContain("CorrelationId=corr-456");
         logString.ShouldContain("UserId=admin-user");
-    }
-
-    /// <summary>
-    /// Tests that Metadata can be serialized and deserialized.
-    /// </summary>
-    [Fact]
-    public void MetadataShouldBeSerializable()
-    {
-        // Arrange - DomainMetadata(Id, Name)
-        DomainMetadata domain = new("domain-id", "TestDomain");
-        MessageMetadata message = new(
-            "msg-id",
-            "TestMsg",
-            2,
-            domain,
-            new DateTimeOffset(2024, 1, 1, 12, 0, 0, TimeSpan.Zero));
-        ContextMetadata context = new(
-            "corr-id",
-            "user-id",
-            "part-id",
-            new DateTimeOffset(2024, 1, 1, 12, 5, 0, TimeSpan.Zero),
-            TimeSpan.FromMinutes(10),
-            42L,
-            "etag",
-            "session",
-            ["scope1"]);
-        Metadata original = new(message, context);
-
-        // Act
-        string json = JsonSerializer.Serialize(original);
-        Metadata? deserialized = JsonSerializer.Deserialize<Metadata>(json);
-
-        // Assert
-        deserialized.ShouldNotBeNull();
-        deserialized.Message.Id.ShouldBe(original.Message.Id);
-        deserialized.Message.Name.ShouldBe(original.Message.Name);
-        deserialized.Context.CorrelationId.ShouldBe(original.Context.CorrelationId);
     }
 }
