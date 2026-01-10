@@ -5,6 +5,8 @@
 
 namespace Hexalith.Commons.Tests.Maths;
 
+using System;
+
 using Hexalith.Commons.Maths;
 
 using Shouldly;
@@ -36,5 +38,31 @@ public class FibonacciTest
     {
         long result = FibonacciSequence.Number(sequence);
         result.ShouldBe(value);
+    }
+
+    /// <summary>
+    /// Tests that negative input throws ArgumentOutOfRangeException.
+    /// </summary>
+    [Fact]
+    public void NegativeInputShouldThrowArgumentOutOfRangeException()
+    {
+        // Act & Assert
+        _ = Should.Throw<ArgumentOutOfRangeException>(() => FibonacciSequence.Number(-1));
+    }
+
+    /// <summary>
+    /// Tests that large Fibonacci numbers are calculated correctly.
+    /// </summary>
+    [Fact]
+    public void LargeFibonacciNumberShouldBeCalculatedCorrectly()
+    {
+        // Arrange - F(50) = 12586269025
+        long expected = 12586269025L;
+
+        // Act
+        long result = FibonacciSequence.Number(50);
+
+        // Assert
+        result.ShouldBe(expected);
     }
 }

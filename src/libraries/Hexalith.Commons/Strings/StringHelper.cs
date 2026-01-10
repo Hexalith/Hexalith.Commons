@@ -93,7 +93,7 @@ public static partial class StringHelper
             }
 
             // Can only contain alphanumeric characters and hyphens
-            if (!MyRegex().IsMatch(label))
+            if (!AlphanumericHyphenRegex().IsMatch(label))
             {
                 return false;
             }
@@ -181,5 +181,5 @@ public static partial class StringHelper
     private static partial Regex EmptyJson();
 
     [GeneratedRegex(@"^[a-zA-Z0-9\-]+$")]
-    private static partial Regex MyRegex();
+    private static partial Regex AlphanumericHyphenRegex();
 }
