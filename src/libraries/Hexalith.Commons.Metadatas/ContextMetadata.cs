@@ -29,26 +29,26 @@ public record ContextMetadata(
     [property:DataMember(Order = 2)]
     [property:JsonPropertyOrder(2)]
     string UserId,
-    [property:DataMember(Order = 2)]
-    [property:JsonPropertyOrder(2)]
-    string PartitionId,
     [property:DataMember(Order = 3)]
     [property:JsonPropertyOrder(3)]
-    DateTimeOffset? ReceivedDate,
+    string PartitionId,
     [property:DataMember(Order = 4)]
     [property:JsonPropertyOrder(4)]
-    TimeSpan? TimeToLive,
+    DateTimeOffset? ReceivedDate,
     [property:DataMember(Order = 5)]
     [property:JsonPropertyOrder(5)]
-    long? SequenceNumber,
+    TimeSpan? TimeToLive,
     [property:DataMember(Order = 6)]
     [property:JsonPropertyOrder(6)]
-    string? Etag,
+    long? SequenceNumber,
     [property:DataMember(Order = 7)]
     [property:JsonPropertyOrder(7)]
+    string? Etag,
+    [property:DataMember(Order = 8)]
+    [property:JsonPropertyOrder(8)]
     string? SessionId,
-    [property: DataMember(Order = 8)]
-    [property: JsonPropertyOrder(8)]
+    [property: DataMember(Order = 9)]
+    [property: JsonPropertyOrder(9)]
     IEnumerable<string> Scopes)
 {
     /// <summary>

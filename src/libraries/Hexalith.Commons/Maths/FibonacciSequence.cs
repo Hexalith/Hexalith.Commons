@@ -17,12 +17,12 @@ public static class FibonacciSequence
     /// </summary>
     /// <param name="n">The sequence number.</param>
     /// <returns>The sequence Fibonacci value.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Must be greater than zero.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Must be greater than or equal to zero.</exception>
     public static long Number(long n)
     {
         if (n < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(n), "Must be greater than zero.");
+            throw new ArgumentOutOfRangeException(nameof(n), "Must be greater than or equal to zero.");
         }
 
         if (n == 0)
