@@ -17,6 +17,61 @@ using Shouldly;
 public class ApplicationErrorTest
 {
     /// <summary>
+    /// Tests that ApplicationError record equality works correctly.
+    /// </summary>
+    [Fact]
+    public void ApplicationErrorRecordEqualityShouldWork()
+    {
+        // Arrange
+        ApplicationError error1 = new()
+        {
+            Title = "Error",
+            Detail = "Detail",
+            Category = ErrorCategory.Functional,
+        };
+        ApplicationError error2 = new()
+        {
+            Title = "Error",
+            Detail = "Detail",
+            Category = ErrorCategory.Functional,
+        };
+
+        // Assert
+        error1.ShouldBe(error2);
+    }
+
+    /// <summary>
+    /// Tests that ApplicationError can store and retrieve all properties correctly.
+    /// </summary>
+    [Fact]
+    public void ApplicationErrorShouldStoreAllPropertiesCorrectly()
+    {
+        // Arrange
+        ApplicationError innerError = new() { Title = "Inner Error" };
+        ApplicationError error = new()
+        {
+            Title = "Test Title",
+            Detail = "Test Detail",
+            TechnicalDetail = "Technical Info",
+            Type = "TestType",
+            Category = ErrorCategory.Technical,
+            InnerError = innerError,
+            Arguments = ["arg1", "arg2"],
+            TechnicalArguments = ["tech1"],
+        };
+
+        // Assert
+        error.Title.ShouldBe("Test Title");
+        error.Detail.ShouldBe("Test Detail");
+        error.TechnicalDetail.ShouldBe("Technical Info");
+        error.Type.ShouldBe("TestType");
+        error.Category.ShouldBe(ErrorCategory.Technical);
+        error.InnerError.ShouldBe(innerError);
+        error.Arguments.ShouldBe(["arg1", "arg2"]);
+        error.TechnicalArguments.ShouldBe(["tech1"]);
+    }
+
+    /// <summary>
     /// Tests that GetDetailMessage formats the message correctly with arguments.
     /// </summary>
     [Fact]
@@ -26,7 +81,7 @@ public class ApplicationErrorTest
         ApplicationError error = new()
         {
             Detail = "Error occurred for user {UserId} with code {ErrorCode}",
-            Arguments = ["user123", 500]
+            Arguments = ["user123", 500],
         };
 
         // Act
@@ -78,7 +133,7 @@ public class ApplicationErrorTest
         ApplicationError error = new()
         {
             TechnicalDetail = "Stack trace at {Location} line {LineNumber}",
-            TechnicalArguments = ["MyClass.MyMethod", 42]
+            TechnicalArguments = ["MyClass.MyMethod", 42],
         };
 
         // Act
@@ -102,60 +157,5 @@ public class ApplicationErrorTest
 
         // Assert
         result.ShouldBeEmpty();
-    }
-
-    /// <summary>
-    /// Tests that ApplicationError can store and retrieve all properties correctly.
-    /// </summary>
-    [Fact]
-    public void ApplicationErrorShouldStoreAllPropertiesCorrectly()
-    {
-        // Arrange
-        ApplicationError innerError = new() { Title = "Inner Error" };
-        ApplicationError error = new()
-        {
-            Title = "Test Title",
-            Detail = "Test Detail",
-            TechnicalDetail = "Technical Info",
-            Type = "TestType",
-            Category = ErrorCategory.Technical,
-            InnerError = innerError,
-            Arguments = ["arg1", "arg2"],
-            TechnicalArguments = ["tech1"]
-        };
-
-        // Assert
-        error.Title.ShouldBe("Test Title");
-        error.Detail.ShouldBe("Test Detail");
-        error.TechnicalDetail.ShouldBe("Technical Info");
-        error.Type.ShouldBe("TestType");
-        error.Category.ShouldBe(ErrorCategory.Technical);
-        error.InnerError.ShouldBe(innerError);
-        error.Arguments.ShouldBe(["arg1", "arg2"]);
-        error.TechnicalArguments.ShouldBe(["tech1"]);
-    }
-
-    /// <summary>
-    /// Tests that ApplicationError record equality works correctly.
-    /// </summary>
-    [Fact]
-    public void ApplicationErrorRecordEqualityShouldWork()
-    {
-        // Arrange
-        ApplicationError error1 = new()
-        {
-            Title = "Error",
-            Detail = "Detail",
-            Category = ErrorCategory.Business
-        };
-        ApplicationError error2 = new()
-        {
-            Title = "Error",
-            Detail = "Detail",
-            Category = ErrorCategory.Business
-        };
-
-        // Assert
-        error1.ShouldBe(error2);
     }
 }

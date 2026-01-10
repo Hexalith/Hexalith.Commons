@@ -41,23 +41,13 @@ public class FibonacciTest
     }
 
     /// <summary>
-    /// Tests that negative input throws ArgumentOutOfRangeException.
-    /// </summary>
-    [Fact]
-    public void NegativeInputShouldThrowArgumentOutOfRangeException()
-    {
-        // Act & Assert
-        _ = Should.Throw<ArgumentOutOfRangeException>(() => FibonacciSequence.Number(-1));
-    }
-
-    /// <summary>
     /// Tests that large Fibonacci numbers are calculated correctly.
     /// </summary>
     [Fact]
     public void LargeFibonacciNumberShouldBeCalculatedCorrectly()
     {
         // Arrange - F(50) = 12586269025
-        long expected = 12586269025L;
+        const long expected = 12586269025L;
 
         // Act
         long result = FibonacciSequence.Number(50);
@@ -65,4 +55,13 @@ public class FibonacciTest
         // Assert
         result.ShouldBe(expected);
     }
+
+    /// <summary>
+    /// Tests that negative input throws ArgumentOutOfRangeException.
+    /// </summary>
+    [Fact]
+    public void NegativeInputShouldThrowArgumentOutOfRangeException() =>
+
+        // Act & Assert
+        _ = Should.Throw<ArgumentOutOfRangeException>(() => FibonacciSequence.Number(-1));
 }

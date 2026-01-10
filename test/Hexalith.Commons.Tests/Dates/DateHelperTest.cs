@@ -17,6 +17,23 @@ using Shouldly;
 public class DateHelperTest
 {
     /// <summary>
+    /// Tests that nullable WaitTime overload works correctly.
+    /// </summary>
+    [Fact]
+    public void NullableWaitTimeOverloadShouldWorkCorrectly()
+    {
+        // Arrange
+        DateTimeOffset? from = new DateTimeOffset(2024, 1, 1, 10, 0, 0, TimeSpan.Zero);
+        DateTimeOffset? to = new DateTimeOffset(2024, 1, 1, 11, 30, 0, TimeSpan.Zero);
+
+        // Act
+        TimeSpan result = from.WaitTime(to);
+
+        // Assert
+        result.TotalMinutes.ShouldBe(90);
+    }
+
+    /// <summary>
     /// Tests that ToLocalTime converts DateOnly to DateTimeOffset with correct offset.
     /// </summary>
     [Fact]
@@ -24,7 +41,7 @@ public class DateHelperTest
     {
         // Arrange
         DateOnly date = new(2024, 6, 15);
-        TimeSpan offset = TimeSpan.FromHours(2);
+        var offset = TimeSpan.FromHours(2);
 
         // Act
         DateTimeOffset result = date.ToLocalTime(offset);
@@ -47,7 +64,7 @@ public class DateHelperTest
     {
         // Arrange
         DateOnly date = new(2024, 1, 1);
-        TimeSpan offset = TimeSpan.FromHours(-5);
+        var offset = TimeSpan.FromHours(-5);
 
         // Act
         DateTimeOffset result = date.ToLocalTime(offset);
@@ -93,23 +110,6 @@ public class DateHelperTest
     }
 
     /// <summary>
-    /// Tests that WaitTime returns zero when to is null.
-    /// </summary>
-    [Fact]
-    public void WaitTimeToNullShouldReturnZero()
-    {
-        // Arrange
-        DateTimeOffset from = DateTimeOffset.UtcNow;
-        DateTimeOffset? to = null;
-
-        // Act
-        TimeSpan result = from.WaitTime(to);
-
-        // Assert
-        result.ShouldBe(TimeSpan.Zero);
-    }
-
-    /// <summary>
     /// Tests that WaitTime returns positive duration when to is after from.
     /// </summary>
     [Fact]
@@ -124,6 +124,22 @@ public class DateHelperTest
 
         // Assert
         result.TotalHours.ShouldBe(2);
+    }
+
+    /// <summary>
+    /// Tests that WaitTime returns zero when from and to are equal.
+    /// </summary>
+    [Fact]
+    public void WaitTimeShouldReturnZeroWhenFromEqualsTo()
+    {
+        // Arrange
+        DateTimeOffset time = new(2024, 6, 15, 14, 30, 0, TimeSpan.Zero);
+
+        // Act
+        TimeSpan result = time.WaitTime(time);
+
+        // Assert
+        result.ShouldBe(TimeSpan.Zero);
     }
 
     /// <summary>
@@ -144,35 +160,19 @@ public class DateHelperTest
     }
 
     /// <summary>
-    /// Tests that WaitTime returns zero when from and to are equal.
+    /// Tests that WaitTime returns zero when to is null.
     /// </summary>
     [Fact]
-    public void WaitTimeShouldReturnZeroWhenFromEqualsTo()
+    public void WaitTimeToNullShouldReturnZero()
     {
         // Arrange
-        DateTimeOffset time = new(2024, 6, 15, 14, 30, 0, TimeSpan.Zero);
-
-        // Act
-        TimeSpan result = time.WaitTime(time);
-
-        // Assert
-        result.ShouldBe(TimeSpan.Zero);
-    }
-
-    /// <summary>
-    /// Tests that nullable WaitTime overload works correctly.
-    /// </summary>
-    [Fact]
-    public void NullableWaitTimeOverloadShouldWorkCorrectly()
-    {
-        // Arrange
-        DateTimeOffset? from = new DateTimeOffset(2024, 1, 1, 10, 0, 0, TimeSpan.Zero);
-        DateTimeOffset? to = new DateTimeOffset(2024, 1, 1, 11, 30, 0, TimeSpan.Zero);
+        DateTimeOffset from = DateTimeOffset.UtcNow;
+        DateTimeOffset? to = null;
 
         // Act
         TimeSpan result = from.WaitTime(to);
 
         // Assert
-        result.TotalMinutes.ShouldBe(90);
+        result.ShouldBe(TimeSpan.Zero);
     }
 }

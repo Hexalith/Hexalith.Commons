@@ -37,7 +37,7 @@ public class ValueOrErrorTest
     {
         // Arrange
         ApplicationError error = new() { Title = "Test Error", Detail = "Test Detail" };
-        ValueOrError<int> valueOrError = ValueOrError.WithError<int>(error);
+        var valueOrError = ValueOrError.WithError<int>(error);
 
         // Act & Assert
         _ = Should.Throw<InvalidOperationException>(() => _ = valueOrError.Value);
@@ -53,7 +53,7 @@ public class ValueOrErrorTest
         ApplicationError error = new() { Title = "Test Error" };
 
         // Act
-        ValueOrError<string> valueOrError = ValueOrError.WithError<string>(error);
+        var valueOrError = ValueOrError.WithError<string>(error);
 
         // Assert
         valueOrError.HasValue.ShouldBeFalse();
@@ -80,7 +80,7 @@ public class ValueOrErrorTest
     {
         // Arrange
         ApplicationError error = new() { Title = "Test Error", Detail = "Test Detail" };
-        ValueOrError<int> valueOrError = ValueOrError.WithError<int>(error);
+        var valueOrError = ValueOrError.WithError<int>(error);
 
         // Act
         ApplicationError result = valueOrError.Error;
@@ -88,22 +88,6 @@ public class ValueOrErrorTest
         // Assert
         result.Title.ShouldBe("Test Error");
         result.Detail.ShouldBe("Test Detail");
-    }
-
-    /// <summary>
-    /// Tests that Value property returns the correct value.
-    /// </summary>
-    [Fact]
-    public void ValuePropertyShouldReturnCorrectValue()
-    {
-        // Arrange
-        ValueOrError<string> valueOrError = new("Hello World");
-
-        // Act
-        string? result = valueOrError.Value;
-
-        // Assert
-        result.ShouldBe("Hello World");
     }
 
     /// <summary>
@@ -133,5 +117,21 @@ public class ValueOrErrorTest
         // Act & Assert
         valueOrError.HasValue.ShouldBeTrue();
         valueOrError.Value.ShouldBe(testObject);
+    }
+
+    /// <summary>
+    /// Tests that Value property returns the correct value.
+    /// </summary>
+    [Fact]
+    public void ValuePropertyShouldReturnCorrectValue()
+    {
+        // Arrange
+        ValueOrError<string> valueOrError = new("Hello World");
+
+        // Act
+        string? result = valueOrError.Value;
+
+        // Assert
+        result.ShouldBe("Hello World");
     }
 }
