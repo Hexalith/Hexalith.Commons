@@ -16,9 +16,9 @@ public enum ErrorCategory
     Unknown = 0,
 
     /// <summary>
-    /// Functional error type.
+    /// Business error type.
     /// </summary>
-    Functional = 1,
+    Business = 1,
 
     /// <summary>
     /// Technical error type.
