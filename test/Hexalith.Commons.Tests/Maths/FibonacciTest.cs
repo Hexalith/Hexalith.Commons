@@ -61,7 +61,5 @@ public class FibonacciTest
     /// </summary>
     [Fact]
     public void NegativeInputShouldThrowArgumentOutOfRangeException() =>
-
-        // Act & Assert
         _ = Should.Throw<ArgumentOutOfRangeException>(() => FibonacciSequence.Number(-1));
 }
