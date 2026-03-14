@@ -54,8 +54,8 @@ development_status:
   epic-2-retrospective: optional
 
   # Epic 3: ID Conversion & Interoperability
-  epic-3: backlog
-  3-1-extract-timestamp-from-ulid: backlog
+  epic-3: in-progress
+  3-1-extract-timestamp-from-ulid: done
   3-2-bidirectional-ulid-guid-conversion: backlog
   epic-3-retrospective: optional
 
