@@ -96,6 +96,41 @@ public static partial class UniqueIdHelper
             .Replace("/", "_", StringComparison.InvariantCulture)
             .Replace("+", "-", StringComparison.InvariantCulture);
 
+    /// <summary>
+    /// Converts a ULID string to a <see cref="Guid"/>.
+    /// </summary>
+    /// <param name="ulid">A 26-character Crockford Base32 ULID string.</param>
+    /// <returns>A <see cref="Guid"/> preserving the ULID's 128-bit identity.</returns>
+    /// <remarks>
+    /// The resulting Guid preserves identity but NOT lexicographic sort order.
+    /// Two ULIDs that sort correctly as strings may not sort the same way as Guids
+    /// due to Guid byte-order differences.
+    /// </remarks>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="ulid"/> is null, empty, or whitespace.</exception>
+    /// <exception cref="FormatException">Thrown when <paramref name="ulid"/> is not a valid ULID string.</exception>
+    public static Guid ToGuid(string ulid)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(ulid);
+        if (!CrockfordBase32Pattern().IsMatch(ulid))
+        {
+            throw new FormatException($"The value '{ulid}' is not a valid ULID string.");
+        }
+
+        return BaUlid.Parse(ulid, CultureInfo.InvariantCulture).ToGuid();
+    }
+
+    /// <summary>
+    /// Converts a <see cref="Guid"/> to a 26-character ULID string.
+    /// </summary>
+    /// <param name="value">The Guid to convert.</param>
+    /// <returns>A 26-character Crockford Base32 ULID string.</returns>
+    /// <remarks>
+    /// When called with a Guid not originally derived from a ULID (e.g., <see cref="Guid.NewGuid()"/>),
+    /// the result is a valid ULID string but its embedded timestamp is meaningless.
+    /// </remarks>
+    public static string ToSortableUniqueId(Guid value)
+        => BaUlid.New(value).ToString();
+
     [GeneratedRegex("^[0-9A-HJKMNP-TV-Z]{26}$")]
     private static partial Regex CrockfordBase32Pattern();
 }

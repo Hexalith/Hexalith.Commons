@@ -44,41 +44,41 @@ so that I can interoperate with external systems that require Guid identifiers w
 
 ## Tasks / Subtasks
 
-- [ ] Task 0: Verify prerequisite (BLOCKING)
-  - [ ] 0.1 Confirm Story 3.1 is merged to `main` and `ExtractTimestamp()` exists in `UniqueIdHelper.cs`
-  - [ ] 0.2 Run `dotnet build` to verify baseline compiles
+- [x] Task 0: Verify prerequisite (BLOCKING)
+  - [x] 0.1 Confirm Story 3.1 is merged to `main` and `ExtractTimestamp()` exists in `UniqueIdHelper.cs`
+  - [x] 0.2 Run `dotnet build` to verify baseline compiles
 
-- [ ] Task 1: Implement `ToGuid(string ulid)` method (AC: #1, #4, #5)
-  - [ ] 1.1 Add method to `UniqueIdHelper.cs` — alphabetical placement per SA1201 (after `GenerateUniqueStringId()`, before private fields or at correct alphabetical position among public methods)
-  - [ ] 1.2 Validate input with `ArgumentException.ThrowIfNullOrWhiteSpace(ulid)`
-  - [ ] 1.3 Parse ULID and convert: `BaUlid.Parse(ulid).ToGuid()`
-  - [ ] 1.4 Wrap non-ArgumentException in `FormatException` (same pattern as `ExtractTimestamp`)
-  - [ ] 1.5 Add XML documentation including ADR-004 caveat: conversion preserves identity NOT sort order
+- [x] Task 1: Implement `ToGuid(string ulid)` method (AC: #1, #4, #5)
+  - [x] 1.1 Add method to `UniqueIdHelper.cs` — alphabetical placement per SA1201 (after `GenerateUniqueStringId()`, before private fields or at correct alphabetical position among public methods)
+  - [x] 1.2 Validate input with `ArgumentException.ThrowIfNullOrWhiteSpace(ulid)`
+  - [x] 1.3 Parse ULID and convert: `BaUlid.Parse(ulid).ToGuid()`
+  - [x] 1.4 Wrap non-ArgumentException in `FormatException` (same pattern as `ExtractTimestamp`)
+  - [x] 1.5 Add XML documentation including ADR-004 caveat: conversion preserves identity NOT sort order
 
-- [ ] Task 2: Implement `ToSortableUniqueId(Guid guid)` method (AC: #2, #6)
-  - [ ] 2.1 Add method to `UniqueIdHelper.cs` — alphabetical placement per SA1201 (after `ToGuid`)
-  - [ ] 2.2 Implementation: `BaUlid.New(guid).ToString()`
-  - [ ] 2.3 Add XML documentation noting: non-ULID Guids produce valid ULID strings with meaningless timestamps
+- [x] Task 2: Implement `ToSortableUniqueId(Guid guid)` method (AC: #2, #6)
+  - [x] 2.1 Add method to `UniqueIdHelper.cs` — alphabetical placement per SA1201 (after `ToGuid`)
+  - [x] 2.2 Implementation: `BaUlid.New(guid).ToString()`
+  - [x] 2.3 Add XML documentation noting: non-ULID Guids produce valid ULID strings with meaningless timestamps
 
-- [ ] Task 3: Add round-trip conversion tests (AC: #3)
-  - [ ] 3.1 `ConvertSortableUniqueIdToGuidAndBackShouldReturnOriginalValue` — [Fact]
-  - [ ] 3.2 `ConvertAHundredSortableUniqueIdsToGuidAndBackShouldAllReturnOriginalValues` — [Fact], bulk round-trip test generating 100 ULIDs to catch any state-dependent conversion bugs
+- [x] Task 3: Add round-trip conversion tests (AC: #3)
+  - [x] 3.1 `ConvertSortableUniqueIdToGuidAndBackShouldReturnOriginalValue` — [Fact]
+  - [x] 3.2 `ConvertAHundredSortableUniqueIdsToGuidAndBackShouldAllReturnOriginalValues` — [Fact], bulk round-trip test generating 100 ULIDs to catch any state-dependent conversion bugs
 
-- [ ] Task 4: Add ToGuid validation tests (AC: #4, #5)
-  - [ ] 4.1 `ToGuidFromNullOrWhiteSpaceThrowsArgumentException` — [Theory] with `[InlineData(null)]`, `[InlineData("")]`, `[InlineData("   ")]`
-  - [ ] 4.2 `ToGuidFromInvalidFormatThrowsFormatException` — [Theory] with invalid ULID strings
+- [x] Task 4: Add ToGuid validation tests (AC: #4, #5)
+  - [x] 4.1 `ToGuidFromNullOrWhiteSpaceThrowsArgumentException` — [Theory] with `[InlineData(null)]`, `[InlineData("")]`, `[InlineData("   ")]`
+  - [x] 4.2 `ToGuidFromInvalidFormatThrowsFormatException` — [Theory] with invalid ULID strings
 
-- [ ] Task 5: Add ToGuid positive test (AC: #1)
-  - [ ] 5.1 `ToGuidFromValidUlidReturnsNonEmptyGuid` — [Fact], verify `guid.ShouldNotBe(Guid.Empty)`
+- [x] Task 5: Add ToGuid positive test (AC: #1)
+  - [x] 5.1 `ToGuidFromValidUlidReturnsNonEmptyGuid` — [Fact], verify `guid.ShouldNotBe(Guid.Empty)`
 
-- [ ] Task 6: Add ToSortableUniqueId tests (AC: #2, #6)
-  - [ ] 6.1 `ToSortableUniqueIdFromGuidReturns26CharCrockfordBase32String` — [Fact], verify format with `CrockfordBase32Pattern()`
-  - [ ] 6.2 `ToSortableUniqueIdFromRandomGuidProducesValidUlidWithExtractableTimestamp` — [Fact], edge case: `Guid.NewGuid()` produces valid ULID and `ExtractTimestamp()` does not throw
-  - [ ] 6.3 `ToSortableUniqueIdFromEmptyGuidReturnsAllZerosUlid` — [Fact], edge case: `Guid.Empty` produces valid 26-char all-zeros ULID string
+- [x] Task 6: Add ToSortableUniqueId tests (AC: #2, #6)
+  - [x] 6.1 `ToSortableUniqueIdFromGuidReturns26CharCrockfordBase32String` — [Fact], verify format with `CrockfordBase32Pattern()`
+  - [x] 6.2 `ToSortableUniqueIdFromRandomGuidProducesValidUlidWithExtractableTimestamp` — [Fact], edge case: `Guid.NewGuid()` produces valid ULID and `ExtractTimestamp()` does not throw
+  - [x] 6.3 `ToSortableUniqueIdFromEmptyGuidReturnsAllZerosUlid` — [Fact], edge case: `Guid.Empty` produces valid 26-char all-zeros ULID string
 
-- [ ] Task 7: Build and test (AC: #7)
-  - [ ] 7.1 Run `dotnet build` — zero warnings, zero errors
-  - [ ] 7.2 Run `dotnet test` — all tests green (existing 162+ plus new ~8 tests)
+- [x] Task 7: Build and test (AC: #7)
+  - [x] 7.1 Run `dotnet build` — zero warnings, zero errors
+  - [x] 7.2 Run `dotnet test` — all tests green (existing 162+ plus new ~8 tests)
 
 - [ ] Task 8: Commit
   - [ ] 8.1 Branch: `feat/3-2-bidirectional-ulid-guid-conversion` from `main`
