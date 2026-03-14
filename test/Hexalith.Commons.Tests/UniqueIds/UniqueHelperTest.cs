@@ -5,6 +5,9 @@
 
 namespace Hexalith.Commons.Tests.UniqueIds;
 
+using System.Globalization;
+using System.Text.RegularExpressions;
+
 using Hexalith.Commons.UniqueIds;
 
 using Shouldly;
@@ -15,8 +18,59 @@ using Shouldly;
 /// including concurrent generation, format validation, and uniqueness checks
 /// for both datetime-based and random-based identifiers.
 /// </summary>
-public class UniqueHelperTest
+public partial class UniqueHelperTest
 {
+    /// <summary>
+    /// Tests that 100 sequential datetime-based IDs are monotonically increasing,
+    /// verifying the increment logic when calls occur within the same millisecond.
+    /// </summary>
+    [Fact]
+    public void GenerateDateTimeIdProducesMonotonicallyIncreasingIds()
+    {
+        string previous = UniqueIdHelper.GenerateDateTimeId();
+        previous.Length.ShouldBe(17);
+        DateTime.TryParseExact(
+            previous,
+            "yyyyMMddHHmmssfff",
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+            out _).ShouldBeTrue($"ID '{previous}' should match format yyyyMMddHHmmssfff");
+
+        for (int i = 0; i < 99; i++)
+        {
+            string current = UniqueIdHelper.GenerateDateTimeId();
+            current.Length.ShouldBe(17);
+            DateTime.TryParseExact(
+                current,
+                "yyyyMMddHHmmssfff",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                out _).ShouldBeTrue($"ID '{current}' should match format yyyyMMddHHmmssfff");
+            StringComparer.Ordinal.Compare(current, previous).ShouldBeGreaterThan(0);
+            previous = current;
+        }
+    }
+
+    /// <summary>
+    /// Tests that 10,000 generated unique string IDs are exactly 22 characters,
+    /// contain only Base64URL-safe characters (A-Za-z0-9_-), and are all unique.
+    /// </summary>
+    [Fact]
+    public void GenerateUniqueStringIdProducesOnly22CharBase64UrlStringsAcrossTenThousandIds()
+    {
+        HashSet<string> ids = [];
+        Regex base64UrlPattern = Base64UrlPattern();
+        for (int i = 0; i < 10_000; i++)
+        {
+            string id = UniqueIdHelper.GenerateUniqueStringId();
+            id.Length.ShouldBe(22);
+            base64UrlPattern.IsMatch(id).ShouldBeTrue($"ID '{id}' contains invalid Base64URL characters");
+            _ = ids.Add(id);
+        }
+
+        ids.Count.ShouldBe(10_000);
+    }
+
     /// <summary>
     /// Tests that concurrent generation of 100 datetime-based IDs
     /// produces unique values without any duplicates, verifying
@@ -91,4 +145,7 @@ public class UniqueHelperTest
         string id = UniqueIdHelper.GenerateUniqueStringId();
         id.Length.ShouldBe(22, "the id is a base64 string of 16 bytes");
     }
+
+    [GeneratedRegex("^[A-Za-z0-9_-]{22}$")]
+    private static partial Regex Base64UrlPattern();
 }

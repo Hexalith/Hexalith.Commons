@@ -14,7 +14,7 @@ using System.Threading;
 /// </summary>
 public static class UniqueIdHelper
 {
-    private static readonly Lock _lock = new();
+    private static readonly Lock _dateTimeLock = new();
     private static DateTime _previous = DateTime.MinValue;
 
     /// <summary>
@@ -24,7 +24,7 @@ public static class UniqueIdHelper
     /// <returns>A unique 17-character ID string derived from the current date/time.</returns>
     public static string GenerateDateTimeId()
     {
-        using (_lock.EnterScope())
+        using (_dateTimeLock.EnterScope())
         {
             DateTime now = DateTime.UtcNow;
             DateTime currentDateTime = new(
