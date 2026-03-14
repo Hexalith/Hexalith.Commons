@@ -5,6 +5,7 @@
 
 namespace Hexalith.Commons.Tests.UniqueIds;
 
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 using Hexalith.Commons.UniqueIds;
@@ -27,9 +28,24 @@ public partial class UniqueHelperTest
     public void GenerateDateTimeIdProducesMonotonicallyIncreasingIds()
     {
         string previous = UniqueIdHelper.GenerateDateTimeId();
+        previous.Length.ShouldBe(17);
+        DateTime.TryParseExact(
+            previous,
+            "yyyyMMddHHmmssfff",
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+            out _).ShouldBeTrue($"ID '{previous}' should match format yyyyMMddHHmmssfff");
+
         for (int i = 0; i < 99; i++)
         {
             string current = UniqueIdHelper.GenerateDateTimeId();
+            current.Length.ShouldBe(17);
+            DateTime.TryParseExact(
+                current,
+                "yyyyMMddHHmmssfff",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                out _).ShouldBeTrue($"ID '{current}' should match format yyyyMMddHHmmssfff");
             StringComparer.Ordinal.Compare(current, previous).ShouldBeGreaterThan(0);
             previous = current;
         }
