@@ -1,6 +1,6 @@
 # Story 3.2: Bidirectional ULID-Guid Conversion
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -80,10 +80,10 @@ so that I can interoperate with external systems that require Guid identifiers w
   - [x] 7.1 Run `dotnet build` — zero warnings, zero errors
   - [x] 7.2 Run `dotnet test` — all tests green (existing 162+ plus new ~8 tests)
 
-- [ ] Task 8: Commit
-  - [ ] 8.1 Branch: `feat/3-2-bidirectional-ulid-guid-conversion` from `main`
-  - [ ] 8.2 Single commit: `feat(unique-ids): add bidirectional ULID-Guid conversion`
-  - [ ] 8.3 CRITICAL: All tasks 1-7 must pass before commit
+- [x] Task 8: Commit
+  - [x] 8.1 Branch: `feat/3-2-bidirectional-ulid-guid-conversion` from `main`
+  - [x] 8.2 Single commit: `feat(unique-ids): add bidirectional ULID-Guid conversion`
+  - [x] 8.3 CRITICAL: All tasks 1-7 must pass before commit
 
 ## Dev Notes
 
@@ -304,10 +304,27 @@ This story corresponds to **Step 11** of the 12-step test-gated implementation s
 
 ### Agent Model Used
 
-{{agent_model_name_version}}
+Claude Opus 4.6 (1M context)
 
 ### Debug Log References
 
+- Story spec suggested try/catch pattern for `ToGuid` format validation, but `BaUlid.Parse()` throws `ArgumentException` for invalid strings, which passed through the `when (ex is not ArgumentException)` filter. Fixed by adopting the same regex pre-validation pattern as `ExtractTimestamp`.
+
 ### Completion Notes List
 
+- Implemented `ToGuid(string ulid)` with regex pre-validation + `BaUlid.Parse().ToGuid()` — consistent with `ExtractTimestamp` pattern
+- Implemented `ToSortableUniqueId(Guid value)` as expression-bodied method via `BaUlid.New(value).ToString()`
+- Renamed parameter from `guid` to `value` to resolve CA1720 (identifier contains type name)
+- Added `CultureInfo.InvariantCulture` to `BaUlid.Parse()` call to resolve CA1305
+- All 8 new tests added and passing: 2 round-trip, 1 positive, 2 validation (Theory), 3 ToSortableUniqueId tests
+- Total test count: 182 (up from 174 pre-story)
+- Zero build warnings, zero errors
+
+### Change Log
+
+- 2026-03-14: Implemented bidirectional ULID-Guid conversion (Tasks 1-8 complete)
+
 ### File List
+
+- src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs (modified — added ToGuid and ToSortableUniqueId methods)
+- test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs (modified — added 8 test methods)
