@@ -146,6 +146,97 @@ public partial class UniqueHelperTest
         id.Length.ShouldBe(22, "the id is a base64 string of 16 bytes");
     }
 
+    /// <summary>
+    /// Tests that all three ID strategies (DateTime, Base64URL, ULID) coexist independently
+    /// without interfering with each other, verifying FR14 incremental adoption guarantee.
+    /// </summary>
+    [Fact]
+    public void AllThreeIdStrategiesCoexistIndependently()
+    {
+        string dateTimeId = UniqueIdHelper.GenerateDateTimeId();
+        string uniqueId = UniqueIdHelper.GenerateUniqueStringId();
+        string sortableId = UniqueIdHelper.GenerateSortableUniqueStringId();
+
+        dateTimeId.Length.ShouldBe(17);
+        uniqueId.Length.ShouldBe(22);
+        sortableId.Length.ShouldBe(26);
+    }
+
+    /// <summary>
+    /// Tests that a generated sortable unique string ID is exactly 26 characters
+    /// and contains only valid Crockford Base32 characters conforming to the ULID specification.
+    /// </summary>
+    [Fact]
+    public void GenerateSortableUniqueStringIdProduces26CharCrockfordBase32String()
+    {
+        HashSet<string> ids = [];
+        Regex pattern = CrockfordBase32Pattern();
+        for (int i = 0; i < 1_000; i++)
+        {
+            string id = UniqueIdHelper.GenerateSortableUniqueStringId();
+            id.Length.ShouldBe(26);
+            pattern.IsMatch(id).ShouldBeTrue($"ID '{id}' contains invalid Crockford Base32 characters");
+            _ = ids.Add(id);
+        }
+
+        ids.Count.ShouldBe(1_000);
+    }
+
+    /// <summary>
+    /// Tests that 100 sequential sortable unique IDs are monotonically increasing,
+    /// verifying the monotonic increment behavior within the same millisecond window.
+    /// </summary>
+    [Fact]
+    public void GenerateSortableUniqueStringIdProducesMonotonicallyIncreasingIds()
+    {
+        string previous = UniqueIdHelper.GenerateSortableUniqueStringId();
+        for (int i = 0; i < 99; i++)
+        {
+            string current = UniqueIdHelper.GenerateSortableUniqueStringId();
+            StringComparer.Ordinal.Compare(current, previous).ShouldBeGreaterThan(0);
+            previous = current;
+        }
+    }
+
+    /// <summary>
+    /// Tests that concurrent generation of 100 sortable unique IDs
+    /// produces unique values without any duplicates, verifying
+    /// thread-safety of the ULID generation process.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [Fact]
+    public async Task GetAHundredConcurrentSortableUniqueIdStringWithoutAnyDuplicatesAsync()
+    {
+        List<Task<string>> tasks = [];
+        for (int i = 0; i < 100; i++)
+        {
+            tasks.Add(Task.Run(UniqueIdHelper.GenerateSortableUniqueStringId));
+        }
+
+        string[] result = await Task.WhenAll(tasks);
+        result.Distinct(StringComparer.Ordinal).Count().ShouldBe(100);
+    }
+
+    /// <summary>
+    /// Tests that 1,000 sequentially generated sortable unique IDs maintain chronological
+    /// order when sorted lexicographically, verifying the ULID specification's sortability guarantee.
+    /// </summary>
+    [Fact]
+    public void GetAThousandSortableUniqueIdStringInChronologicalOrder()
+    {
+        List<string> ids = [];
+        for (int i = 0; i < 1_000; i++)
+        {
+            ids.Add(UniqueIdHelper.GenerateSortableUniqueStringId());
+        }
+
+        List<string> sorted = [.. ids.OrderBy(id => id, StringComparer.Ordinal)];
+        ids.ShouldBe(sorted);
+    }
+
     [GeneratedRegex("^[A-Za-z0-9_-]{22}$")]
     private static partial Regex Base64UrlPattern();
+
+    [GeneratedRegex("^[0-9A-HJKMNP-TV-Z]{26}$")]
+    private static partial Regex CrockfordBase32Pattern();
 }
