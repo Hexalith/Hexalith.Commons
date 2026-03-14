@@ -21,6 +21,63 @@ using Shouldly;
 public partial class UniqueHelperTest
 {
     /// <summary>
+    /// Tests that extracting a timestamp from a freshly generated ULID
+    /// returns a UTC time within 1 millisecond of the actual generation time.
+    /// </summary>
+    [Fact]
+    public void ExtractTimestampFromGeneratedUlidReturnsTimestampWithinOneMillisecond()
+    {
+        DateTimeOffset before = DateTimeOffset.UtcNow;
+        string ulid = UniqueIdHelper.GenerateSortableUniqueStringId();
+        DateTimeOffset after = DateTimeOffset.UtcNow;
+
+        DateTimeOffset timestamp = UniqueIdHelper.ExtractTimestamp(ulid);
+
+        timestamp.ShouldBeGreaterThanOrEqualTo(before.AddMilliseconds(-1));
+        timestamp.ShouldBeLessThanOrEqualTo(after.AddMilliseconds(1));
+    }
+
+    /// <summary>
+    /// Tests that passing an invalid ULID format to ExtractTimestamp throws FormatException.
+    /// </summary>
+    /// <param name="ulid">The invalid ULID string to test.</param>
+    [Theory]
+    [InlineData("short")]
+    [InlineData("THIS_IS_NOT_A_VALID_ULID!!")]
+    [InlineData("01ARZ3NDEKTSV4RRFFQ69G5FA!")]
+    public void ExtractTimestampFromInvalidFormatThrowsFormatException(string ulid)
+    {
+        FormatException exception = Should.Throw<FormatException>(() => UniqueIdHelper.ExtractTimestamp(ulid));
+
+        exception.Message.ShouldContain("not a valid ULID string");
+        exception.Message.ShouldContain(ulid);
+    }
+
+    /// <summary>
+    /// Tests that passing null, empty, or whitespace to ExtractTimestamp throws ArgumentException.
+    /// </summary>
+    /// <param name="ulid">The invalid input to test.</param>
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void ExtractTimestampFromNullOrWhiteSpaceThrowsArgumentException(string? ulid)
+        => _ = Should.Throw<ArgumentException>(() => UniqueIdHelper.ExtractTimestamp(ulid!));
+
+    /// <summary>
+    /// Tests that the timestamp extracted from a ULID is in UTC (offset is zero).
+    /// </summary>
+    [Fact]
+    public void ExtractTimestampFromUlidReturnsUtcTime()
+    {
+        string ulid = UniqueIdHelper.GenerateSortableUniqueStringId();
+
+        DateTimeOffset timestamp = UniqueIdHelper.ExtractTimestamp(ulid);
+
+        timestamp.Offset.ShouldBe(TimeSpan.Zero);
+    }
+
+    /// <summary>
     /// Tests that 100 sequential datetime-based IDs are monotonically increasing,
     /// verifying the increment logic when calls occur within the same millisecond.
     /// </summary>
