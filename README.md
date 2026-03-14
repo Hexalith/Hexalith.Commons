@@ -22,7 +22,7 @@ Each package is lightweight, well-tested, and easy to integrate.
 | [Hexalith.Commons](#hexalithcommons-core) | Core utilities | String helpers, error handling, reflection, logging |
 | [Hexalith.Commons.Configurations](#hexalithcommonsconfigurations) | Configuration management | Type-safe settings, FluentValidation integration |
 | [Hexalith.Commons.StringEncoders](#hexalithcommonsstringencoders) | String encoding | RFC1123 encoding/decoding for restricted contexts |
-| [Hexalith.Commons.UniqueIds](#hexalithcommonsuniqueids) | ID generation | DateTime-based and GUID-based unique identifiers |
+| [Hexalith.Commons.UniqueIds](#hexalithcommonsuniqueids) | ID generation | ULID, DateTime-based, and GUID-based unique identifiers with ULID-Guid conversion |
 | [Hexalith.Commons.Metadatas](#hexalithcommonsmetadatas) | Message metadata | Context tracking for distributed systems |
 
 ---
@@ -352,57 +352,64 @@ Assert.Equal(input, roundTrip);  // Always true
 
 ## Hexalith.Commons.UniqueIds
 
-Unique identifier generation for different scenarios.
+Three ID strategies — DateTime, Base64URL, and ULID — plus bidirectional ULID-Guid conversion.
 
-### DateTime-Based IDs
-
-17-character identifiers based on UTC timestamp. Useful for sortable, human-readable IDs.
+### Quick Start
 
 ```csharp
 using Hexalith.Commons.UniqueIds;
 
-string id = UniqueIdHelper.GenerateDateTimeId();
-// Example: "20240115143052789"
-// Format: yyyyMMddHHmmssfff
+// Sortable + distributed (event sourcing, DDD aggregates)
+string ulidId = UniqueIdHelper.GenerateSortableUniqueStringId();
+// "01HYX7QS3NP8M4KQJR5A7CVWKM" — 26-char ULID
 
-// Thread-safe - automatically increments for same-millisecond calls
-string id1 = UniqueIdHelper.GenerateDateTimeId();
-string id2 = UniqueIdHelper.GenerateDateTimeId();
-// id2 will be greater than id1 even if called in same millisecond
+// Distributed (legacy keys, session tokens)
+string base64Id = UniqueIdHelper.GenerateUniqueStringId();
+// "gZOW2EgVrEq5SBJLegYcVA" — 22-char Base64URL
+
+// Human-readable (single machine, logs)
+string dateId = UniqueIdHelper.GenerateDateTimeId();
+// "20260314143052789" — 17-char timestamp
 ```
 
-**Characteristics:**
-- Length: 17 characters
-- Format: `yyyyMMddHHmmssfff`
-- Thread-safe with automatic increment
-- Sortable chronologically
-- One unique ID per millisecond maximum
+### Strategy Comparison
 
-### GUID-Based IDs
+| Feature | `GenerateDateTimeId` | `GenerateUniqueStringId` | `GenerateSortableUniqueStringId` |
+| ---------------- | ---------------------- | -------------------------- | ---------------------------------- |
+| Format | `yyyyMMddHHmmssfff` | Base64URL GUID | Crockford Base32 ULID |
+| Length | 17 chars | 22 chars | 26 chars |
+| Sortable | Yes (chronological) | No | Yes (chronological) |
+| Distributed-safe | No (single machine) | Yes | Yes |
+| Thread-safe | Yes (locked) | Yes (stateless) | Yes (monotonic) |
+| Best for | Log entries, file names | Legacy keys, session tokens | **Event sourcing, DDD aggregates** |
 
-22-character URL-safe identifiers derived from GUIDs. Ideal for distributed systems.
+### ULID-Guid Conversion Utilities
+
+Bidirectional conversion between ULID strings and `System.Guid` for interop with Guid-only systems.
 
 ```csharp
-string id = UniqueIdHelper.GenerateUniqueStringId();
-// Example: "gZOW2EgVrEq5SBJLegYcVA"
+// ULID → Guid (for external systems that require Guid)
+string ulid = UniqueIdHelper.GenerateSortableUniqueStringId();
+Guid guid = UniqueIdHelper.ToGuid(ulid);
+
+// Guid → ULID (lossless round-trip)
+string restored = UniqueIdHelper.ToSortableUniqueId(guid);
+// restored == ulid (case-insensitive)
+
+// Extract creation timestamp from any ULID
+DateTimeOffset created = UniqueIdHelper.ExtractTimestamp(ulid);
 ```
 
-**Characteristics:**
-- Length: 22 characters
-- Characters: A-Z, a-z, 0-9, _, -
-- URL-safe (no encoding needed)
-- Globally unique (GUID-based)
-- Suitable for distributed systems
+> **Note:** `ToGuid` preserves identity but NOT lexicographic sort order. Converting a non-ULID Guid (e.g., `Guid.NewGuid()`) produces a valid ULID string, but its embedded timestamp is meaningless.
 
-### Comparison
+### Decision Guide
 
-| Feature | GenerateDateTimeId | GenerateUniqueStringId |
-|---------|-------------------|----------------------|
-| Length | 17 chars | 22 chars |
-| Sortable | Yes (chronological) | No |
-| Rate limit | 1 per millisecond | Unlimited |
-| Distributed | No | Yes |
-| Human readable | Yes (datetime) | No |
+| Use Case | Recommended Method |
+| ----------------------------------- | ---------------------------------------------------------------- |
+| Event sourcing / DDD aggregates | `GenerateSortableUniqueStringId()` — sortable + distributed |
+| Distributed keys / session tokens | `GenerateUniqueStringId()` — compact + GUID-backed |
+| Log entries / file names | `GenerateDateTimeId()` — human-readable timestamps |
+| Interop with Guid-only systems | `ToGuid()` / `ToSortableUniqueId()` — lossless round-trip |
 
 ---
 

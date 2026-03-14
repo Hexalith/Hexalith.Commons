@@ -8,7 +8,7 @@ classification:
   complexity: 'low'
   projectContext: 'brownfield'
 decisions:
-  - 'Use Cysharp/Ulid as external dependency'
+  - 'Use ByteAether/Ulid as external dependency (supersedes initial Cysharp/Ulid choice per ADR-001)'
   - 'Verify Base64URL encoding change is backward-compatible'
   - 'New method: GenerateSortableUniqueStringId() returns 26-char ULID'
 documentCounts:
@@ -28,7 +28,7 @@ Hexalith.Commons.UniqueIds is the shared identifier generation library for the H
 
 ### What Makes This Special
 
-Three ID strategies under one static helper, each purpose-built for a specific use case — no external decision-making required. The ULID addition eliminates the forced trade-off between sortability and distributed uniqueness. Events, aggregate snapshots, and projections get natural chronological ordering at the ID layer, so every downstream system — event stores, read models, logs — benefits without additional sorting logic. Built on the battle-tested `Cysharp/Ulid` library rather than a custom implementation, keeping the solution reliable and the codebase lean.
+Three ID strategies under one static helper, each purpose-built for a specific use case — no external decision-making required. The ULID addition eliminates the forced trade-off between sortability and distributed uniqueness. Events, aggregate snapshots, and projections get natural chronological ordering at the ID layer, so every downstream system — event stores, read models, logs — benefits without additional sorting logic. Built on the battle-tested `ByteAether.Ulid` library rather than a custom implementation, keeping the solution reliable and the codebase lean.
 
 ### Project Classification
 
@@ -115,7 +115,7 @@ Li integrates Hexalith with a third-party ERP that only accepts GUIDs. She gener
 **Core User Journeys Supported:** Marco (event ordering), Sam (migration/interop), Li (Guid conversion), Priya (discovery)
 
 **Must-Have Capabilities:**
-1. `GenerateSortableUniqueStringId()` — ULID generation via `Cysharp/Ulid`
+1. `GenerateSortableUniqueStringId()` — ULID generation via `ByteAether.Ulid`
 2. `GenerateUniqueStringId()` — updated to proper Base64URL encoding
 3. `ExtractTimestamp(string ulid)` — timestamp extraction from ULID
 4. `ToGuid(string ulid)` — ULID to Guid conversion
@@ -135,7 +135,7 @@ Li integrates Hexalith with a third-party ERP that only accepts GUIDs. She gener
 
 ### Risk Mitigation Strategy
 
-**Technical Risks:** Low — `Cysharp/Ulid` is battle-tested. Only risk is Base64URL output compatibility with current method. Mitigation: unit test that verifies character set is identical (`A-Za-z0-9-_`).
+**Technical Risks:** Low — `ByteAether.Ulid` is battle-tested. Only risk is Base64URL output compatibility with current method. Mitigation: unit test that verifies character set is identical (`A-Za-z0-9-_`).
 **Market Risks:** None — internal infrastructure library with known consumers.
 **Resource Risks:** Minimal — single-developer scope. If constrained, drop README update and ship docs later.
 
@@ -143,7 +143,7 @@ Li integrates Hexalith with a third-party ERP that only accepts GUIDs. She gener
 
 ### Project-Type Overview
 
-NuGet library targeting .NET 10+ / C# 14+. Single static helper class (`UniqueIdHelper`) with zero-config API. Consumed via `Hexalith.Commons.UniqueIds` package. External dependency on `Cysharp/Ulid` managed through centralized `Directory.Packages.props`.
+NuGet library targeting .NET 10+ / C# 14+. Single static helper class (`UniqueIdHelper`) with zero-config API. Consumed via `Hexalith.Commons.UniqueIds` package. External dependency on `ByteAether.Ulid` managed through centralized `Directory.Packages.props`.
 
 ### API Surface
 
@@ -160,7 +160,7 @@ NuGet library targeting .NET 10+ / C# 14+. Single static helper class (`UniqueId
 
 - All methods remain static on `UniqueIdHelper` — no DI, no interfaces, no ceremony
 - Thread safety via `Lock` for methods requiring monotonic guarantees
-- `Cysharp/Ulid` handles ULID internals (timestamp encoding, Crockford Base32, monotonic ordering)
+- `ByteAether.Ulid` handles ULID internals (timestamp encoding, Crockford Base32, monotonic ordering)
 - Conversion utilities are thin wrappers over `Ulid` struct methods
 
 ### Documentation Requirements
@@ -172,7 +172,7 @@ NuGet library targeting .NET 10+ / C# 14+. Single static helper class (`UniqueId
 
 ### Implementation Considerations
 
-- Package version for `Cysharp/Ulid` added to `Directory.Packages.props` in `Hexalith.Builds` submodule — requires approval
+- Package version for `ByteAether.Ulid` added to `Directory.Packages.props` in `Hexalith.Builds` submodule — requires approval
 - No migration guide needed — developers simply adopt new methods
 - Existing `GenerateUniqueStringId()` output should remain functionally identical after Base64URL update
 
@@ -208,7 +208,7 @@ NuGet library targeting .NET 10+ / C# 14+. Single static helper class (`UniqueId
 
 ### Performance
 
-- ID generation must not become a bottleneck: `GenerateSortableUniqueStringId()` completes in < 1 microsecond per call (matching `Cysharp/Ulid` benchmarks)
+- ID generation must not become a bottleneck: `GenerateSortableUniqueStringId()` completes in < 1 microsecond per call (matching `ByteAether.Ulid` benchmarks)
 - Zero heap allocations on the generation hot path beyond the returned string
 - Lock contention under concurrent load must not degrade throughput by more than 10% vs single-threaded
 - `GenerateUniqueStringId()` Base64URL update must not degrade performance compared to current `Replace`-based implementation
@@ -217,5 +217,5 @@ NuGet library targeting .NET 10+ / C# 14+. Single static helper class (`UniqueId
 
 - .NET 10+ target framework
 - No platform-specific dependencies — runs on Windows, Linux, macOS
-- `Cysharp/Ulid` version pinned in centralized `Directory.Packages.props`
+- `ByteAether.Ulid` version pinned in centralized `Directory.Packages.props`
 - ULID output conforms to the [ULID specification](https://github.com/ulid/spec) — interoperable with any ULID implementation in any language

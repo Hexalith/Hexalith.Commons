@@ -3,7 +3,8 @@
     "allow": [
       "Skill(commit-commands:commit-push-pr)",
       "Skill(commit-commands:commit-push-pr:*)",
-      "Bash(gh pr:*)"
+      "Bash(gh pr:*)",
+      "Bash(grep -E \"\\\\.md$|\\\\.yaml$|Hexalith.Builds\")"
     ]
   }
 }
