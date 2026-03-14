@@ -43,14 +43,14 @@ story_location: "{project-root}/_bmad-output/implementation-artifacts"
 
 development_status:
   # Epic 1: Foundation & Backward Compatibility
-  epic-1: in-progress
+  epic-1: done
   1-1-add-byteaether-ulid-package-dependency: done
   1-2-lock-existing-behavior-and-refactor-lock-strategy: done
   epic-1-retrospective: optional
 
   # Epic 2: Sortable Unique ID Generation
-  epic-2: in-progress
-  2-1-implement-sortable-unique-id-generation: in-progress
+  epic-2: done
+  2-1-implement-sortable-unique-id-generation: done
   epic-2-retrospective: optional
 
   # Epic 3: ID Conversion & Interoperability
