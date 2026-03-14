@@ -56,11 +56,11 @@ development_status:
   # Epic 3: ID Conversion & Interoperability
   epic-3: in-progress
   3-1-extract-timestamp-from-ulid: done
-  3-2-bidirectional-ulid-guid-conversion: review
+  3-2-bidirectional-ulid-guid-conversion: done
   epic-3-retrospective: optional
 
   # Epic 4: API Documentation & Discoverability
-  epic-4: backlog
-  4-1-complete-xml-documentation-on-all-public-methods: backlog
+  epic-4: in-progress
+  4-1-complete-xml-documentation-on-all-public-methods: review
   4-2-create-readme-with-comparison-table-and-code-examples: backlog
   epic-4-retrospective: optional

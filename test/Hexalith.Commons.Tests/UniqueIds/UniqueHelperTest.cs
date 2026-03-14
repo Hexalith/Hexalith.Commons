@@ -330,6 +330,20 @@ public partial class UniqueHelperTest
     }
 
     /// <summary>
+    /// Tests that a lowercase ULID string is accepted and preserves identity through Guid round-trip conversion.
+    /// </summary>
+    [Fact]
+    public void ToGuidFromLowercaseUlidRoundTripsToOriginalCanonicalValue()
+    {
+        string original = UniqueIdHelper.GenerateSortableUniqueStringId();
+        string lowercase = new([.. original.Select(char.ToLowerInvariant)]);
+
+        var guid = UniqueIdHelper.ToGuid(lowercase);
+
+        UniqueIdHelper.ToSortableUniqueId(guid).ShouldBe(original);
+    }
+
+    /// <summary>
     /// Tests that passing null, empty, or whitespace to ToGuid throws ArgumentException.
     /// </summary>
     /// <param name="ulid">The invalid input to test.</param>
@@ -349,7 +363,12 @@ public partial class UniqueHelperTest
     [InlineData("THIS_IS_NOT_A_VALID_ULID!!")]
     [InlineData("01ARZ3NDEKTSV4RRFFQ69G5FA!")]
     public void ToGuidFromInvalidFormatThrowsFormatException(string ulid)
-        => Should.Throw<FormatException>(() => UniqueIdHelper.ToGuid(ulid));
+    {
+        FormatException exception = Should.Throw<FormatException>(() => UniqueIdHelper.ToGuid(ulid));
+
+        exception.Message.ShouldContain("not a valid ULID string");
+        exception.Message.ShouldContain(ulid);
+    }
 
     /// <summary>
     /// Tests that converting a Guid to ULID string returns a valid 26-character Crockford Base32 string.
@@ -386,6 +405,7 @@ public partial class UniqueHelperTest
     public void ToSortableUniqueIdFromEmptyGuidReturnsAllZerosUlid()
     {
         string ulid = UniqueIdHelper.ToSortableUniqueId(Guid.Empty);
+        ulid.ShouldBe("00000000000000000000000000");
         ulid.Length.ShouldBe(26);
         CrockfordBase32Pattern().IsMatch(ulid).ShouldBeTrue();
     }

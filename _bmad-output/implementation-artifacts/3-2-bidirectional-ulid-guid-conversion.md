@@ -1,6 +1,6 @@
 # Story 3.2: Bidirectional ULID-Guid Conversion
 
-Status: review
+Status: done
 
 ## Story
 
@@ -94,6 +94,7 @@ so that I can interoperate with external systems that require Guid identifiers w
 **ADR-005 (No ByteAether in public API):** Method signatures use only `string`, `Guid`, `DateTimeOffset`. ByteAether is purely internal. Type alias `using BaUlid = ByteAether.Ulid.Ulid;` already in place.
 
 **ADR-006 (Exception-based error handling):**
+
 - Null/empty/whitespace → `ArgumentException.ThrowIfNullOrWhiteSpace()`
 - Invalid ULID format → `FormatException` wrapping ByteAether parse failure
 - `ToSortableUniqueId(Guid)` does NOT throw — any Guid produces a valid ULID string
@@ -101,6 +102,7 @@ so that I can interoperate with external systems that require Guid identifiers w
 ### Implementation Patterns
 
 **ToGuid implementation — follows ExtractTimestamp pattern exactly:**
+
 ```csharp
 /// <summary>
 /// Converts a ULID string to a <see cref="Guid"/>.
@@ -129,6 +131,7 @@ public static Guid ToGuid(string ulid)
 ```
 
 **ToSortableUniqueId implementation — simple, no validation needed:**
+
 ```csharp
 /// <summary>
 /// Converts a <see cref="Guid"/> to a 26-character ULID string.
@@ -149,24 +152,26 @@ public static string ToSortableUniqueId(Guid guid)
 
 ### ByteAether.Ulid v1.3.5 API (Verified)
 
-| API Call | Purpose |
-|----------|---------|
+| API Call               | Purpose                                                            |
+| ---------------------- | ------------------------------------------------------------------ |
 | `BaUlid.Parse(string)` | Parse ULID from 26-char Crockford Base32 string; throws on invalid |
-| `.ToGuid()` | Instance method converting ULID struct to `System.Guid` |
-| `BaUlid.New(Guid)` | Create ULID from Guid bytes (identity-preserving) |
-| `.ToString()` | Returns 26-char Crockford Base32 string |
+| `.ToGuid()`            | Instance method converting ULID struct to `System.Guid`            |
+| `BaUlid.New(Guid)`     | Create ULID from Guid bytes (identity-preserving)                  |
+| `.ToString()`          | Returns 26-char Crockford Base32 string                            |
 
 Round-trip verified in ByteAether docs: `Ulid.New() → .ToGuid() → Ulid.New(guid) → equal to original`
 
 ### Method Alphabetical Placement (SA1201)
 
 Current public method order in `UniqueIdHelper.cs`:
+
 1. `ExtractTimestamp(string ulid)` — added by Story 3.1
 2. `GenerateDateTimeId()`
 3. `GenerateSortableUniqueStringId()`
 4. `GenerateUniqueStringId()`
 
 After Story 3.2, the order becomes:
+
 1. `ExtractTimestamp(string ulid)`
 2. `GenerateDateTimeId()`
 3. `GenerateSortableUniqueStringId()`
@@ -176,10 +181,10 @@ After Story 3.2, the order becomes:
 
 ### Files to Modify (2 files, 0 new)
 
-| File | Action |
-|------|--------|
+| File                                                         | Action                                            |
+| ------------------------------------------------------------ | ------------------------------------------------- |
 | `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs` | Add `ToGuid()` and `ToSortableUniqueId()` methods |
-| `test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs` | Add ~8 test methods |
+| `test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs`  | Add ~8 test methods                               |
 
 ### Test Implementation Guidance
 
@@ -276,6 +281,7 @@ public void ToSortableUniqueIdFromEmptyGuidReturnsAllZerosUlid()
 ### Previous Story Intelligence
 
 **Story 3.1 (Extract Timestamp)** established:
+
 - Validation + try/catch pattern for ULID string input methods
 - `FormatException` wrapping with descriptive message
 - ByteAether `BaUlid.Parse()` as the single validation gate
@@ -283,6 +289,7 @@ public void ToSortableUniqueIdFromEmptyGuidReturnsAllZerosUlid()
 - Same invalid ULID test data can be reused: `"short"`, `"THIS_IS_NOT_A_VALID_ULID!!"`, `"01ARZ3NDEKTSV4RRFFQ69G5FA!"`
 
 **Story 2.1 (Sortable ULID Generation)** established:
+
 - Type alias `using BaUlid = ByteAether.Ulid.Ulid;` already in place
 - `CrockfordBase32Pattern()` regex already in test class
 - ByteAether.Ulid v1.3.5 already in `Directory.Packages.props`
@@ -319,12 +326,56 @@ Claude Opus 4.6 (1M context)
 - All 8 new tests added and passing: 2 round-trip, 1 positive, 2 validation (Theory), 3 ToSortableUniqueId tests
 - Total test count: 182 (up from 174 pre-story)
 - Zero build warnings, zero errors
+- Updated ULID parsing to accept lowercase canonical input by validating case-insensitively and normalizing to uppercase before parsing
+- Restored explicit `FormatException` wrapping around `ToGuid()` parse failures while preserving `ArgumentException` for null/whitespace input
+- Strengthened edge-case coverage with lowercase round-trip validation and an exact assertion that `Guid.Empty` maps to `00000000000000000000000000`
+- Total test count after review fixes: 183
 
 ### Change Log
 
 - 2026-03-14: Implemented bidirectional ULID-Guid conversion (Tasks 1-8 complete)
+- 2026-03-14: Senior developer review requested changes for lowercase ULID acceptance, exception wrapping, and Guid.Empty edge-case verification
+- 2026-03-14: Applied review fixes and revalidated the full test suite
 
 ### File List
 
 - src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs (modified — added ToGuid and ToSortableUniqueId methods)
 - test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs (modified — added 8 test methods)
+
+## Senior Developer Review (AI)
+
+### Outcome
+
+Approved after fixes
+
+### Findings
+
+1. **High** — `ToGuid()` no longer implements the story's checked Task 1.4 exception-wrapping contract.
+
+- Story evidence: `3-2-bidirectional-ulid-guid-conversion.md:55` marks "Wrap non-ArgumentException in FormatException" as complete.
+- Code evidence: `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs:114-119` validates with a regex and then calls `BaUlid.Parse(...)` directly with no `try`/`catch`.
+- Impact: inputs that pass the regex but are still invalid ULIDs (for example overflow values outside the ULID range) are not guaranteed to produce the descriptive `FormatException` required by AC #5.
+
+2. **High** — `ToGuid()` rejects lowercase ULID strings even though ULIDs are case-insensitive.
+
+- Code evidence: `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs:114` uses `CrockfordBase32Pattern()` which only allows uppercase characters.
+- Specification evidence: the ULID spec states ULIDs are "Case insensitive" and use Crockford Base32.
+- Impact: valid lowercase ULIDs from external systems are rejected before parsing, which undermines the interoperability goal in AC #1.
+
+3. **Medium** — Task 6.3 is marked done, but the test does not verify the promised all-zero ULID result.
+
+- Story evidence: `3-2-bidirectional-ulid-guid-conversion.md:77` says `ToSortableUniqueIdFromEmptyGuidReturnsAllZerosUlid` verifies that `Guid.Empty` produces an all-zeros ULID string.
+- Test evidence: `test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs:386-390` only checks length and Crockford Base32 format.
+- Impact: the specific behavior claimed by the task is not actually locked in by the test suite.
+
+### Verification Notes
+
+- Working tree was clean during review, so there were no uncommitted or staged file deltas to compare against the story's file list.
+- `dotnet build` succeeded for `test/Hexalith.Commons.Tests/Hexalith.Commons.Tests.csproj`.
+- `dotnet test` succeeded with 183/183 passing tests after fixes.
+
+### Resolution
+
+- Fixed `ToGuid()` to normalize lowercase ULID input and wrap parse failures in a descriptive `FormatException`.
+- Added a lowercase ULID round-trip test to prove interoperability with case-insensitive ULID input.
+- Tightened the `Guid.Empty` edge-case test to assert the exact all-zero ULID output.
