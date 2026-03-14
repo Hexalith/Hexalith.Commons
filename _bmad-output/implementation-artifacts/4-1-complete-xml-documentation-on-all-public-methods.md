@@ -1,6 +1,6 @@
 # Story 4.1: Complete XML Documentation on All Public Methods
 
-Status: review
+Status: done
 
 ## Story
 
@@ -56,7 +56,7 @@ so that I can discover and understand each ID strategy directly via IntelliSense
 
 - [x] Task 5: Update `GenerateUniqueStringId()` XML docs (AC: #1, #4)
   - [x] 5.1 Review existing `<summary>` — adequate but brief
-  - [x] 5.2 Add `<remarks>` explaining: stateless (no lock needed), character set is A-Za-z0-9_-, suitable for unique keys where sort order doesn't matter
+  - [x] 5.2 Add `<remarks>` explaining: stateless (no lock needed), character set is A-Za-z0-9\_-, suitable for unique keys where sort order doesn't matter
   - [x] 5.3 Add `<example>` code snippet
 
 - [x] Task 6: Verify `ToGuid(string ulid)` XML docs (AC: #2)
@@ -86,14 +86,14 @@ so that I can discover and understand each ID strategy directly via IntelliSense
 
 ### Current XML Documentation State (Audit)
 
-| Method | `<summary>` | `<param>` | `<returns>` | `<remarks>` | `<exception>` | `<example>` | Status |
-|--------|:-----------:|:---------:|:-----------:|:-----------:|:-------------:|:-----------:|--------|
-| `ExtractTimestamp(string ulid)` | ✓ | ✓ | ✓ | **MISSING** | ✓ (both) | **MISSING** | Needs `<remarks>` and `<example>` |
-| `GenerateDateTimeId()` | ✓ | N/A | ✓ | **MISSING** | N/A | **MISSING** | Needs `<remarks>` and `<example>` |
-| `GenerateSortableUniqueStringId()` | ✓ | N/A | ✓ | **MISSING** | N/A | **MISSING** | Needs `<remarks>` and `<example>` |
-| `GenerateUniqueStringId()` | ✓ | N/A | ✓ | **MISSING** | N/A | **MISSING** | Needs `<remarks>` and `<example>` |
-| `ToGuid(string ulid)` | ✓ | ✓ | ✓ | ✓ (ADR-004) | ✓ (both) | **MISSING** | Needs `<example>` only |
-| `ToSortableUniqueId(Guid value)` | ✓ | ✓ | ✓ | ✓ (ADR-004) | N/A | **MISSING** | Needs `<example>` only |
+| Method                             | `<summary>` | `<param>` | `<returns>` | `<remarks>` | `<exception>` | `<example>` | Status                            |
+| ---------------------------------- | :---------: | :-------: | :---------: | :---------: | :-----------: | :---------: | --------------------------------- |
+| `ExtractTimestamp(string ulid)`    |      ✓      |     ✓     |      ✓      | **MISSING** |   ✓ (both)    | **MISSING** | Needs `<remarks>` and `<example>` |
+| `GenerateDateTimeId()`             |      ✓      |    N/A    |      ✓      | **MISSING** |      N/A      | **MISSING** | Needs `<remarks>` and `<example>` |
+| `GenerateSortableUniqueStringId()` |      ✓      |    N/A    |      ✓      | **MISSING** |      N/A      | **MISSING** | Needs `<remarks>` and `<example>` |
+| `GenerateUniqueStringId()`         |      ✓      |    N/A    |      ✓      | **MISSING** |      N/A      | **MISSING** | Needs `<remarks>` and `<example>` |
+| `ToGuid(string ulid)`              |      ✓      |     ✓     |      ✓      | ✓ (ADR-004) |   ✓ (both)    | **MISSING** | Needs `<example>` only            |
+| `ToSortableUniqueId(Guid value)`   |      ✓      |     ✓     |      ✓      | ✓ (ADR-004) |      N/A      | **MISSING** | Needs `<example>` only            |
 
 **Class-level `<summary>`:** Currently "Provides helper methods for generating unique IDs." — should be expanded to describe all three strategies.
 
@@ -108,6 +108,7 @@ so that I can discover and understand each ID strategy directly via IntelliSense
 ### XML Documentation Patterns
 
 **Class-level summary update:**
+
 ```csharp
 /// <summary>
 /// Provides static methods for generating unique identifiers in three strategies:
@@ -117,6 +118,7 @@ so that I can discover and understand each ID strategy directly via IntelliSense
 ```
 
 **`<remarks>` pattern for generation methods — explain trade-offs:**
+
 ```csharp
 /// <remarks>
 /// This method is thread-safe. [explain sync mechanism].
@@ -125,6 +127,7 @@ so that I can discover and understand each ID strategy directly via IntelliSense
 ```
 
 **`<example>` pattern — show typical usage:**
+
 ```csharp
 /// <example>
 /// <code>
@@ -149,6 +152,7 @@ so that I can discover and understand each ID strategy directly via IntelliSense
 ### Method Alphabetical Order (SA1201)
 
 Current order (must not change):
+
 1. `ExtractTimestamp(string ulid)`
 2. `GenerateDateTimeId()`
 3. `GenerateSortableUniqueStringId()`
@@ -158,13 +162,14 @@ Current order (must not change):
 
 ### Files to Modify (1 file, 0 new)
 
-| File | Action |
-|------|--------|
+| File                                                         | Action                                 |
+| ------------------------------------------------------------ | -------------------------------------- |
 | `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs` | Update XML documentation comments only |
 
 ### Previous Story Intelligence
 
 **Story 3.2 (Bidirectional ULID-Guid Conversion) established:**
+
 - ADR-004 remarks already on `ToGuid()` and `ToSortableUniqueId()` — do not duplicate or contradict
 - Parameter renamed from `guid` to `value` for CA1720 compliance — docs already use `value`
 - `CultureInfo.InvariantCulture` added to `BaUlid.Parse()` for CA1305 — irrelevant for docs
@@ -172,6 +177,7 @@ Current order (must not change):
 - 182 tests passing baseline
 
 **Story 3.1 (Extract Timestamp) established:**
+
 - Comprehensive `<exception>` documentation pattern with both `ArgumentException` and `FormatException`
 - `<param>` description includes format details: "A 26-character ULID string in Crockford Base32 format"
 
@@ -182,6 +188,7 @@ This story corresponds to documentation work in Epic 4 — the final epic. It fo
 ### Build Verification
 
 Current build tooling enforces:
+
 - `GenerateDocumentationFile=true` — XML doc file generated on build
 - 5 analyzers (SonarAnalyzer, StyleCop, Roslynator, Roslynator.Formatting, Threading Analyzers)
 - SA1600 (Elements should be documented) — applies to public members
@@ -207,7 +214,7 @@ Claude Opus 4.6 (1M context)
 
 - Baseline build: 0 warnings, 0 errors
 - Post-change build: 0 warnings, 0 errors
-- Test run: 182 passed, 0 failed, 0 skipped
+- Test run: 183 passed, 0 failed, 0 skipped
 
 ### Completion Notes List
 
@@ -222,9 +229,33 @@ Claude Opus 4.6 (1M context)
 - Task 8: `dotnet build` = 0 warnings, 0 errors. `dotnet test` = 182/182 passed. No SA1600-series violations.
 - All acceptance criteria satisfied. No method bodies modified. No new using directives. No ByteAether references in XML docs.
 
+### Senior Developer Review (AI)
+
+**Reviewer:** JeromePiquot  
+**Date:** 2026-03-14  
+**Outcome:** Approved
+
+#### Resolution Summary
+
+- No blocking implementation issues remain.
+- The XML documentation in `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs` satisfies AC 1-4.
+- Build and test verification were re-run successfully against the current repository state.
+- Story and sprint tracking have been reconciled to reflect the verified completed state.
+
+#### What I Validated
+
+- Acceptance criteria 1-4 are satisfied by the current implementation in `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs` (class/method XML docs and ADR-004 remarks present at lines 16, 35, 63, 104, 124, 145, 150, 181, and 187).
+- `dotnet build .\\src\\libraries\\Hexalith.Commons.UniqueIds\\Hexalith.Commons.UniqueIds.csproj --no-restore` succeeded on 2026-03-14 with no warnings or errors.
+- `dotnet test .\\test\\Hexalith.Commons.Tests\\Hexalith.Commons.Tests.csproj --no-restore` succeeded on 2026-03-14 with 183/183 tests passing.
+
+#### Follow-up
+
+- Story 4.1 is complete and ready to remain closed unless new regressions are introduced.
+
 ### Change Log
 
 - 2026-03-14: Completed XML documentation for all public methods on UniqueIdHelper (Story 4.1)
+- 2026-03-14: Senior Developer Review (AI) approved the verified implementation after revalidating build, tests, and story tracking
 
 ### File List
 

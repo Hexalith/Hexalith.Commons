@@ -1,6 +1,6 @@
 # Hexalith.Commons.UniqueIds
 
-> Lightweight unique identifier generation for .NET applications.
+> Three ID strategies for .NET — DateTime, Base64URL, and ULID — pick the right one in 30 seconds.
 
 [![NuGet](https://img.shields.io/nuget/v/Hexalith.Commons.UniqueIds.svg)](https://www.nuget.org/packages/Hexalith.Commons.UniqueIds)
 
@@ -8,12 +8,13 @@
 
 ## Overview
 
-**Hexalith.Commons.UniqueIds** provides two methods for generating unique identifiers, each optimized for different use cases:
+**Hexalith.Commons.UniqueIds** provides three unique identifier strategies via the static `UniqueIdHelper` class:
 
-| Method | Length | Format | Best For |
-|--------|--------|--------|----------|
-| `GenerateDateTimeId()` | 17 chars | `yyyyMMddHHmmssfff` | Sortable, human-readable IDs |
-| `GenerateUniqueStringId()` | 22 chars | Base64 URL-safe | Distributed systems, high throughput |
+| Method                             | Format                | Length   | Sortable            | Distributed-Safe    | Thread-Safe     | Best For                           |
+| ---------------------------------- | --------------------- | -------- | ------------------- | ------------------- | --------------- | ---------------------------------- |
+| `GenerateDateTimeId()`             | `yyyyMMddHHmmssfff`   | 17 chars | Yes (chronological) | No (single machine) | Yes (locked)    | Log entries, file names            |
+| `GenerateUniqueStringId()`         | Base64URL GUID        | 22 chars | No                  | Yes                 | Yes (stateless) | Legacy keys, session tokens        |
+| `GenerateSortableUniqueStringId()` | Crockford Base32 ULID | 26 chars | Yes (chronological) | Yes                 | Yes (monotonic) | **Event sourcing, DDD aggregates** |
 
 ---
 
@@ -30,293 +31,162 @@ dotnet add package Hexalith.Commons.UniqueIds
 ```csharp
 using Hexalith.Commons.UniqueIds;
 
-// DateTime-based ID (sortable, readable)
+// Sortable + distributed (event sourcing, DDD)
+string ulidId = UniqueIdHelper.GenerateSortableUniqueStringId();
+// "01HYX7QS3NP8M4KQJR5A7CVWKM" — 26-char ULID
+
+// Distributed (legacy keys, session tokens)
+string base64Id = UniqueIdHelper.GenerateUniqueStringId();
+// "gZOW2EgVrEq5SBJLegYcVA" — 22-char Base64URL
+
+// Human-readable (single machine, logs)
 string dateId = UniqueIdHelper.GenerateDateTimeId();
-// Example: "20240615143052789"
-
-// GUID-based ID (distributed-safe)
-string uniqueId = UniqueIdHelper.GenerateUniqueStringId();
-// Example: "gZOW2EgVrEq5SBJLegYcVA"
+// "20260314143052789" — 17-char timestamp
 ```
 
 ---
 
-## DateTime-Based IDs
+## Method Reference
 
-### GenerateDateTimeId()
+### GenerateSortableUniqueStringId()
 
-Generates a 17-character identifier based on the current UTC timestamp.
-
-```csharp
-public static string GenerateDateTimeId()
-```
-
-**Returns:** String in format `yyyyMMddHHmmssfff`
-
-**Example:**
-```csharp
-string id = UniqueIdHelper.GenerateDateTimeId();
-// "20240615143052789"
-//  ^^^^              Year (2024)
-//      ^^            Month (06 = June)
-//        ^^          Day (15)
-//          ^^        Hour (14 = 2 PM)
-//            ^^      Minute (30)
-//              ^^    Second (52)
-//                ^^^ Millisecond (789)
-```
-
-### Characteristics
-
-| Property | Value |
-|----------|-------|
-| Length | 17 characters |
-| Character set | 0-9 |
-| Timezone | UTC |
-| Sortable | Yes (chronological) |
-| Human readable | Yes |
-| Thread safe | Yes |
-| Max rate | 1 per millisecond |
-
-### Thread Safety
-
-The method is thread-safe and handles concurrent calls:
+Generates a 26-character ULID — sortable, distributed-safe, ideal for event sourcing.
 
 ```csharp
-// Thread-safe: automatic increment for same-millisecond calls
-var tasks = Enumerable.Range(0, 100)
-    .Select(_ => Task.Run(() => UniqueIdHelper.GenerateDateTimeId()));
+string id = UniqueIdHelper.GenerateSortableUniqueStringId();
+// "01HYX7QS3NP8M4KQJR5A7CVWKM"
 
-string[] ids = await Task.WhenAll(tasks);
-
-// All IDs are unique
-Debug.Assert(ids.Distinct().Count() == 100);
+// ULIDs sort chronologically as plain strings
+string[] ids = Enumerable.Range(0, 5)
+    .Select(_ => UniqueIdHelper.GenerateSortableUniqueStringId())
+    .ToArray();
+// ids are already in creation order — no OrderBy needed
 ```
-
-### Use Cases
-
-**Log correlation IDs:**
-```csharp
-public class LogEntry
-{
-    public string Id { get; } = UniqueIdHelper.GenerateDateTimeId();
-    public string Message { get; set; }
-    public DateTime Timestamp { get; set; }
-}
-
-// IDs sort naturally by creation time
-var logs = logEntries.OrderBy(l => l.Id);
-```
-
-**Sequential order numbers:**
-```csharp
-public class Order
-{
-    public string OrderNumber { get; } = UniqueIdHelper.GenerateDateTimeId();
-    // OrderNumber: "20240615143052789"
-}
-```
-
-**File naming with timestamp:**
-```csharp
-string backupFile = $"backup_{UniqueIdHelper.GenerateDateTimeId()}.zip";
-// "backup_20240615143052789.zip"
-```
-
-### Limitations
-
-- **Rate limit**: Maximum 1 unique ID per millisecond
-- **Single machine**: Not suitable for distributed ID generation
-- **Predictable**: Sequential nature may be undesirable for some use cases
-
----
-
-## GUID-Based IDs
 
 ### GenerateUniqueStringId()
 
-Generates a 22-character identifier derived from a GUID using URL-safe Base64 encoding.
+Generates a 22-character Base64URL string from a GUID. Distributed-safe but not sortable.
 
-```csharp
-public static string GenerateUniqueStringId()
-```
-
-**Returns:** 22-character URL-safe string
-
-**Example:**
 ```csharp
 string id = UniqueIdHelper.GenerateUniqueStringId();
 // "gZOW2EgVrEq5SBJLegYcVA"
-```
 
-### Characteristics
-
-| Property | Value |
-|----------|-------|
-| Length | 22 characters |
-| Character set | A-Z, a-z, 0-9, _, - |
-| Sortable | No |
-| Human readable | No |
-| Thread safe | Yes |
-| Uniqueness | Globally unique (GUID-based) |
-| URL safe | Yes |
-
-### Encoding Details
-
-The method:
-1. Generates a new GUID
-2. Converts to Base64
-3. Replaces `+` with `_` and `/` with `-`
-4. Truncates trailing `==` padding
-
-```csharp
-// Equivalent to:
-Guid guid = Guid.NewGuid();
-string base64 = Convert.ToBase64String(guid.ToByteArray());
-string urlSafe = base64.Replace('+', '_').Replace('/', '-').TrimEnd('=');
-// Result: 22 characters
-```
-
-### Use Cases
-
-**Primary keys:**
-```csharp
-public class Entity
-{
-    public string Id { get; } = UniqueIdHelper.GenerateUniqueStringId();
-}
-
-// Short, URL-safe IDs for REST APIs
+// URL-safe — use directly in REST routes
 // GET /api/orders/gZOW2EgVrEq5SBJLegYcVA
 ```
 
-**Distributed systems:**
-```csharp
-// Safe to generate across multiple servers
-public class DistributedEvent
-{
-    public string EventId { get; } = UniqueIdHelper.GenerateUniqueStringId();
-    public string Payload { get; set; }
-}
-```
+### GenerateDateTimeId()
 
-**Session tokens:**
-```csharp
-string sessionId = UniqueIdHelper.GenerateUniqueStringId();
-Response.Cookies.Append("session", sessionId);
-```
+Generates a 17-character UTC timestamp ID. Human-readable and sortable, but single-machine only.
 
-**Correlation IDs for distributed tracing:**
 ```csharp
-public class RequestContext
-{
-    public string CorrelationId { get; } = UniqueIdHelper.GenerateUniqueStringId();
-}
+string id = UniqueIdHelper.GenerateDateTimeId();
+// "20260314143052789"
 
-// Pass through HTTP headers
-httpClient.DefaultRequestHeaders.Add("X-Correlation-Id", context.CorrelationId);
+// Format breakdown: yyyyMMddHHmmssfff
+// Thread-safe: same-millisecond calls auto-increment
 ```
 
 ---
 
-## Comparison
+## Conversion Utilities
 
-| Feature | GenerateDateTimeId | GenerateUniqueStringId |
-|---------|-------------------|----------------------|
-| **Length** | 17 chars | 22 chars |
-| **Characters** | 0-9 only | Alphanumeric + _ - |
-| **Sortable** | Yes | No |
-| **Human readable** | Yes | No |
-| **Distributed safe** | No | Yes |
-| **Rate limit** | 1/ms | Unlimited |
-| **Predictable** | Yes | No |
-| **URL safe** | Yes | Yes |
+### ExtractTimestamp(string ulid)
 
-### Decision Guide
+Need to know when an entity was created? Extract the embedded UTC timestamp from any ULID.
 
-Use `GenerateDateTimeId()` when:
-- IDs need to be sortable by creation time
-- Human readability is important
-- Single-server deployment
-- Low throughput (< 1000/second)
+```csharp
+string ulid = UniqueIdHelper.GenerateSortableUniqueStringId();
+DateTimeOffset created = UniqueIdHelper.ExtractTimestamp(ulid);
+// Returns the exact UTC time the ULID was generated
+```
 
-Use `GenerateUniqueStringId()` when:
-- Distributed system with multiple servers
-- High throughput requirements
-- Unpredictable IDs preferred
-- Standard GUID uniqueness guarantees needed
+### ToGuid(string ulid)
+
+Your ERP only accepts GUIDs? Convert your internal ULID while preserving the 128-bit identity.
+
+```csharp
+string ulid = UniqueIdHelper.GenerateSortableUniqueStringId();
+Guid guid = UniqueIdHelper.ToGuid(ulid);
+// Use guid for external systems that require System.Guid
+```
+
+> **Note:** `ToGuid` preserves identity but NOT lexicographic sort order. Two ULIDs that sort correctly as strings may not sort the same way as Guids due to byte-order differences.
+
+### ToSortableUniqueId(Guid value)
+
+Converting back from a Guid to a ULID string? Round-trip is lossless for Guids originally derived from ULIDs.
+
+```csharp
+// Round-trip: ULID → Guid → ULID
+string original = UniqueIdHelper.GenerateSortableUniqueStringId();
+Guid guid = UniqueIdHelper.ToGuid(original);
+string restored = UniqueIdHelper.ToSortableUniqueId(guid);
+// restored == original (case-insensitive)
+```
+
+> **Note:** Converting a non-ULID Guid (e.g., `Guid.NewGuid()`) produces a valid ULID string, but its embedded timestamp is meaningless.
 
 ---
 
-## Examples
+## Decision Guide
 
-### Combined Usage
+| Use Case                              | Recommended Method                                              |
+| ------------------------------------- | --------------------------------------------------------------- |
+| **Event sourcing / DDD aggregates**   | `GenerateSortableUniqueStringId()` — sortable + distributed     |
+| **Distributed keys / session tokens** | `GenerateUniqueStringId()` — compact + GUID-backed              |
+| **Log entries / file names**          | `GenerateDateTimeId()` — human-readable timestamps              |
+| **Migrating Base64URL to ULID**       | Generate ULID for new records; keep old Base64URL IDs unchanged |
+| **Interop with Guid-only systems**    | `ToGuid()` / `ToSortableUniqueId()` — lossless round-trip       |
+
+---
+
+## Combined Usage
 
 ```csharp
 public class AuditLog
 {
-    // Sortable, timestamp-based ID for ordering
-    public string LogId { get; } = UniqueIdHelper.GenerateDateTimeId();
+    // ULID: sortable, distributed-safe event ID
+    public string EventId { get; } = UniqueIdHelper.GenerateSortableUniqueStringId();
 
-    // Globally unique correlation for distributed tracing
+    // Base64URL: globally unique correlation for tracing
     public string CorrelationId { get; set; }
 
     public string Action { get; set; }
     public string UserId { get; set; }
 }
 
-// Usage
 var log = new AuditLog
 {
     CorrelationId = UniqueIdHelper.GenerateUniqueStringId(),
-    Action = "UserLogin",
-    UserId = "user123"
+    Action = "OrderPlaced",
+    UserId = "user-42"
 };
-```
-
-### ID Generation Service
-
-```csharp
-public interface IIdGenerator
-{
-    string NewId();
-    string NewSortableId();
-}
-
-public class HexalithIdGenerator : IIdGenerator
-{
-    public string NewId() => UniqueIdHelper.GenerateUniqueStringId();
-    public string NewSortableId() => UniqueIdHelper.GenerateDateTimeId();
-}
-
-// Register in DI
-services.AddSingleton<IIdGenerator, HexalithIdGenerator>();
 ```
 
 ---
 
 ## Thread Safety
 
-Both methods are fully thread-safe:
+All three methods are fully thread-safe:
 
 ```csharp
-// Concurrent generation test
 var ids = new ConcurrentBag<string>();
 
-Parallel.For(0, 10000, _ =>
+Parallel.For(0, 10_000, _ =>
 {
-    ids.Add(UniqueIdHelper.GenerateUniqueStringId());
+    ids.Add(UniqueIdHelper.GenerateSortableUniqueStringId());
 });
 
-// All 10,000 IDs are unique
-Debug.Assert(ids.Distinct().Count() == 10000);
+// All 10,000 IDs are unique and in monotonic order within each millisecond
+Debug.Assert(ids.Distinct().Count() == 10_000);
 ```
 
 ---
 
 ## License
 
-MIT License - See [LICENSE](../../../LICENSE) for details.
+MIT License — See [LICENSE](../../../LICENSE) for details.
 
 ---
 
