@@ -1,6 +1,6 @@
 # Story 2.1: Implement Sortable Unique ID Generation
 
-Status: in-progress
+Status: done
 
 ## Story
 
@@ -331,12 +331,13 @@ Files changed: `UniqueIdHelper.cs` (4 lines), `UniqueHelperTest.cs` (43 lines ad
 
 ### Project Structure Notes
 
-Files to modify (2 files, 0 new):
+Files to modify (3 files, 0 new):
 
-| File                                                         | Change                                                                            |
-| ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
-| `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs` | Add type aliases, `_ulidOptions` field, `GenerateSortableUniqueStringId()` method |
-| `test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs`  | Add ~5 new test methods + 1 `[GeneratedRegex]` pattern                            |
+| File                                                                         | Change                                                                            |
+| ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `src/libraries/Hexalith.Commons.UniqueIds/Hexalith.Commons.UniqueIds.csproj` | Add `ByteAether.Ulid` package reference                                           |
+| `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs`                 | Add type aliases, `_ulidOptions` field, `GenerateSortableUniqueStringId()` method |
+| `test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs`                  | Add ~5 new test methods + 1 `[GeneratedRegex]` pattern                            |
 
 ### References
 
@@ -370,15 +371,18 @@ Claude Opus 4.6 (1M context)
 
 ### File List
 
-| File                                                         | Change                                                                            |
-| ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
-| `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs` | Added type alias, `_ulidOptions` field, `GenerateSortableUniqueStringId()` method |
-| `test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs`  | Added 5 test methods + `CrockfordBase32Pattern()` generated regex                 |
+| File                                                                         | Change                                                                            |
+| ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `src/libraries/Hexalith.Commons.UniqueIds/Hexalith.Commons.UniqueIds.csproj` | Added `ByteAether.Ulid` package reference (4 lines)                               |
+| `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs`                 | Added type alias, `_ulidOptions` field, `GenerateSortableUniqueStringId()` method |
+| `test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs`                  | Added 5 test methods + `CrockfordBase32Pattern()` generated regex                 |
 
 ### Change Log
 
 - 2026-03-14: Implemented Story 2.1 — Added `GenerateSortableUniqueStringId()` public API method returning 26-char ULID strings, with 5 comprehensive tests covering format, sortability, concurrency, monotonicity, and strategy coexistence
-- 2026-03-14: Senior Developer Review (AI) completed — implementation validated, but story/gitreality traceability issues require follow-up before marking done
+- 2026-03-14: Senior Developer Review (AI) completed — implementation validated, but story/git reality traceability issues require follow-up before marking done
+- 2026-03-14: Addressed review findings — updated File List to include `.csproj` (finding #1); working tree is clean on main branch (finding #2 resolved)
+- 2026-03-14: Senior Developer Review (AI) re-run completed — no remaining implementation or traceability issues; story marked done and sprint status synced
 
 ## Senior Developer Review (AI)
 
@@ -412,3 +416,31 @@ Claude Opus 4.6 (1M context)
 - Code quality: **Approved**
 - Story/review traceability: **Changes Requested**
 - Final story status: **in-progress** until the story record matches the actual branch contents
+
+### Review Follow-up Resolution (2026-03-14)
+
+- [x] Finding #1 resolved: File List updated to include `Hexalith.Commons.UniqueIds.csproj` with 3 files total
+- [x] Finding #2 resolved: Working tree is clean on main branch, no undocumented submodule changes
+
+### Re-review (2026-03-14)
+
+**Reviewer:** GitHub Copilot
+**Outcome:** Approved
+
+### What I validated
+
+- Acceptance Criteria 1-5 remain fully implemented in `UniqueIdHelper.cs` and `UniqueHelperTest.cs`
+- `dotnet build Hexalith.Commons.sln` succeeded with zero warnings and zero errors
+- `dotnet test Hexalith.Commons.sln` passed with 162/162 tests green
+- `Hexalith.Builds/Props/Directory.Packages.props` still pins `ByteAether.Ulid` to `1.3.5`
+- The remaining story traceability inconsistency in Project Structure Notes was corrected to match the three-file implementation footprint
+
+### Findings
+
+- No HIGH, MEDIUM, or LOW issues remain
+
+### Decision
+
+- Code quality: **Approved**
+- Story/review traceability: **Approved**
+- Final story status: **done**
