@@ -9,12 +9,23 @@ using System;
 using System.Globalization;
 using System.Threading;
 
+using BaUlid = ByteAether.Ulid.Ulid;
+
 /// <summary>
 /// Provides helper methods for generating unique IDs.
 /// </summary>
 public static class UniqueIdHelper
 {
     private static readonly Lock _dateTimeLock = new();
+
+    /// <summary>
+    /// Generation options for ULID with monotonic increment to ensure within-millisecond ordering.
+    /// </summary>
+    private static readonly BaUlid.GenerationOptions _ulidOptions = new()
+    {
+        Monotonicity = BaUlid.GenerationOptions.MonotonicityOptions.MonotonicIncrement,
+    };
+
     private static DateTime _previous = DateTime.MinValue;
 
     /// <summary>
@@ -46,6 +57,15 @@ public static class UniqueIdHelper
             return currentDateTime.ToString("yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
         }
     }
+
+    /// <summary>
+    /// Generates a sortable unique 26-character ID string based on the ULID specification.
+    /// ULIDs are chronologically sortable and distributed-safe, making them ideal for
+    /// event sourcing, aggregate identifiers, and any use case requiring natural ordering.
+    /// </summary>
+    /// <returns>A 26-character Crockford Base32 encoded ULID string.</returns>
+    public static string GenerateSortableUniqueStringId()
+        => BaUlid.New(_ulidOptions).ToString();
 
     /// <summary>
     /// Generates a unique 22-character ID string derived from a GUID encoded in Base64 URL-safe format.
