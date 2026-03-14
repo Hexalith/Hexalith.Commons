@@ -1,6 +1,6 @@
 # Story 2.1: Implement Sortable Unique ID Generation
 
-Status: review
+Status: in-progress
 
 ## Story
 
@@ -82,16 +82,17 @@ This story implements **Architecture step 9** from the 12-step test-gated implem
 
 **CRITICAL: These are the exact API names verified from ByteAether.Ulid documentation — do NOT guess or invent alternatives.**
 
-| API | Usage |
-|-----|-------|
-| `ByteAether.Ulid.Ulid` | The ULID struct. Type alias: `using BaUlid = ByteAether.Ulid.Ulid;` |
-| `ByteAether.Ulid.Ulid.GenerationOptions` | Nested class for generation config. Access via `BaUlid.GenerationOptions` |
+| API                                                               | Usage                                                                         |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `ByteAether.Ulid.Ulid`                                            | The ULID struct. Type alias: `using BaUlid = ByteAether.Ulid.Ulid;`           |
+| `ByteAether.Ulid.Ulid.GenerationOptions`                          | Nested class for generation config. Access via `BaUlid.GenerationOptions`     |
 | `BaUlid.GenerationOptions.MonotonicityOptions.MonotonicIncrement` | Enum value. Access via fully qualified path through alias (no `using static`) |
-| `BaUlid.New(options)` | Generate ULID with options. Returns `Ulid` struct |
-| `.ToString()` | Returns 26-char Crockford Base32 string (uppercase: `0-9A-HJKMNP-TV-Z`) |
-| `BaUlid.Parse(string)` | Parse ULID from string. Throws on invalid format |
+| `BaUlid.New(options)`                                             | Generate ULID with options. Returns `Ulid` struct                             |
+| `.ToString()`                                                     | Returns 26-char Crockford Base32 string (uppercase: `0-9A-HJKMNP-TV-Z`)       |
+| `BaUlid.Parse(string)`                                            | Parse ULID from string. Throws on invalid format                              |
 
 **WARNING — Architecture doc inaccuracies (corrected here):**
+
 - Architecture says `MonotonicityMode.Monotonic` → ACTUAL: `BaUlid.GenerationOptions.MonotonicityOptions.MonotonicIncrement`
 - Architecture says `using BaGenerationOptions = ByteAether.Ulid.GenerationOptions;` → ACTUAL: `GenerationOptions` is nested inside `Ulid`, so access via `BaUlid.GenerationOptions` (through type alias)
 - Architecture suggests `using static` for `MonotonicityOptions` → NOT USED: this codebase has no `using static` directives; use fully qualified path instead
@@ -101,6 +102,7 @@ This story implements **Architecture step 9** from the 12-step test-gated implem
 **File: `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs`**
 
 Add type alias at the top of the file (after existing `using` directives, before `namespace`):
+
 ```csharp
 using BaUlid = ByteAether.Ulid.Ulid;
 ```
@@ -108,6 +110,7 @@ using BaUlid = ByteAether.Ulid.Ulid;
 **Note:** No `using static` — this codebase has no `using static` directives. Instead, access `MonotonicityOptions` via the fully qualified path through the type alias: `BaUlid.GenerationOptions.MonotonicityOptions.MonotonicIncrement`.
 
 Add static readonly field. **SA1214 ordering:** `static readonly` fields come BEFORE `static` (non-readonly) fields. Since `_dateTimeLock` and `_ulidOptions` are both `static readonly`, and `_previous` is `static` (mutable), the correct order is: `_dateTimeLock`, `_ulidOptions`, then `_previous`.
+
 ```csharp
 /// <summary>
 /// Generation options for ULID with monotonic increment to ensure within-millisecond ordering.
@@ -119,6 +122,7 @@ private static readonly BaUlid.GenerationOptions _ulidOptions = new()
 ```
 
 Add public method (alphabetical ordering — after `GenerateDateTimeId()`, before `GenerateUniqueStringId()`):
+
 ```csharp
 /// <summary>
 /// Generates a sortable unique 26-character ID string based on the ULID specification.
@@ -133,6 +137,7 @@ public static string GenerateSortableUniqueStringId()
 **That's it — 3 additions to the source file. No lock, no `_previousUlid`, no validation logic.**
 
 **Thread-Safety Decision (RESOLVED):** Start lock-free. ByteAether's `GenerationOptions` is designed for shared-instance usage with internal monotonic state management. Implement the one-liner first, then run the concurrency test (Task 5). If and ONLY if the concurrency test fails with duplicate IDs, apply this fix:
+
 1. Add field: `private static readonly Lock _ulidLock = new();` (SA1214: between `_dateTimeLock` and `_ulidOptions`)
 2. Change method body to: `using (_ulidLock.EnterScope()) { return BaUlid.New(_ulidOptions).ToString(); }`
 3. Re-run ALL tests to confirm fix
@@ -156,6 +161,7 @@ private static partial Regex CrockfordBase32Pattern();
 ```
 
 **Format test:**
+
 ```csharp
 /// <summary>
 /// Tests that a generated sortable unique string ID is exactly 26 characters
@@ -179,6 +185,7 @@ public void GenerateSortableUniqueStringIdProduces26CharCrockfordBase32String()
 ```
 
 **Monotonic ordering test:**
+
 ```csharp
 /// <summary>
 /// Tests that 100 sequential sortable unique IDs are monotonically increasing,
@@ -202,6 +209,7 @@ Use strict `ShouldBeGreaterThan(0)` — `MonotonicIncrement` guarantees strictly
 **Out of scope:** Clock skew (system clock jumping backward) and ULID timestamp overflow behavior are delegated entirely to ByteAether and are NOT in scope for this story's tests. Do not attempt to write clock-skew tests or handling.
 
 **Sortability test (1,000 IDs):**
+
 ```csharp
 /// <summary>
 /// Tests that 1,000 sequentially generated sortable unique IDs maintain chronological
@@ -222,6 +230,7 @@ public void GetAThousandSortableUniqueIdStringInChronologicalOrder()
 ```
 
 **Concurrency test (100 parallel tasks):**
+
 ```csharp
 /// <summary>
 /// Tests that concurrent generation of 100 sortable unique IDs
@@ -244,6 +253,7 @@ public async Task GetAHundredConcurrentSortableUniqueIdStringWithoutAnyDuplicate
 ```
 
 **FR14 coexistence test:**
+
 ```csharp
 /// <summary>
 /// Tests that all three ID strategies (DateTime, Base64URL, ULID) coexist independently
@@ -294,6 +304,7 @@ using ByteAether.Ulid;  // NO — "Ulid" collides with namespace
 **Branch name:** `feat/2-1-implement-sortable-unique-id-generation` (created from `main` AFTER Story 1.2 is merged)
 
 This story requires **1 commit** (source + tests together since they are a single feature):
+
 - Message: `feat(unique-ids): add sortable ULID generation` (47 chars — under 50-char limit)
 - This is a `feat` because it adds a new public API method (triggers minor version bump per semantic-release)
 - **CRITICAL:** Do NOT commit until ALL tasks (1-7) pass. Complete all code changes, run `dotnet build` and `dotnet test` to verify zero warnings/errors and all tests green, THEN commit once.
@@ -310,7 +321,8 @@ This story requires **1 commit** (source + tests together since they are a singl
 ### Git Intelligence
 
 Recent commits on branch `feat/1-2-lock-existing-behavior-and-refactor-lock-strategy`:
-- `0b695a7` refactor(unique-ids): rename _lock to _dateTimeLock for per-strategy isolation
+
+- `0b695a7` refactor(unique-ids): rename \_lock to \_dateTimeLock for per-strategy isolation
 - `a354cc3` test(unique-ids): add characterization and regression tests for existing ID methods
 
 Files changed: `UniqueIdHelper.cs` (4 lines), `UniqueHelperTest.cs` (43 lines added)
@@ -321,10 +333,10 @@ Files changed: `UniqueIdHelper.cs` (4 lines), `UniqueHelperTest.cs` (43 lines ad
 
 Files to modify (2 files, 0 new):
 
-| File | Change |
-|------|--------|
+| File                                                         | Change                                                                            |
+| ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
 | `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs` | Add type aliases, `_ulidOptions` field, `GenerateSortableUniqueStringId()` method |
-| `test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs` | Add ~5 new test methods + 1 `[GeneratedRegex]` pattern |
+| `test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs`  | Add ~5 new test methods + 1 `[GeneratedRegex]` pattern                            |
 
 ### References
 
@@ -358,11 +370,45 @@ Claude Opus 4.6 (1M context)
 
 ### File List
 
-| File | Change |
-|------|--------|
+| File                                                         | Change                                                                            |
+| ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
 | `src/libraries/Hexalith.Commons.UniqueIds/UniqueIdHelper.cs` | Added type alias, `_ulidOptions` field, `GenerateSortableUniqueStringId()` method |
-| `test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs` | Added 5 test methods + `CrockfordBase32Pattern()` generated regex |
+| `test/Hexalith.Commons.Tests/UniqueIds/UniqueHelperTest.cs`  | Added 5 test methods + `CrockfordBase32Pattern()` generated regex                 |
 
 ### Change Log
 
 - 2026-03-14: Implemented Story 2.1 — Added `GenerateSortableUniqueStringId()` public API method returning 26-char ULID strings, with 5 comprehensive tests covering format, sortability, concurrency, monotonicity, and strategy coexistence
+- 2026-03-14: Senior Developer Review (AI) completed — implementation validated, but story/gitreality traceability issues require follow-up before marking done
+
+## Senior Developer Review (AI)
+
+**Reviewer:** GitHub Copilot
+**Date:** 2026-03-14
+**Outcome:** Changes Requested
+
+### What I validated
+
+- Acceptance Criteria 1-5 are implemented in code and covered by tests
+- `dotnet build Hexalith.Commons.sln` succeeded with zero warnings and zero errors
+- Full test run passed: 162/162 tests
+- ULID dependency state is present as expected in `Hexalith.Builds/Props/Directory.Packages.props:77` and `src/libraries/Hexalith.Commons.UniqueIds/Hexalith.Commons.UniqueIds.csproj:8`
+
+### Findings
+
+1. **Medium — Story file list does not match git reality**
+
+- The story still claims `Files to modify (2 files, 0 new)` and the Dev Agent Record lists only `UniqueIdHelper.cs` and `UniqueHelperTest.cs`.
+- However, git shows `src/libraries/Hexalith.Commons.UniqueIds/Hexalith.Commons.UniqueIds.csproj` as modified too, and that file contains the active `ByteAether.Ulid` package reference at line 8.
+- Evidence: story notes at lines 303, 322, and 359 vs git status plus `src/libraries/Hexalith.Commons.UniqueIds/Hexalith.Commons.UniqueIds.csproj:8`.
+- Impact: implementation is correct, but review traceability is incomplete, so the story should not be marked `done` yet.
+
+2. **Medium — Working tree includes additional undocumented changes during review**
+
+- Git status also shows an uncommitted `Hexalith.Builds` submodule change while Story 2.1 is under review.
+- Impact: this makes it unclear whether the review is being performed from a clean Story 2.1 branch state, which the story itself says should be based on a fresh branch from `main`.
+
+### Decision
+
+- Code quality: **Approved**
+- Story/review traceability: **Changes Requested**
+- Final story status: **in-progress** until the story record matches the actual branch contents
