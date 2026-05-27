@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-generate-project-context
 description: 'Create project-context.md with AI rules. Use when the user says "generate project context" or "create project context"'
@@ -79,3 +80,11 @@ Activation is complete. If `activation_steps_prepend` or `activation_steps_appen
 Load and execute `./steps/step-01-discover.md` to begin the workflow.
 
 **Note:** Input document discovery and initialization protocols are handled in step-01-discover.md.
+=======
+---
+name: bmad-generate-project-context
+description: Create project-context.md with AI rules. Use when the user says "generate project context" or "create project context"
+---
+
+IT IS CRITICAL THAT YOU FOLLOW THIS COMMAND: LOAD the FULL {project-root}/_bmad/bmm/workflows/generate-project-context/workflow.md, READ its entire contents and follow its directions exactly!
+>>>>>>> 326373f (chore: sync workspace updates)

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-dev-story
 description: 'Execute story implementation following a context filled story spec file. Use when the user says "dev this story [story file]" or "implement the next story in the sprint plan"'
@@ -498,3 +499,11 @@ Activation is complete. If `activation_steps_prepend` or `activation_steps_appen
   </step>
 
 </workflow>
+=======
+---
+name: bmad-dev-story
+description: Execute story implementation following a context filled story spec file. Use when the user says "dev this story [story file]" or "implement the next story in the sprint plan"
+---
+
+IT IS CRITICAL THAT YOU FOLLOW THIS COMMAND: LOAD the FULL {project-root}/_bmad/bmm/workflows/4-implementation/dev-story/workflow.md, READ its entire contents and follow its directions exactly!
+>>>>>>> 326373f (chore: sync workspace updates)

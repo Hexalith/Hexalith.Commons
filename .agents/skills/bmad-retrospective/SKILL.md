@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-retrospective
 description: 'Post-epic review to extract lessons and assess success. Use when the user says "run a retrospective" or "lets retro the epic [epic]"'
@@ -1510,3 +1511,11 @@ Charlie (Senior Dev): "Time to knock out that prep work."
 <guideline>Document everything - retrospective insights are valuable for future reference</guideline>
 <guideline>Two-part structure ensures both reflection AND preparation</guideline>
 </facilitation-guidelines>
+=======
+---
+name: bmad-retrospective
+description: Post-epic review to extract lessons and assess success. Use when the user says "run a retrospective" or "lets retro the epic [epic]"
+---
+
+IT IS CRITICAL THAT YOU FOLLOW THIS COMMAND: LOAD the FULL {project-root}/_bmad/bmm/workflows/4-implementation/retrospective/workflow.md, READ its entire contents and follow its directions exactly!
+>>>>>>> 326373f (chore: sync workspace updates)

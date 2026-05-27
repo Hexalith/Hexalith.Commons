@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-testarch-trace
 description: 'Generate traceability matrix and quality gate decision. Use when the user says "lets create traceability matrix" or "I want to analyze test coverage"'
@@ -85,3 +86,11 @@ This workflow uses **tri-modal step-file architecture**:
 - **If E:** Load `{skill-root}/steps-e/step-01-assess.md`
 
 Create mode resolves the coverage oracle automatically in this order: formal requirements, contract/spec artifacts, resolvable external pointers (when `allow_external_pointer_resolution` is enabled), then synthetic journeys/requirements inferred from source (when `allow_synthetic_oracle` is enabled and no formal oracle exists).
+=======
+---
+name: bmad-testarch-trace
+description: 'Generate traceability matrix and quality gate decision. Use when the user says "lets create traceability matrix" or "I want to analyze test coverage"'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)

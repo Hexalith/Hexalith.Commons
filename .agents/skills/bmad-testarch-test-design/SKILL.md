@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-testarch-test-design
 description: 'Create system-level or epic-level test plans. Use when the user says "lets design test plan" or "I want to create test strategy"'
@@ -85,3 +86,11 @@ This workflow uses **tri-modal step-file architecture**:
 - **If E:** Load `{skill-root}/steps-e/step-01-assess.md`
 
 Resume mode reads explicit progress metadata from the progress file (`workflowStatus`, `nextStep`, `totalSteps`) and falls back to legacy `lastStep` data when needed.
+=======
+---
+name: bmad-testarch-test-design
+description: 'Create system-level or epic-level test plans. Use when the user says "lets design test plan" or "I want to create test strategy"'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)

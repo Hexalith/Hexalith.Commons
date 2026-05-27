@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-qa-generate-e2e-tests
 description: 'Generate end to end automated tests for existing features. Use when the user says "create qa automated tests for [feature]"'
@@ -174,3 +175,11 @@ Save summary to: `{default_output_file}`
 Run: `python3 {project-root}/_bmad/scripts/resolve_customization.py --skill {skill-root} --key workflow.on_complete`
 
 If the resolved `workflow.on_complete` is non-empty, follow it as the final terminal instruction before exiting.
+=======
+---
+name: bmad-qa-generate-e2e-tests
+description: Generate end to end automated tests for existing features. Use when the user says "create qa automated tests for [feature]"
+---
+
+IT IS CRITICAL THAT YOU FOLLOW THIS COMMAND: LOAD the FULL {project-root}/_bmad/bmm/workflows/qa-generate-e2e-tests/workflow.md, READ its entire contents and follow its directions exactly!
+>>>>>>> 326373f (chore: sync workspace updates)

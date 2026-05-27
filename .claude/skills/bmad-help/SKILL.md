@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-help
 description: 'Analyzes current state and user query to answer BMad questions or recommend the next skill(s) to use. Use when user asks for help, bmad help, what to do next, or what to start with in BMad.'
@@ -73,3 +74,11 @@ For each recommended item, present:
 - Recommend running each skill in a **fresh context window**
 - Match the user's tone — conversational when they're casual, structured when they want specifics
 - If the active module is ambiguous, retrieve all meta rows remote sources to find relevant info also to help answer their question
+=======
+---
+name: bmad-help
+description: 'Analyzes what is done and the users query and offers advice on what to do next. Use if user says what should I do next or what do I do now'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)

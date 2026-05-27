@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-shard-doc
 description: 'Splits large markdown documents into smaller, organized files based on level 2 (default) sections. Use if the user says perform shard document'
@@ -103,3 +104,11 @@ Present user with options for the original document:
 ## HALT CONDITIONS
 
 - HALT if npx command fails or produces no output files
+=======
+---
+name: bmad-shard-doc
+description: 'Splits large markdown documents into smaller, organized files based on level 2 (default) sections. Use if the user says perform shard document'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)

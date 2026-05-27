@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-sprint-planning
 description: 'Generate sprint status tracking from epics. Use when the user says "run sprint planning" or "generate sprint plan"'
@@ -298,3 +299,11 @@ optional ↔ done
 3. **Parallel Work Supported**: Multiple stories can be `in-progress` if team capacity allows
 4. **Review Before Done**: Stories should pass through `review` before `done`
 5. **Learning Transfer**: Developer typically creates next story after previous one is `done` to incorporate learnings
+=======
+---
+name: bmad-sprint-planning
+description: Generate sprint status tracking from epics. Use when the user says "run sprint planning" or "generate sprint plan"
+---
+
+IT IS CRITICAL THAT YOU FOLLOW THIS COMMAND: LOAD the FULL {project-root}/_bmad/bmm/workflows/4-implementation/sprint-planning/workflow.md, READ its entire contents and follow its directions exactly!
+>>>>>>> 326373f (chore: sync workspace updates)

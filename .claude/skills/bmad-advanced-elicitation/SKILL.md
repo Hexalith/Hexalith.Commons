@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-advanced-elicitation
 description: 'Push the LLM to reconsider, refine, and improve its recent output. Use when user asks for deeper critique or mentions a known deeper critique method, e.g. socratic, first principles, pre-mortem, red team.'
@@ -140,3 +141,11 @@ x. Proceed / No Further Actions
   1. Apply to the current enhanced version of the content
   2. Show the improvements made
   3. Return to the prompt for additional elicitations or completion
+=======
+---
+name: bmad-advanced-elicitation
+description: Push the LLM to reconsider refine and improve its recent output. Use when the user asks for advanced elicitation.
+---
+
+IT IS CRITICAL THAT YOU FOLLOW THIS COMMAND: LOAD the FULL {project-root}/_bmad/core/workflows/advanced-elicitation/workflow.md, READ its entire contents and follow its directions exactly!
+>>>>>>> 326373f (chore: sync workspace updates)

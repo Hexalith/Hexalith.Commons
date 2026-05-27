@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-testarch-atdd
 description: 'Generate red-phase acceptance test scaffolds using the TDD cycle. Use when the user says "lets write acceptance tests" or "I want to do ATDD"'
@@ -83,3 +84,11 @@ This workflow uses **tri-modal step-file architecture**:
 - **If R:** Load `{skill-root}/steps-c/step-01b-resume.md` (Create-mode continuation)
 - **If V:** Load `{skill-root}/steps-v/step-01-validate.md`
 - **If E:** Load `{skill-root}/steps-e/step-01-assess.md`
+=======
+---
+name: bmad-testarch-atdd
+description: 'Generate failing acceptance tests using TDD cycle. Use when the user says "lets write acceptance tests" or "I want to do ATDD"'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)

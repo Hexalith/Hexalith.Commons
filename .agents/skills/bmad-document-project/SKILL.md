@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-document-project
 description: 'Document brownfield projects for AI context. Use when the user says "document this project" or "generate project docs"'
@@ -60,3 +61,11 @@ Activation is complete. If `activation_steps_prepend` or `activation_steps_appen
 ## Execution
 
 Read fully and follow: `./instructions.md`
+=======
+---
+name: bmad-document-project
+description: Document brownfield projects for AI context. Use when the user says "document this project" or "generate project docs"
+---
+
+IT IS CRITICAL THAT YOU FOLLOW THIS COMMAND: LOAD the FULL {project-root}/_bmad/bmm/workflows/document-project/workflow.md, READ its entire contents and follow its directions exactly!
+>>>>>>> 326373f (chore: sync workspace updates)

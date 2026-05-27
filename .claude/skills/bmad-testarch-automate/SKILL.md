@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-testarch-automate
 description: 'Expand test automation coverage for codebase. Use when user says "lets expand test coverage" or "I want to automate tests"'
@@ -83,3 +84,11 @@ This workflow uses **tri-modal step-file architecture**:
 - **If R:** Load `{skill-root}/steps-c/step-01b-resume.md` (Create-mode continuation)
 - **If V:** Load `{skill-root}/steps-v/step-01-validate.md`
 - **If E:** Load `{skill-root}/steps-e/step-01-assess.md`
+=======
+---
+name: bmad-testarch-automate
+description: 'Expand test automation coverage for codebase. Use when user says "lets expand test coverage" or "I want to automate tests"'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)

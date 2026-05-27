@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-create-architecture
 description: 'Create architecture solution design decisions for AI agent consistency. Use when the user says "lets create architecture" or "create technical architecture" or "create a solution design"'
@@ -72,3 +73,11 @@ Activation is complete. If `activation_steps_prepend` or `activation_steps_appen
 Read fully and follow: `./steps/step-01-init.md` to begin the workflow.
 
 **Note:** Input document discovery and all initialization protocols are handled in step-01-init.md.
+=======
+---
+name: bmad-create-architecture
+description: Create architecture solution design decisions for AI agent consistency. Use when the user says "lets create architecture" or "create technical architecture" or "create a solution design"
+---
+
+IT IS CRITICAL THAT YOU FOLLOW THIS COMMAND: LOAD the FULL {project-root}/_bmad/bmm/workflows/3-solutioning/create-architecture/workflow.md, READ its entire contents and follow its directions exactly!
+>>>>>>> 326373f (chore: sync workspace updates)

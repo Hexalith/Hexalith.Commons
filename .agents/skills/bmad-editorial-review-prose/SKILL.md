@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-editorial-review-prose
 description: 'Clinical copy-editor that reviews text for communication issues. Use when user says review for prose or improve the prose'
@@ -84,3 +85,11 @@ description: 'Clinical copy-editor that reviews text for communication issues. U
 - HALT with error if content is empty or fewer than 3 words
 - HALT with error if reader_type is not `humans` or `llm`
 - If no issues found after thorough review, output "No editorial issues identified" (this is valid completion, not an error)
+=======
+---
+name: bmad-editorial-review-prose
+description: 'Clinical copy-editor that reviews text for communication issues. Use when user says review for prose or improve the prose'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)

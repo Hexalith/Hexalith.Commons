@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-create-epics-and-stories
 description: 'Break requirements into epics and user stories. Use when the user says "create the epics and stories list"'
@@ -91,3 +92,11 @@ Activation is complete. If `activation_steps_prepend` or `activation_steps_appen
 ## Execution
 
 Read fully and follow: `./steps/step-01-validate-prerequisites.md` to begin the workflow.
+=======
+---
+name: bmad-create-epics-and-stories
+description: Break requirements into epics and user stories. Use when the user says "create the epics and stories list"
+---
+
+IT IS CRITICAL THAT YOU FOLLOW THIS COMMAND: LOAD the FULL {project-root}/_bmad/bmm/workflows/3-solutioning/create-epics-and-stories/workflow.md, READ its entire contents and follow its directions exactly!
+>>>>>>> 326373f (chore: sync workspace updates)

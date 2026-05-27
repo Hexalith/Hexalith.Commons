@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-correct-course
 description: 'Manage significant changes during sprint execution. Use when the user says "correct course" or "propose sprint change"'
@@ -299,3 +300,11 @@ Activation is complete. If `activation_steps_prepend` or `activation_steps_appen
 </step>
 
 </workflow>
+=======
+---
+name: bmad-correct-course
+description: Manage significant changes during sprint execution. Use when the user says "correct course" or "propose sprint change"
+---
+
+IT IS CRITICAL THAT YOU FOLLOW THIS COMMAND: LOAD the FULL {project-root}/_bmad/bmm/workflows/4-implementation/correct-course/workflow.md, READ its entire contents and follow its directions exactly!
+>>>>>>> 326373f (chore: sync workspace updates)

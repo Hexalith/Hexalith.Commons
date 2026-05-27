@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-testarch-nfr
 description: 'Audit NFR evidence for performance, security, reliability, and scalability. Use when implementation evidence exists and the user says "audit NFR evidence", "audit NFRs", or "evaluate non-functional requirements"'
@@ -83,3 +84,11 @@ This workflow uses **tri-modal step-file architecture**:
 - **If R:** Load `{skill-root}/steps-c/step-01b-resume.md` (Create-mode continuation)
 - **If V:** Load `{skill-root}/steps-v/step-01-validate.md`
 - **If E:** Load `{skill-root}/steps-e/step-01-assess.md`
+=======
+---
+name: bmad-testarch-nfr
+description: 'Assess NFRs like performance security and reliability. Use when the user says "lets assess NFRs" or "I want to evaluate non-functional requirements"'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)

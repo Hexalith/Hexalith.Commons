@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-editorial-review-structure
 description: 'Structural editor that proposes cuts, reorganization, and simplification while preserving comprehension. Use when user requests structural review or editorial review of structure'
@@ -177,3 +178,11 @@ Use the following output format:
 - HALT with error if content is empty or fewer than 3 words
 - HALT with error if reader_type is not "humans" or "llm"
 - If no structural issues found, output "No substantive changes recommended" (this is valid completion, not an error)
+=======
+---
+name: bmad-editorial-review-structure
+description: 'Structural editor that proposes cuts, reorganization, and simplification while preserving comprehension. Use when user requests structural review or editorial review of structure'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)

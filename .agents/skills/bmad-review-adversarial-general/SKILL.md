@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-review-adversarial-general
 description: 'Perform a Cynical Review and produce a findings report. Use when the user requests a critical review of something'
@@ -35,3 +36,11 @@ Output findings as a Markdown list (descriptions only).
 
 - HALT if zero findings — this is suspicious, re-analyze or ask for guidance
 - HALT if content is empty or unreadable
+=======
+---
+name: bmad-review-adversarial-general
+description: 'Perform a Cynical Review and produce a findings report. Use when the user requests a critical review of something'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)

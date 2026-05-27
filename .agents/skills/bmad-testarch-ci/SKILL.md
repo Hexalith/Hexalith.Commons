@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-testarch-ci
 description: 'Scaffold CI/CD quality pipeline with test execution. Use when the user says "lets setup CI pipeline" or "I want to create quality gates"'
@@ -83,3 +84,11 @@ This workflow uses **tri-modal step-file architecture**:
 - **If R:** Load `{skill-root}/steps-c/step-01b-resume.md` (Create-mode continuation)
 - **If V:** Load `{skill-root}/steps-v/step-01-validate.md`
 - **If E:** Load `{skill-root}/steps-e/step-01-assess.md`
+=======
+---
+name: bmad-testarch-ci
+description: 'Scaffold CI/CD quality pipeline with test execution. Use when the user says "lets setup CI pipeline" or "I want to create quality gates"'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)

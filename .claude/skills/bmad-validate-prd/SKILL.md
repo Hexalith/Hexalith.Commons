@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-validate-prd
 description: 'DEPRECATED — consolidated into bmad-prd validate intent - this skill will be removed in v7 in favor of `bmad-prd`.'
@@ -28,3 +29,11 @@ This skill was consolidated into `bmad-prd`. It is retained as a thin compatibil
    - **Original user input:** forward whatever the user said when invoking this skill verbatim (the target PRD path, etc.).
 
    `bmad-prd` takes the workflow from here. Do not execute any further steps in this shim.
+=======
+---
+name: bmad-validate-prd
+description: Validate a PRD against standards. Use when the user says "validate this PRD" or "run PRD validation"
+---
+
+IT IS CRITICAL THAT YOU FOLLOW THIS COMMAND: LOAD the FULL {project-root}/_bmad/bmm/workflows/2-plan-workflows/create-prd/workflow-validate-prd.md, READ its entire contents and follow its directions exactly!
+>>>>>>> 326373f (chore: sync workspace updates)

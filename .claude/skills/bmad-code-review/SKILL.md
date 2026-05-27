@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-code-review
 description: 'Review code changes adversarially using parallel review layers (Blind Hunter, Edge Case Hunter, Acceptance Auditor) with structured triage into actionable categories. Use when the user says "run code review" or "review this code"'
@@ -88,3 +89,11 @@ This uses **step-file architecture** for disciplined execution:
 ## FIRST STEP
 
 Read fully and follow: `./steps/step-01-gather-context.md`
+=======
+---
+name: bmad-code-review
+description: Perform adversarial code review finding specific issues. Use when the user says "run code review" or "review this code"
+---
+
+IT IS CRITICAL THAT YOU FOLLOW THIS COMMAND: LOAD the FULL {project-root}/_bmad/bmm/workflows/4-implementation/code-review/workflow.md, READ its entire contents and follow its directions exactly!
+>>>>>>> 326373f (chore: sync workspace updates)

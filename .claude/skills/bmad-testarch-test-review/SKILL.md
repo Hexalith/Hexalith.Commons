@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-testarch-test-review
 description: 'Review test quality using best practices validation. Use when user says "lets review tests" or "I want to evaluate test quality"'
@@ -83,3 +84,11 @@ This workflow uses **tri-modal step-file architecture**:
 - **If R:** Load `{skill-root}/steps-c/step-01b-resume.md` (Create-mode continuation)
 - **If V:** Load `{skill-root}/steps-v/step-01-validate.md`
 - **If E:** Load `{skill-root}/steps-e/step-01-assess.md`
+=======
+---
+name: bmad-testarch-test-review
+description: 'Review test quality using best practices validation. Use when user says "lets review tests" or "I want to evaluate test quality"'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)

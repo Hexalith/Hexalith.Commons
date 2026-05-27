@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 name: bmad-teach-me-testing
 description: 'Teach testing progressively through structured sessions. Use when user says "lets learn testing" or "I want to study test practices"'
@@ -127,3 +128,11 @@ Then load, read the full file, and then execute `{skill-root}/steps-v/step-v-01-
 **IF mode == edit:**
 Prompt for what to edit: "What would you like to edit in the teaching workflow?"
 Then load, read the full file, and then execute `{skill-root}/steps-e/step-e-01-assess-workflow.md`.
+=======
+---
+name: bmad-teach-me-testing
+description: 'Teach testing progressively through structured sessions. Use when user says "lets learn testing" or "I want to study test practices"'
+---
+
+Follow the instructions in [workflow.md](workflow.md).
+>>>>>>> 326373f (chore: sync workspace updates)
