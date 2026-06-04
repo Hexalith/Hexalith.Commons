@@ -1,0 +1,88 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Hexalith.Builds/">
+    <File Path=".github/copilot-instructions.md" />
+    <File Path=".github/workflows/update-version.yml" />
+    <File Path="Hexalith.Builds/.clinerules" />
+    <File Path="Hexalith.Builds/.cursorrules" />
+    <File Path="Hexalith.Builds/.github/workflows/copy-ai-assistant-instructions.yml" />
+    <File Path="Hexalith.Builds/.gitignore" />
+    <File Path="Hexalith.Builds/ai-assistant-instructions.md" />
+    <File Path="Hexalith.Builds/ai-commit-prompt.md" />
+    <File Path="Hexalith.Builds/Hexalith.Build.props" />
+    <File Path="Hexalith.Builds/Hexalith.globalconfig" />
+    <File Path="Hexalith.Builds/Hexalith.Package.props" />
+    <File Path="Hexalith.Builds/LICENSE" />
+    <File Path="Hexalith.Builds/README.md" />
+    <File Path="Hexalith.Builds/stylecop.json" />
+  </Folder>
+  <Folder Name="/Hexalith.Builds/Github/" />
+  <Folder Name="/Hexalith.Builds/Github/create-release/">
+    <File Path="Hexalith.Builds/Github/create-release/action.yml" />
+  </Folder>
+  <Folder Name="/Hexalith.Builds/Github/initialize-build/">
+    <File Path="Hexalith.Builds/Github/initialize-build/action.yml" />
+  </Folder>
+  <Folder Name="/Hexalith.Builds/Github/initialize-dotnet/">
+    <File Path="Hexalith.Builds/Github/initialize-dotnet/action.yml" />
+  </Folder>
+  <Folder Name="/Hexalith.Builds/Github/package-release/">
+    <File Path="Hexalith.Builds/Github/package-release/action.yml" />
+    <File Path="Hexalith.Builds/Github/package-release/README.md" />
+  </Folder>
+  <Folder Name="/Hexalith.Builds/Github/publish-packages/">
+    <File Path="Hexalith.Builds/Github/publish-packages/action.yml" />
+    <File Path="Hexalith.Builds/Github/publish-packages/README.md" />
+  </Folder>
+  <Folder Name="/Hexalith.Builds/Github/unit-tests/">
+    <File Path="Hexalith.Builds/Github/unit-tests/action.yml" />
+  </Folder>
+  <Folder Name="/Hexalith.Builds/Github/version/">
+    <File Path="Hexalith.Builds/Github/version/action.yml" />
+  </Folder>
+  <Folder Name="/Hexalith.Builds/Props/">
+    <File Path="Hexalith.Builds/Props/Directory.Packages.props" />
+    <File Path="Hexalith.Builds/Props/Environment.Build.props" />
+  </Folder>
+  <Folder Name="/Hexalith.Builds/Samples/">
+    <File Path="Hexalith.Builds/Samples/Module.Directory.Build.props" />
+    <File Path="Hexalith.Builds/Samples/Module.Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/Hexalith.Builds/Tools/">
+    <File Path="Hexalith.Builds/Tools/builds-submodule-init.ps1" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".clinerules" />
+  </Folder>
+  <Folder Name="/src/">
+    <File Path="src/Directory.Build.props" />
+    <File Path="src/README.md" />
+  </Folder>
+  <Folder Name="/src/libraries/">
+    <File Path="src/libraries/Directory.Build.props" />
+    <File Path="src/libraries/README.md" />
+    <Project Path="src/libraries/Hexalith.Commons/Hexalith.Commons.csproj" />
+    <Project Path="src/libraries/Hexalith.Commons.Configurations/Hexalith.Commons.Configurations.csproj" />
+    <Project Path="src/libraries/Hexalith.Commons.Http/Hexalith.Commons.Http.csproj" />
+    <Project Path="src/libraries/Hexalith.Commons.Metadatas/Hexalith.Commons.Metadatas.csproj" />
+    <Project Path="src/libraries/Hexalith.Commons.StringEncoders/Hexalith.Commons.StringEncoders.csproj" />
+    <Project Path="src/libraries/Hexalith.Commons.UniqueIds/Hexalith.Commons.UniqueIds.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/Hexalith.Commons.Tests/Hexalith.Commons.Tests.csproj" />
+    <Project Path="test/Hexalith.Commons.Http.Tests/Hexalith.Commons.Http.Tests.csproj" />
+  </Folder>
+  <Folder Name="/_builds/">
+    <File Path=".editorconfig" />
+    <File Path=".github/workflows/build-release.yml" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+</Solution>
