@@ -1,0 +1,44 @@
+<Project>
+  <!--
+    Self-contained build properties for Hexalith.Commons.Http.
+
+    Unlike the sibling Commons libraries, this project does NOT walk up into
+    src/libraries/Directory.Build.props (which unconditionally imports the nested
+    Hexalith.Builds submodule). The umbrella checkouts that consume this helper as a
+    source dependency follow a root-only submodule policy and do not initialize Commons's
+    nested Hexalith.Builds, so the shared props are unavailable there. This domain-agnostic
+    helper is the Story 3.1 promote tracer-bullet and must build green from those umbrella
+    checkouts; it therefore declares the load-bearing build settings inline, mirroring the
+    self-contained pattern used by other promote-target modules (for example EventStore).
+
+    MSBuild stops at the nearest Directory.Build.props, so placing this file in the project
+    folder isolates the project from the nested-Builds import without affecting any other
+    Commons library. Central package versions still resolve through the resilient
+    Commons/Directory.Packages.props fallback chain.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <LangVersion>latest</LangVersion>
+    <Deterministic>true</Deterministic>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsPackable>true</IsPackable>
+    <IsPublishable>false</IsPublishable>
+    <Authors>Hexalith Contributors</Authors>
+    <Company>Hexalith</Company>
+    <Product>Hexalith.Commons</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Hexalith/Hexalith.Commons</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Hexalith/Hexalith.Commons</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>hexalith;commons;http;httpclient;dependencyinjection;dotnet</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Hexalith.Commons.Http.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+</Project>
