@@ -13,5 +13,6 @@
   <Import Project="$(Hexalith3BuildPackageProps)" Condition="'$(HexalithVersionsLoaded)' != 'true'" />
   <ItemGroup>
     <!-- Define packages versions for this module. -->
+    <PackageVersion Include="MinVer" Version="8.0.0-rc.1" />
   </ItemGroup>
 </Project>
