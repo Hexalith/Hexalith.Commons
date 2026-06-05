@@ -5,10 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hexalith.PolymorphicSerializations" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Hexalith.Commons.UniqueIds\Hexalith.Commons.UniqueIds.csproj" />
+    <ProjectReference Include="$(HexalithPolymorphicSerializationsRoot)\src\libraries\Hexalith.PolymorphicSerializations\Hexalith.PolymorphicSerializations.csproj" />
   </ItemGroup>
 </Project>
