@@ -1,5 +1,0 @@
-# Stop EditorConfig inheritance at the Hexalith.Commons module root so that, when the module is
-# consumed as a co-located submodule inside another repository, the parent repository's
-# .editorconfig does not override Commons' code style. Style rules come from the
-# Hexalith.globalconfig shipped in Hexalith.Builds (e.g. usings inside the namespace).
-root = true
