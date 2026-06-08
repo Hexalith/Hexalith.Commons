@@ -280,9 +280,15 @@ public sealed class TenantAccessEvaluatorTest
         Owner,
     }
 
-    private sealed class StaticHealthProvider(TenantAccessProjectionHealth? health = null) : ITenantAccessProjectionHealthProvider
+    private sealed class StaticHealthProvider : ITenantAccessProjectionHealthProvider
     {
-        private readonly TenantAccessProjectionHealth? _health = health ?? new(1, "tenant-a:1", false, false, false, false);
+        private static readonly TenantAccessProjectionHealth HealthyDefault = new(1, "tenant-a:1", false, false, false, false);
+
+        private readonly TenantAccessProjectionHealth? _health;
+
+        public StaticHealthProvider() => _health = HealthyDefault;
+
+        public StaticHealthProvider(TenantAccessProjectionHealth? health) => _health = health;
 
         public ValueTask<TenantAccessProjectionHealth?> GetProjectionHealthAsync(
             string tenantId,
