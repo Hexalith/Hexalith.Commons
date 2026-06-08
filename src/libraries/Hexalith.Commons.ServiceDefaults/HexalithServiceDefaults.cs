@@ -149,10 +149,7 @@ public static class HexalithServiceDefaults
         Action<HexalithServiceDefaultsOptions>? configure = null)
     {
         ArgumentNullException.ThrowIfNull(httpContext);
-        HexalithServiceDefaultsOptions options = HexalithServiceDefaultsOptions.Create(configure);
-        return !httpContext.Request.Path.StartsWithSegments(options.HealthEndpointPath)
-            && !httpContext.Request.Path.StartsWithSegments(options.LivenessEndpointPath)
-            && !httpContext.Request.Path.StartsWithSegments(options.ReadinessEndpointPath);
+        return ShouldTraceHttpRequest(httpContext, HexalithServiceDefaultsOptions.Create(configure));
     }
 
     /// <summary>
@@ -270,7 +267,7 @@ public static class HexalithServiceDefaults
                 }
 
                 _ = tracing
-                    .AddAspNetCoreInstrumentation(aspNetCore => aspNetCore.Filter = context => ShouldTraceHttpRequest(context, _ => CopyEndpointOptions(options, _)))
+                    .AddAspNetCoreInstrumentation(aspNetCore => aspNetCore.Filter = context => ShouldTraceHttpRequest(context, options))
                     .AddHttpClientInstrumentation();
 
                 foreach (Action<TracerProviderBuilder> hook in options.ConfigureTracing)
@@ -309,17 +306,11 @@ public static class HexalithServiceDefaults
         return builder;
     }
 
+    private static bool ShouldTraceHttpRequest(HttpContext httpContext, HexalithServiceDefaultsOptions options)
+        => !httpContext.Request.Path.StartsWithSegments(options.HealthEndpointPath)
+            && !httpContext.Request.Path.StartsWithSegments(options.LivenessEndpointPath)
+            && !httpContext.Request.Path.StartsWithSegments(options.ReadinessEndpointPath);
+
     private static bool IsOtlpConfigured(IConfiguration configuration)
         => !string.IsNullOrWhiteSpace(configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
-
-    private static void CopyEndpointOptions(
-        HexalithServiceDefaultsOptions source,
-        HexalithServiceDefaultsOptions target)
-    {
-        target.HealthEndpointPath = source.HealthEndpointPath;
-        target.LivenessEndpointPath = source.LivenessEndpointPath;
-        target.ReadinessEndpointPath = source.ReadinessEndpointPath;
-        target.LivenessTag = source.LivenessTag;
-        target.ReadinessTag = source.ReadinessTag;
-    }
 }

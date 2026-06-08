@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Shouldly;
@@ -191,7 +192,17 @@ public sealed class HexalithServiceDefaultsTest
             options.ConfigureTracing.Add(_ => calls.Add("tracing"));
         });
 
-        calls.ShouldBe(["logging", "metrics", "tracing", "health"]);
+        // The metrics, tracing, and health hooks are applied eagerly during registration, each after the
+        // shared defaults for its provider — so their relative order is deterministic at this point.
+        calls.ShouldBe(["metrics", "tracing", "health"]);
+
+        // The logging hook is registered against OpenTelemetryLoggerOptions and therefore runs lazily, when
+        // the logging pipeline is materialized rather than during AddHexalithServiceDefaults. Force that
+        // materialization to prove the module logging hook is executed and not silently dropped.
+        using ServiceProvider provider = builder.Services.BuildServiceProvider();
+        _ = provider.GetRequiredService<ILoggerFactory>().CreateLogger("hexalith.test");
+
+        calls.ShouldContain("logging");
     }
 
     private static HealthCheckServiceOptions BuildHealthOptions(IServiceCollection services)
