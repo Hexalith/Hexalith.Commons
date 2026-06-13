@@ -4,7 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <!-- CA1812/S1144: the typed-client double is instantiated via DI reflection, which these rules cannot see. -->
-    <NoWarn>$(NoWarn);IDE0079;RCS1251;CA2201;VSTHRD111;CA1812;S1144;</NoWarn>
+    <NoWarn>$(NoWarn);IDE0079;RCS1251;CA2201;VSTHRD111;CA1812;S1144;CS8602;CS8604;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
