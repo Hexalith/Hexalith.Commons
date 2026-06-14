@@ -8,9 +8,12 @@
     <Hexalith2BuildBuildProps>$(MSBuildThisFileDirectory)../Hexalith.Builds/Hexalith.Build.props</Hexalith2BuildBuildProps>
     <Hexalith3BuildBuildProps>$(MSBuildThisFileDirectory)../../Hexalith.Builds/Hexalith.Build.props</Hexalith3BuildBuildProps>
     <!-- Resolve Hexalith.PolymorphicSerializations source path for root-level and nested layouts.
-         Parent-level sibling paths are only used when the parent is a submodule host. -->
-    <HexalithPolymorphicSerializationsRoot Condition="'$(HexalithPolymorphicSerializationsRoot)' == '' and Exists('$(MSBuildThisFileDirectory)../.gitmodules') and Exists('$(MSBuildThisFileDirectory)../Hexalith.PolymorphicSerializations/src/libraries/Hexalith.PolymorphicSerializations/')">$(MSBuildThisFileDirectory)../Hexalith.PolymorphicSerializations</HexalithPolymorphicSerializationsRoot>
+         Prefer the nested (child) submodule; when it is not initialized, fall back to the
+         parent-level sibling submodule. The Exists check on each path is sufficient — no
+         .gitmodules guard is needed, so the sibling is used even when the parent is not a
+         submodule host (e.g. standalone clones laid out as siblings). -->
     <HexalithPolymorphicSerializationsRoot Condition="'$(HexalithPolymorphicSerializationsRoot)' == '' and Exists('$(MSBuildThisFileDirectory)Hexalith.PolymorphicSerializations/src/libraries/Hexalith.PolymorphicSerializations/')">$(MSBuildThisFileDirectory)Hexalith.PolymorphicSerializations</HexalithPolymorphicSerializationsRoot>
+    <HexalithPolymorphicSerializationsRoot Condition="'$(HexalithPolymorphicSerializationsRoot)' == '' and Exists('$(MSBuildThisFileDirectory)../Hexalith.PolymorphicSerializations/src/libraries/Hexalith.PolymorphicSerializations/')">$(MSBuildThisFileDirectory)../Hexalith.PolymorphicSerializations</HexalithPolymorphicSerializationsRoot>
   </PropertyGroup>
 
   <!-- Import the parent Directory.Build.props file if it exists -->
