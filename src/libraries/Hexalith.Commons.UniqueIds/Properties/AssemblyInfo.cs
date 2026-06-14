@@ -3,4 +3,4 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-[assembly: System.CLSCompliant(true)]
+[assembly: CLSCompliant(true)]

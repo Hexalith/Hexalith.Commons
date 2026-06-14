@@ -3,10 +3,10 @@
 // Licensed under the MIT License.
 // </copyright>
 
+namespace Hexalith.Commons.Http;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-
-namespace Hexalith.Commons.Http;
 
 /// <summary>
 /// Domain-agnostic registration helpers for typed <see cref="System.Net.Http.HttpClient"/> clients with
