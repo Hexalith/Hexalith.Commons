@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Domain-neutral publication transport helpers for Hexalith modules.</Description>
+  </PropertyGroup>
+
+</Project>

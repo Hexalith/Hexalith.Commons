@@ -140,7 +140,9 @@ public sealed class HexalithServiceDefaultsTest
 
         context.Response.ContentType.ShouldBe("application/json; charset=utf-8");
         context.Response.Body.Position = 0;
-        using JsonDocument document = await JsonDocument.ParseAsync(context.Response.Body).ConfigureAwait(true);
+        using JsonDocument document = await JsonDocument
+            .ParseAsync(context.Response.Body, cancellationToken: TestContext.Current.CancellationToken)
+            .ConfigureAwait(true);
         document.RootElement.GetProperty("status").GetString().ShouldBe("Degraded");
         JsonElement self = document.RootElement.GetProperty("results").GetProperty("self");
         self.GetProperty("status").GetString().ShouldBe("Degraded");
