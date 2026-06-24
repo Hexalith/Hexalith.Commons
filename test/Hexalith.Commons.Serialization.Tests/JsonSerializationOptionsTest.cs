@@ -60,6 +60,34 @@ public sealed class JsonSerializationOptionsTest
             JsonSerializationOptions.CreateWeb([null!]));
     }
 
+    /// <summary>
+    /// The <c>params</c> overload forwards its resolvers in declared order, so the first resolver that can describe
+    /// a type still wins — the convenience overload must not reorder the chain relative to the enumerable overload.
+    /// </summary>
+    [Fact]
+    public void CreateWebParamsOverloadShouldPreserveResolverOrder()
+    {
+        JsonSerializerOptions options = JsonSerializationOptions.CreateWeb(
+            includeReflectionFallback: false,
+            RenameSamplePropertyResolver("firstValue"),
+            RenameSamplePropertyResolver("secondValue"));
+
+        JsonSerializer.Serialize(new Sample("value"), options).ShouldBe("""{"firstValue":"value"}""");
+    }
+
+    /// <summary>
+    /// Options are created from <see cref="JsonSerializerDefaults.Web"/>, so output is camelCase and deserialization
+    /// is property-name case-insensitive — the web behavior FR-14 must preserve for wire compatibility.
+    /// </summary>
+    [Fact]
+    public void CreateWebShouldPreserveWebCamelCaseAndCaseInsensitiveDefaults()
+    {
+        JsonSerializerOptions options = JsonSerializationOptions.CreateWeb([new DefaultJsonTypeInfoResolver()]);
+
+        JsonSerializer.Serialize(new Sample("payload"), options).ShouldBe("""{"value":"payload"}""");
+        JsonSerializer.Deserialize<Sample>("""{"VALUE":"payload"}""", options).ShouldBe(new Sample("payload"));
+    }
+
     private static DefaultJsonTypeInfoResolver RenameSamplePropertyResolver(string propertyName)
         => new()
         {
