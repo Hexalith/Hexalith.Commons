@@ -25,4 +25,10 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>hexalith;commons;aspire;dapr;apphost;dotnet</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Hexalith.Commons.Aspire.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>
