@@ -1,10 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <IsPackable>true</IsPackable>
-    <GeneratePackageOnBuild Condition="'$(IDEBuild)' == 'true'">false</GeneratePackageOnBuild>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>Unique identifier generation for .NET: ULID (sortable, distributed-safe), Base64URL
       GUID, and DateTime-based IDs with conversion utilities.</Description>
   </PropertyGroup>
@@ -13,8 +9,4 @@
     <PackageReference Include="ByteAether.Ulid" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="$(ProjectRoot)/README.md" Pack="false" />
-    <None Include="README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
 </Project>
