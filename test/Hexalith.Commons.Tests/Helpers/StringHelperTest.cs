@@ -79,6 +79,46 @@ public class StringHelperTest
             .ShouldBe("Say hello world 11 times");
 
     /// <summary>
+    /// Tests that Jaro-Winkler similarity handles empty input without throwing.
+    /// </summary>
+    /// <param name="first">The first value.</param>
+    /// <param name="second">The second value.</param>
+    /// <param name="expected">The expected similarity.</param>
+    [Theory]
+    [InlineData(null, null, 1.0)]
+    [InlineData("", "", 1.0)]
+    [InlineData(null, "Dupont", 0.0)]
+    [InlineData("Dupont", "", 0.0)]
+    public void JaroWinklerSimilarityWithNullOrEmptyInputShouldReturnExpected(string? first, string? second, double expected)
+        => StringHelper.JaroWinklerSimilarity(first, second).ShouldBe(expected);
+
+    /// <summary>
+    /// Tests that Jaro-Winkler similarity matches known fuzzy pairs.
+    /// </summary>
+    /// <param name="first">The first value.</param>
+    /// <param name="second">The second value.</param>
+    /// <param name="minimum">The expected minimum similarity.</param>
+    [Theory]
+    [InlineData("Dupont", "Dupnt", 0.85)]
+    [InlineData("Dupont", "Dpuont", 0.85)]
+    [InlineData("Marie", "Marei", 0.85)]
+    [InlineData("DUPONT", "dupnt", 0.85)]
+    public void JaroWinklerSimilarityForKnownPairsShouldMeetThreshold(string first, string second, double minimum)
+        => StringHelper.JaroWinklerSimilarity(first, second).ShouldBeGreaterThanOrEqualTo(minimum);
+
+    /// <summary>
+    /// Tests that unrelated or identifier-like strings stay below the fuzzy threshold used by Parties search.
+    /// </summary>
+    /// <param name="first">The first value.</param>
+    /// <param name="second">The second value.</param>
+    [Theory]
+    [InlineData("Dupont", "xyz")]
+    [InlineData("Entry-50000", "Entry-10000")]
+    [InlineData("AB-99-XY", "AB-11-XY")]
+    public void JaroWinklerSimilarityForNoMatchPairsShouldStayBelowPartiesThreshold(string first, string second)
+        => StringHelper.JaroWinklerSimilarity(first, second).ShouldBeLessThan(0.85);
+
+    /// <summary>
     /// Tests that integer values are correctly converted to their
     /// invariant culture string representation.
     /// </summary>
@@ -153,4 +193,18 @@ public class StringHelperTest
     [InlineData("{{double}} {test}", "{{0}} {1}")]
     [InlineData("hello from {me} and {him}", "hello from {0} and {1}")]
     public void ReplaceNamedPlaceholdersShouldReturnExpectedStringWithIndices(string value, string expected) => StringHelper.ReplacePlaceholderNamesByIndex(value).ShouldBe(expected);
+
+    /// <summary>
+    /// Tests that composed and decomposed accents are stripped consistently.
+    /// </summary>
+    /// <param name="input">The input value.</param>
+    /// <param name="expected">The expected normalized value.</param>
+    [Theory]
+    [InlineData(null, "")]
+    [InlineData("", "")]
+    [InlineData("Dúpont", "Dupont")]
+    [InlineData("re\u0301sume\u0301", "resume")]
+    [InlineData("naïve", "naive")]
+    public void StripDiacriticsShouldReturnExpectedString(string? input, string expected)
+        => StringHelper.StripDiacritics(input).ShouldBe(expected);
 }

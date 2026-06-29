@@ -6,6 +6,7 @@
 namespace Hexalith.Commons.Strings;
 
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 
 /// <summary>
@@ -103,6 +104,98 @@ public static partial class StringHelper
     }
 
     /// <summary>
+    /// Computes the Jaro-Winkler similarity between two strings using invariant case-insensitive character comparison.
+    /// </summary>
+    /// <param name="value">The first value.</param>
+    /// <param name="other">The second value.</param>
+    /// <returns>A similarity score from 0 to 1.</returns>
+    public static double JaroWinklerSimilarity(string? value, string? other)
+    {
+        if (string.Equals(value, other, StringComparison.Ordinal))
+        {
+            return 1.0;
+        }
+
+        if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(other))
+        {
+            return 0.0;
+        }
+
+        int matchWindow = Math.Max(0, (Math.Max(value.Length, other.Length) / 2) - 1);
+
+        bool[] valueMatched = new bool[value.Length];
+        bool[] otherMatched = new bool[other.Length];
+
+        int matches = 0;
+        int transpositions = 0;
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            int start = Math.Max(0, i - matchWindow);
+            int end = Math.Min(i + matchWindow + 1, other.Length);
+
+            for (int j = start; j < end; j++)
+            {
+                if (otherMatched[j] || !char.Equals(char.ToLowerInvariant(value[i]), char.ToLowerInvariant(other[j])))
+                {
+                    continue;
+                }
+
+                valueMatched[i] = true;
+                otherMatched[j] = true;
+                matches++;
+                break;
+            }
+        }
+
+        if (matches == 0)
+        {
+            return 0.0;
+        }
+
+        int k = 0;
+        for (int i = 0; i < value.Length; i++)
+        {
+            if (!valueMatched[i])
+            {
+                continue;
+            }
+
+            while (!otherMatched[k])
+            {
+                k++;
+            }
+
+            if (!char.Equals(char.ToLowerInvariant(value[i]), char.ToLowerInvariant(other[k])))
+            {
+                transpositions++;
+            }
+
+            k++;
+        }
+
+        double jaro = (((double)matches / value.Length)
+            + ((double)matches / other.Length)
+            + ((double)(matches - (transpositions / 2)) / matches))
+            / 3.0;
+
+        int prefixLength = 0;
+        for (int i = 0; i < Math.Min(4, Math.Min(value.Length, other.Length)); i++)
+        {
+            if (char.Equals(char.ToLowerInvariant(value[i]), char.ToLowerInvariant(other[i])))
+            {
+                prefixLength++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return jaro + (prefixLength * 0.1 * (1.0 - jaro));
+    }
+
+    /// <summary>
     /// Replaces the placeholder names by their index.
     /// </summary>
     /// <param name="value">The value.</param>
@@ -111,6 +204,32 @@ public static partial class StringHelper
     {
         int i = 0;
         return EmptyJson().Replace(value, _ => "{" + i++ + "}");
+    }
+
+    /// <summary>
+    /// Removes non-spacing diacritic marks from a string.
+    /// </summary>
+    /// <param name="value">The value to normalize.</param>
+    /// <returns>The value without non-spacing diacritic marks, or an empty string for null input.</returns>
+    public static string StripDiacritics(string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return string.Empty;
+        }
+
+        string normalized = value.Normalize(NormalizationForm.FormD);
+        StringBuilder builder = new(normalized.Length);
+
+        foreach (char c in normalized)
+        {
+            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+            {
+                _ = builder.Append(c);
+            }
+        }
+
+        return builder.ToString();
     }
 
     /// <summary>
