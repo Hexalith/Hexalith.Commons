@@ -1,11 +1,9 @@
 // <copyright file="HttpCorrelationTest.cs" company="ITANEO">
-// Copyright (c) ITANEO. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace Hexalith.Commons.Http.Tests;
-
-using Hexalith.Commons.Metadatas;
 
 using Microsoft.AspNetCore.Http;
 
@@ -16,6 +14,10 @@ using Shouldly;
 /// </summary>
 public sealed class HttpCorrelationTest
 {
+    /// <summary>
+    /// Propagates a valid inbound correlation header and restores the previous ambient value.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous test operation.</returns>
     [Fact]
     public async Task InvokeAsyncShouldPropagateGuidHeaderAndRestoreAmbientValue()
     {
@@ -43,6 +45,10 @@ public sealed class HttpCorrelationTest
         accessor.CorrelationId.ShouldBe(previous);
     }
 
+    /// <summary>
+    /// Generates a new correlation identifier when the inbound header is malformed.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous test operation.</returns>
     [Fact]
     public async Task InvokeAsyncShouldGenerateGuidForMalformedHeader()
     {

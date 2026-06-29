@@ -1,6 +1,6 @@
 // <copyright file="BoundedProblemDetailsReaderTest.cs" company="ITANEO">
-// Copyright (c) ITANEO. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace Hexalith.Commons.Http.Tests;
@@ -15,6 +15,10 @@ using Shouldly;
 /// </summary>
 public sealed class BoundedProblemDetailsReaderTest
 {
+    /// <summary>
+    /// Reads problem details values from string fields in a problem response.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous test operation.</returns>
     [Fact]
     public async Task ReadAsyncShouldUseProblemStatusAndStringFields()
     {
@@ -37,6 +41,10 @@ public sealed class BoundedProblemDetailsReaderTest
         details.CorrelationId.ShouldBe("corr-1");
     }
 
+    /// <summary>
+    /// Ignores problem details fields that are not strings.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous test operation.</returns>
     [Fact]
     public async Task ReadAsyncShouldIgnoreNonStringProblemFields()
     {
@@ -59,6 +67,10 @@ public sealed class BoundedProblemDetailsReaderTest
         details.CorrelationId.ShouldBeNull();
     }
 
+    /// <summary>
+    /// Falls back to the HTTP status when the response body is malformed JSON.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous test operation.</returns>
     [Fact]
     public async Task ReadAsyncShouldFallbackToHttpStatusWhenJsonIsMalformed()
     {

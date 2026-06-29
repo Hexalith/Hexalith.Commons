@@ -9,8 +9,4 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Hexalith.Commons.Metadatas\Hexalith.Commons.Metadatas.csproj" />
-  </ItemGroup>
-
 </Project>
