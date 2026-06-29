@@ -8,11 +8,11 @@
   <Import Project="$(ParentDirectoryBuildProps)" Condition="Exists('$(ParentDirectoryBuildProps)')" />
 
   <!-- Import the Hexalith.Package.props file from Hexalith.Builds. Resolve across layouts:
-       1. Hexalith.Builds nested inside Hexalith.Commons (standalone clone).
-       2. A co-located root-level Hexalith.Builds in the consuming app repository.
+       1. Hexalith.Builds nested under this repository's references folder.
+       2. A co-located references-level Hexalith.Builds in the consuming app repository.
        3. One directory higher, for deeper nesting. Exactly one candidate is imported. -->
   <PropertyGroup>
-    <Hexalith1PackageProps>$(MSBuildThisFileDirectory)../../Hexalith.Builds/Hexalith.Package.props</Hexalith1PackageProps>
+    <Hexalith1PackageProps>$(MSBuildThisFileDirectory)../../references/Hexalith.Builds/Hexalith.Package.props</Hexalith1PackageProps>
     <Hexalith2PackageProps>$(MSBuildThisFileDirectory)../../../Hexalith.Builds/Hexalith.Package.props</Hexalith2PackageProps>
     <Hexalith3PackageProps>$(MSBuildThisFileDirectory)../../../../Hexalith.Builds/Hexalith.Package.props</Hexalith3PackageProps>
   </PropertyGroup>

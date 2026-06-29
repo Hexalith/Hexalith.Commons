@@ -4,15 +4,15 @@
     <!-- Define path of the parent Directory.Build.props. -->
     <ParentDirectoryBuildProps>$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))</ParentDirectoryBuildProps>
     <!-- Define paths of the Hexalith build props. -->
-    <Hexalith1BuildBuildProps>$(MSBuildThisFileDirectory)Hexalith.Builds/Hexalith.Build.props</Hexalith1BuildBuildProps>
+    <Hexalith1BuildBuildProps>$(MSBuildThisFileDirectory)references/Hexalith.Builds/Hexalith.Build.props</Hexalith1BuildBuildProps>
     <Hexalith2BuildBuildProps>$(MSBuildThisFileDirectory)../Hexalith.Builds/Hexalith.Build.props</Hexalith2BuildBuildProps>
     <Hexalith3BuildBuildProps>$(MSBuildThisFileDirectory)../../Hexalith.Builds/Hexalith.Build.props</Hexalith3BuildBuildProps>
     <!-- Resolve Hexalith.PolymorphicSerializations source path for root-level and nested layouts.
-         Prefer the nested (child) submodule; when it is not initialized, fall back to the
+         Prefer the root references submodule; when it is not initialized, fall back to the
          parent-level sibling submodule. The Exists check on each path is sufficient — no
          .gitmodules guard is needed, so the sibling is used even when the parent is not a
          submodule host (e.g. standalone clones laid out as siblings). -->
-    <HexalithPolymorphicSerializationsRoot Condition="'$(HexalithPolymorphicSerializationsRoot)' == '' and Exists('$(MSBuildThisFileDirectory)Hexalith.PolymorphicSerializations/src/libraries/Hexalith.PolymorphicSerializations/')">$(MSBuildThisFileDirectory)Hexalith.PolymorphicSerializations</HexalithPolymorphicSerializationsRoot>
+    <HexalithPolymorphicSerializationsRoot Condition="'$(HexalithPolymorphicSerializationsRoot)' == '' and Exists('$(MSBuildThisFileDirectory)references/Hexalith.PolymorphicSerializations/src/libraries/Hexalith.PolymorphicSerializations/')">$(MSBuildThisFileDirectory)references/Hexalith.PolymorphicSerializations</HexalithPolymorphicSerializationsRoot>
     <HexalithPolymorphicSerializationsRoot Condition="'$(HexalithPolymorphicSerializationsRoot)' == '' and Exists('$(MSBuildThisFileDirectory)../Hexalith.PolymorphicSerializations/src/libraries/Hexalith.PolymorphicSerializations/')">$(MSBuildThisFileDirectory)../Hexalith.PolymorphicSerializations</HexalithPolymorphicSerializationsRoot>
   </PropertyGroup>
 

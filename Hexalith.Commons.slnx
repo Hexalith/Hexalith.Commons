@@ -4,56 +4,56 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/Hexalith.Builds/">
+  <Folder Name="/references/Hexalith.Builds/">
     <File Path=".github/copilot-instructions.md" />
     <File Path=".github/workflows/update-version.yml" />
-    <File Path="Hexalith.Builds/.clinerules" />
-    <File Path="Hexalith.Builds/.cursorrules" />
-    <File Path="Hexalith.Builds/.github/workflows/copy-ai-assistant-instructions.yml" />
-    <File Path="Hexalith.Builds/.gitignore" />
-    <File Path="Hexalith.Builds/ai-assistant-instructions.md" />
-    <File Path="Hexalith.Builds/ai-commit-prompt.md" />
-    <File Path="Hexalith.Builds/Hexalith.Build.props" />
-    <File Path="Hexalith.Builds/Hexalith.globalconfig" />
-    <File Path="Hexalith.Builds/Hexalith.Package.props" />
-    <File Path="Hexalith.Builds/LICENSE" />
-    <File Path="Hexalith.Builds/README.md" />
-    <File Path="Hexalith.Builds/stylecop.json" />
+    <File Path="references/Hexalith.Builds/.clinerules" />
+    <File Path="references/Hexalith.Builds/.cursorrules" />
+    <File Path="references/Hexalith.Builds/.github/workflows/copy-ai-assistant-instructions.yml" />
+    <File Path="references/Hexalith.Builds/.gitignore" />
+    <File Path="references/Hexalith.Builds/ai-assistant-instructions.md" />
+    <File Path="references/Hexalith.Builds/ai-commit-prompt.md" />
+    <File Path="references/Hexalith.Builds/Hexalith.Build.props" />
+    <File Path="references/Hexalith.Builds/Hexalith.globalconfig" />
+    <File Path="references/Hexalith.Builds/Hexalith.Package.props" />
+    <File Path="references/Hexalith.Builds/LICENSE" />
+    <File Path="references/Hexalith.Builds/README.md" />
+    <File Path="references/Hexalith.Builds/stylecop.json" />
   </Folder>
-  <Folder Name="/Hexalith.Builds/Github/" />
-  <Folder Name="/Hexalith.Builds/Github/create-release/">
-    <File Path="Hexalith.Builds/Github/create-release/action.yml" />
+  <Folder Name="/references/Hexalith.Builds/Github/" />
+  <Folder Name="/references/Hexalith.Builds/Github/create-release/">
+    <File Path="references/Hexalith.Builds/Github/create-release/action.yml" />
   </Folder>
-  <Folder Name="/Hexalith.Builds/Github/initialize-build/">
-    <File Path="Hexalith.Builds/Github/initialize-build/action.yml" />
+  <Folder Name="/references/Hexalith.Builds/Github/initialize-build/">
+    <File Path="references/Hexalith.Builds/Github/initialize-build/action.yml" />
   </Folder>
-  <Folder Name="/Hexalith.Builds/Github/initialize-dotnet/">
-    <File Path="Hexalith.Builds/Github/initialize-dotnet/action.yml" />
+  <Folder Name="/references/Hexalith.Builds/Github/initialize-dotnet/">
+    <File Path="references/Hexalith.Builds/Github/initialize-dotnet/action.yml" />
   </Folder>
-  <Folder Name="/Hexalith.Builds/Github/package-release/">
-    <File Path="Hexalith.Builds/Github/package-release/action.yml" />
-    <File Path="Hexalith.Builds/Github/package-release/README.md" />
+  <Folder Name="/references/Hexalith.Builds/Github/package-release/">
+    <File Path="references/Hexalith.Builds/Github/package-release/action.yml" />
+    <File Path="references/Hexalith.Builds/Github/package-release/README.md" />
   </Folder>
-  <Folder Name="/Hexalith.Builds/Github/publish-packages/">
-    <File Path="Hexalith.Builds/Github/publish-packages/action.yml" />
-    <File Path="Hexalith.Builds/Github/publish-packages/README.md" />
+  <Folder Name="/references/Hexalith.Builds/Github/publish-packages/">
+    <File Path="references/Hexalith.Builds/Github/publish-packages/action.yml" />
+    <File Path="references/Hexalith.Builds/Github/publish-packages/README.md" />
   </Folder>
-  <Folder Name="/Hexalith.Builds/Github/unit-tests/">
-    <File Path="Hexalith.Builds/Github/unit-tests/action.yml" />
+  <Folder Name="/references/Hexalith.Builds/Github/unit-tests/">
+    <File Path="references/Hexalith.Builds/Github/unit-tests/action.yml" />
   </Folder>
-  <Folder Name="/Hexalith.Builds/Github/version/">
-    <File Path="Hexalith.Builds/Github/version/action.yml" />
+  <Folder Name="/references/Hexalith.Builds/Github/version/">
+    <File Path="references/Hexalith.Builds/Github/version/action.yml" />
   </Folder>
-  <Folder Name="/Hexalith.Builds/Props/">
-    <File Path="Hexalith.Builds/Props/Directory.Packages.props" />
-    <File Path="Hexalith.Builds/Props/Environment.Build.props" />
+  <Folder Name="/references/Hexalith.Builds/Props/">
+    <File Path="references/Hexalith.Builds/Props/Directory.Packages.props" />
+    <File Path="references/Hexalith.Builds/Props/Environment.Build.props" />
   </Folder>
-  <Folder Name="/Hexalith.Builds/Samples/">
-    <File Path="Hexalith.Builds/Samples/Module.Directory.Build.props" />
-    <File Path="Hexalith.Builds/Samples/Module.Directory.Packages.props" />
+  <Folder Name="/references/Hexalith.Builds/Samples/">
+    <File Path="references/Hexalith.Builds/Samples/Module.Directory.Build.props" />
+    <File Path="references/Hexalith.Builds/Samples/Module.Directory.Packages.props" />
   </Folder>
-  <Folder Name="/Hexalith.Builds/Tools/">
-    <File Path="Hexalith.Builds/Tools/builds-submodule-init.ps1" />
+  <Folder Name="/references/Hexalith.Builds/Tools/">
+    <File Path="references/Hexalith.Builds/Tools/builds-submodule-init.ps1" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".clinerules" />

@@ -1,1 +1,1 @@
-Hexalith.Builds/.github/copilot-instructions.md
+../references/Hexalith.Builds/.github/copilot-instructions.md

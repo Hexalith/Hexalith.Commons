@@ -38,9 +38,9 @@ jobs:
         fetch-depth: 0
     - name: Initialize Hexalith.Builds submodule
       run: |
-          git submodule init Hexalith.Builds
-          git submodule update Hexalith.Builds
-          cd Hexalith.Builds
+          git submodule init references/Hexalith.Builds
+          git submodule update references/Hexalith.Builds
+          cd references/Hexalith.Builds
           git checkout main
     - name: Setup .NET 10.0.300
       uses: actions/setup-dotnet@v4
@@ -48,4 +48,4 @@ jobs:
         dotnet-version: 10.0.300
         cache: false  
     - name: Call Build Projects
-      uses: ./Hexalith.Builds/GitHub/build-projects
+      uses: ./references/Hexalith.Builds/GitHub/build-projects

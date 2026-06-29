@@ -11,8 +11,12 @@ if (-not $isAdmin) {
 Write-Host "Running with administrator privileges - proceeding with initialization..." -ForegroundColor Green
 
 # Check if the submodule already exists
-$submodulePath = "Hexalith.Builds"
+$submodulePath = "references\Hexalith.Builds"
 $gitModulesPath = ".gitmodules"
+
+if (-not (Test-Path "references")) {
+    New-Item -ItemType Directory -Path "references" -Force | Out-Null
+}
 
 if (Test-Path $gitModulesPath) {
     $modulesContent = Get-Content $gitModulesPath -Raw
@@ -21,18 +25,18 @@ if (Test-Path $gitModulesPath) {
         git submodule init $submodulePath
     } else {
         Write-Host "Adding new submodule..." -ForegroundColor Cyan
-        git submodule add https://github.com/Hexalith/Hexalith.Builds.git
+        git submodule add https://github.com/Hexalith/Hexalith.Builds.git $submodulePath
     }
 } else {
     Write-Host "Adding new submodule..." -ForegroundColor Cyan
-    git submodule add https://github.com/Hexalith/Hexalith.Builds.git
+    git submodule add https://github.com/Hexalith/Hexalith.Builds.git $submodulePath
 }
 
 # Update the Hexalith.Builds submodule to the latest commit referenced in the parent repo
 git submodule update $submodulePath
 
 # Checkout the main branch in the Hexalith.Builds submodule
-git submodule foreach git checkout main
+git -C $submodulePath checkout main
 
 # Create symbolic links from parent repo to submodule for development configuration files
 Write-Host "Creating symbolic links to configuration files..." -ForegroundColor Cyan
@@ -44,9 +48,9 @@ if (-not (Test-Path ".github")) {
 
 # Create the files if they don't exist in Hexalith.Builds
 $files = @(
-    @{Source = "Hexalith.Builds\.clinerules"; Target = ".clinerules"},
-    @{Source = "Hexalith.Builds\.cursorrules"; Target = ".cursorrules"},
-    @{Source = "Hexalith.Builds\.github\copilot-instructions.md"; Target = ".github\copilot-instructions.md"}
+    @{Source = "references\Hexalith.Builds\.clinerules"; Target = ".clinerules"; LinkTarget = "references\Hexalith.Builds\.clinerules"},
+    @{Source = "references\Hexalith.Builds\.cursorrules"; Target = ".cursorrules"; LinkTarget = "references\Hexalith.Builds\.cursorrules"},
+    @{Source = "references\Hexalith.Builds\.github\copilot-instructions.md"; Target = ".github\copilot-instructions.md"; LinkTarget = "..\references\Hexalith.Builds\.github\copilot-instructions.md"}
 )
 
 foreach ($file in $files) {
@@ -55,8 +59,8 @@ foreach ($file in $files) {
         if (Test-Path $file.Target) {
             Remove-Item $file.Target -Force
         }
-        New-Item -ItemType SymbolicLink -Path $file.Target -Target $file.Source -Force
-        Write-Host "Created symbolic link: $($file.Target) -> $($file.Source)" -ForegroundColor Green
+        New-Item -ItemType SymbolicLink -Path $file.Target -Target $file.LinkTarget -Force
+        Write-Host "Created symbolic link: $($file.Target) -> $($file.LinkTarget)" -ForegroundColor Green
     } else {
         Write-Host "Warning: Source file $($file.Source) does not exist" -ForegroundColor Yellow
     }
