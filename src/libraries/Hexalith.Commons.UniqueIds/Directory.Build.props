@@ -14,15 +14,23 @@
     <LangVersion>latest</LangVersion>
     <Deterministic>true</Deterministic>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <IsPublishable>false</IsPublishable>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Authors>Hexalith Contributors</Authors>
     <Company>Hexalith</Company>
     <Product>Hexalith.Commons</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/Hexalith/Hexalith.Commons</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Hexalith/Hexalith.Commons</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>hexalith;commons;uniqueids;ulid;guid;identifiers;dotnet</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>
