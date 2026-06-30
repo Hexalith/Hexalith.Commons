@@ -55,6 +55,9 @@
   <Folder Name="/references/Hexalith.Builds/Tools/">
     <File Path="references/Hexalith.Builds/Tools/builds-submodule-init.ps1" />
   </Folder>
+  <Folder Name="/references/Hexalith.PolymorphicSerializations/src/libraries/">
+    <Project Path="references/Hexalith.PolymorphicSerializations/src/libraries/Hexalith.PolymorphicSerializations/Hexalith.PolymorphicSerializations.csproj" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".clinerules" />
   </Folder>

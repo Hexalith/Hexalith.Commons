@@ -29,7 +29,12 @@ public sealed class TenantAccessProjectionHandlerTest
 
         await handler.HandleAsync(Event(TenantAccessProjectionEventKind.TenantCreated, "tenant-a", "message-1", 1), cancellationToken);
         await handler.HandleAsync(
-            Event(TenantAccessProjectionEventKind.UserAddedToTenant, "tenant-a", "message-2", 2, principalId: "user-a", role: "TenantOwner"),
+            Event(
+                TenantAccessProjectionEventKind.UserAddedToTenant,
+                "tenant-a",
+                "message-2",
+                2,
+                new TestTenantEventOptions { PrincipalId = "user-a", Role = "TenantOwner" }),
             cancellationToken);
 
         TestProjection? projection = await store.GetAsync("tenant-a", cancellationToken);
@@ -55,10 +60,20 @@ public sealed class TenantAccessProjectionHandlerTest
         CancellationToken cancellationToken = CancellationToken.None;
 
         await handler.HandleAsync(
-            Event(TenantAccessProjectionEventKind.TenantCreated, "tenant-a", "message-10", 1, payloadFingerprint: "created"),
+            Event(
+                TenantAccessProjectionEventKind.TenantCreated,
+                "tenant-a",
+                "message-10",
+                1,
+                new TestTenantEventOptions { PayloadFingerprint = "created" }),
             cancellationToken);
         await handler.HandleAsync(
-            Event(TenantAccessProjectionEventKind.TenantDisabled, "tenant-a", "message-10", 2, payloadFingerprint: "disabled"),
+            Event(
+                TenantAccessProjectionEventKind.TenantDisabled,
+                "tenant-a",
+                "message-10",
+                2,
+                new TestTenantEventOptions { PayloadFingerprint = "disabled" }),
             cancellationToken);
 
         TestProjection? projection = await store.GetAsync("tenant-a", cancellationToken);
@@ -126,9 +141,30 @@ public sealed class TenantAccessProjectionHandlerTest
         CancellationToken cancellationToken = CancellationToken.None;
 
         await handler.HandleAsync(Event(TenantAccessProjectionEventKind.TenantCreated, "tenant-a", "message-40", 1), cancellationToken);
-        await handler.HandleAsync(Event(TenantAccessProjectionEventKind.TenantConfigurationSet, "tenant-a", "message-41", 2, configurationKey: "billing.plan"), cancellationToken);
-        await handler.HandleAsync(Event(TenantAccessProjectionEventKind.TenantConfigurationSet, "tenant-a", "message-42", 3, configurationKey: "conversations.enabled"), cancellationToken);
-        await handler.HandleAsync(Event(TenantAccessProjectionEventKind.TenantConfigurationRemoved, "tenant-a", "message-43", 4, configurationKey: "conversations.enabled"), cancellationToken);
+        await handler.HandleAsync(
+            Event(
+                TenantAccessProjectionEventKind.TenantConfigurationSet,
+                "tenant-a",
+                "message-41",
+                2,
+                new TestTenantEventOptions { ConfigurationKey = "billing.plan" }),
+            cancellationToken);
+        await handler.HandleAsync(
+            Event(
+                TenantAccessProjectionEventKind.TenantConfigurationSet,
+                "tenant-a",
+                "message-42",
+                3,
+                new TestTenantEventOptions { ConfigurationKey = "conversations.enabled" }),
+            cancellationToken);
+        await handler.HandleAsync(
+            Event(
+                TenantAccessProjectionEventKind.TenantConfigurationRemoved,
+                "tenant-a",
+                "message-43",
+                4,
+                new TestTenantEventOptions { ConfigurationKey = "conversations.enabled" }),
+            cancellationToken);
 
         TestProjection? projection = await store.GetAsync("tenant-a", cancellationToken);
 
@@ -150,8 +186,22 @@ public sealed class TenantAccessProjectionHandlerTest
         CancellationToken cancellationToken = CancellationToken.None;
 
         await handler.HandleAsync(Event(TenantAccessProjectionEventKind.TenantCreated, "tenant-a", string.Empty, 1), cancellationToken);
-        await handler.HandleAsync(Event(TenantAccessProjectionEventKind.UserAddedToTenant, "tenant-b", "message-50", 1, role: "TenantReader"), cancellationToken);
-        await handler.HandleAsync(Event(TenantAccessProjectionEventKind.TenantCreated, "tenant-c", "message-51", 1, timestamp: EventTimestamp.AddMinutes(5)), cancellationToken);
+        await handler.HandleAsync(
+            Event(
+                TenantAccessProjectionEventKind.UserAddedToTenant,
+                "tenant-b",
+                "message-50",
+                1,
+                new TestTenantEventOptions { Role = "TenantReader" }),
+            cancellationToken);
+        await handler.HandleAsync(
+            Event(
+                TenantAccessProjectionEventKind.TenantCreated,
+                "tenant-c",
+                "message-51",
+                1,
+                new TestTenantEventOptions { Timestamp = EventTimestamp.AddMinutes(5) }),
+            cancellationToken);
 
         (await store.GetAsync("tenant-a", cancellationToken)).ShouldNotBeNull().MalformedEvidence.ShouldBeTrue();
         (await store.GetAsync("tenant-b", cancellationToken)).ShouldNotBeNull().MalformedEvidence.ShouldBeTrue();
@@ -201,23 +251,37 @@ public sealed class TenantAccessProjectionHandlerTest
         string tenantId,
         string messageId,
         long sequenceNumber,
-        string? principalId = null,
-        string? role = null,
-        string? configurationKey = null,
-        string? payloadFingerprint = null,
-        DateTimeOffset? timestamp = null)
-        => new(new TenantAccessProjectionEvent(
+        TestTenantEventOptions? options = null)
+    {
+        options ??= new TestTenantEventOptions();
+        return new(new TenantAccessProjectionEvent(
             kind,
             tenantId,
             messageId,
             sequenceNumber,
-            timestamp ?? EventTimestamp,
-            principalId,
-            role,
-            configurationKey,
-            payloadFingerprint ?? tenantId));
+            options.Timestamp ?? EventTimestamp)
+        {
+            PrincipalId = options.PrincipalId,
+            Role = options.Role,
+            ConfigurationKey = options.ConfigurationKey,
+            PayloadFingerprint = options.PayloadFingerprint ?? tenantId,
+        });
+    }
 
     private sealed record TestTenantEvent(TenantAccessProjectionEvent View);
+
+    private sealed record TestTenantEventOptions
+    {
+        public string? PrincipalId { get; init; }
+
+        public string? Role { get; init; }
+
+        public string? ConfigurationKey { get; init; }
+
+        public string? PayloadFingerprint { get; init; }
+
+        public DateTimeOffset? Timestamp { get; init; }
+    }
 
     private sealed class TestProjection : TenantAccessProjectionState;
 

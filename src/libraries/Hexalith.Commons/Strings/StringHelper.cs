@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 public static partial class StringHelper
 {
     private const string _dash = "-";
+    private const double _numericTokenMismatchMaximumSimilarity = 0.8;
 
     /// <summary>
     /// Formats the with named placeholders.
@@ -192,7 +193,11 @@ public static partial class StringHelper
             }
         }
 
-        return jaro + (prefixLength * 0.1 * (1.0 - jaro));
+        double similarity = jaro + (prefixLength * 0.1 * (1.0 - jaro));
+
+        return HasDifferentNumericTokensWithSameNonNumericSkeleton(value, other)
+            ? Math.Min(similarity, _numericTokenMismatchMaximumSimilarity)
+            : similarity;
     }
 
     /// <summary>
@@ -295,6 +300,65 @@ public static partial class StringHelper
     /// <returns>The number.</returns>
     public static long ToLong(this string value)
         => long.Parse(value, CultureInfo.InvariantCulture);
+
+    private static bool HasDifferentNumericTokensWithSameNonNumericSkeleton(string value, string other)
+    {
+        bool hasNumericToken = false;
+        bool hasDifferentNumericToken = false;
+        int valueIndex = 0;
+        int otherIndex = 0;
+
+        while (valueIndex < value.Length && otherIndex < other.Length)
+        {
+            bool valueIsDigit = char.IsDigit(value[valueIndex]);
+            bool otherIsDigit = char.IsDigit(other[otherIndex]);
+
+            if (valueIsDigit != otherIsDigit)
+            {
+                return false;
+            }
+
+            if (!valueIsDigit)
+            {
+                if (!char.Equals(char.ToLowerInvariant(value[valueIndex]), char.ToLowerInvariant(other[otherIndex])))
+                {
+                    return false;
+                }
+
+                valueIndex++;
+                otherIndex++;
+                continue;
+            }
+
+            hasNumericToken = true;
+
+            int valueStart = valueIndex;
+            int otherStart = otherIndex;
+
+            while (valueIndex < value.Length && char.IsDigit(value[valueIndex]))
+            {
+                valueIndex++;
+            }
+
+            while (otherIndex < other.Length && char.IsDigit(other[otherIndex]))
+            {
+                otherIndex++;
+            }
+
+            int valueLength = valueIndex - valueStart;
+            int otherLength = otherIndex - otherStart;
+
+            if (valueLength != otherLength || !value.AsSpan(valueStart, valueLength).SequenceEqual(other.AsSpan(otherStart, otherLength)))
+            {
+                hasDifferentNumericToken = true;
+            }
+        }
+
+        return hasNumericToken
+            && hasDifferentNumericToken
+            && valueIndex == value.Length
+            && otherIndex == other.Length;
+    }
 
     [GeneratedRegex(@"\{\w+\}")]
     private static partial Regex EmptyJson();

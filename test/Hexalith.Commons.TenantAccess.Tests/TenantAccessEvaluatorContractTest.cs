@@ -47,18 +47,18 @@ public sealed class TenantAccessEvaluatorContractTest
         IEnumerable<string?> tenantIds = [Tenant];
         ITenantAccessStateStore store = new StubStore(ActiveState());
         ITenantAccessProjectionHealthProvider health = new StaticHealth();
-        ILogger logger = NullLogger.Instance;
+        NullGuardEvaluationRules rules = new();
 
-        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(null!, store, health, IsRequirementDefined, IsStatusDefined, IsStatusActive, IsStatusDisabled, IsRoleDefined, HasPermission, logger));
-        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, null!, health, IsRequirementDefined, IsStatusDefined, IsStatusActive, IsStatusDisabled, IsRoleDefined, HasPermission, logger));
-        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, null!, IsRequirementDefined, IsStatusDefined, IsStatusActive, IsStatusDisabled, IsRoleDefined, HasPermission, logger));
-        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, null!, IsStatusDefined, IsStatusActive, IsStatusDisabled, IsRoleDefined, HasPermission, logger));
-        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, IsRequirementDefined, null!, IsStatusActive, IsStatusDisabled, IsRoleDefined, HasPermission, logger));
-        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, IsRequirementDefined, IsStatusDefined, null!, IsStatusDisabled, IsRoleDefined, HasPermission, logger));
-        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, IsRequirementDefined, IsStatusDefined, IsStatusActive, null!, IsRoleDefined, HasPermission, logger));
-        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, IsRequirementDefined, IsStatusDefined, IsStatusActive, IsStatusDisabled, null!, HasPermission, logger));
-        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, IsRequirementDefined, IsStatusDefined, IsStatusActive, IsStatusDisabled, IsRoleDefined, null!, logger));
-        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, IsRequirementDefined, IsStatusDefined, IsStatusActive, IsStatusDisabled, IsRoleDefined, HasPermission, null!));
+        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(null!, store, health, rules));
+        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, null!, health, rules));
+        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, null!, rules));
+        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, rules with { RequirementPredicate = null! }));
+        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, rules with { StatusDefinedPredicate = null! }));
+        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, rules with { StatusActivePredicate = null! }));
+        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, rules with { StatusDisabledPredicate = null! }));
+        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, rules with { RoleDefinedPredicate = null! }));
+        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, rules with { PermissionPredicate = null! }));
+        await Should.ThrowAsync<ArgumentNullException>(() => InvokeNullGuardAsync(tenantIds, store, health, rules with { Logger = null! }));
     }
 
     /// <summary>
@@ -243,26 +243,20 @@ public sealed class TenantAccessEvaluatorContractTest
         IEnumerable<string?> tenantIds,
         ITenantAccessStateStore store,
         ITenantAccessProjectionHealthProvider health,
-        Func<TestRequirement, bool> isRequirementDefined,
-        Func<int, bool> isStatusDefined,
-        Func<int, bool> isStatusActive,
-        Func<int, bool> isStatusDisabled,
-        Func<int, bool> isRoleDefined,
-        Func<int, TestRequirement, bool> hasPermission,
-        ILogger logger)
+        NullGuardEvaluationRules rules)
         => TenantAccessEvaluator.EvaluateAsync(
             TestRequirement.Read,
             tenantIds,
             Caller,
             store,
             health,
-            isRequirementDefined,
-            isStatusDefined,
-            isStatusActive,
-            isStatusDisabled,
-            isRoleDefined,
-            hasPermission,
-            logger,
+            rules.RequirementPredicate,
+            rules.StatusDefinedPredicate,
+            rules.StatusActivePredicate,
+            rules.StatusDisabledPredicate,
+            rules.RoleDefinedPredicate,
+            rules.PermissionPredicate,
+            rules.Logger,
             CancellationToken.None).AsTask();
 
     private static bool IsRequirementDefined(TestRequirement requirement) => Enum.IsDefined(requirement);
@@ -293,6 +287,23 @@ public sealed class TenantAccessEvaluatorContractTest
         {
             [caller] = (int)role,
         });
+
+    private sealed record NullGuardEvaluationRules
+    {
+        public Func<TestRequirement, bool> RequirementPredicate { get; init; } = TenantAccessEvaluatorContractTest.IsRequirementDefined;
+
+        public Func<int, bool> StatusDefinedPredicate { get; init; } = TenantAccessEvaluatorContractTest.IsStatusDefined;
+
+        public Func<int, bool> StatusActivePredicate { get; init; } = TenantAccessEvaluatorContractTest.IsStatusActive;
+
+        public Func<int, bool> StatusDisabledPredicate { get; init; } = TenantAccessEvaluatorContractTest.IsStatusDisabled;
+
+        public Func<int, bool> RoleDefinedPredicate { get; init; } = TenantAccessEvaluatorContractTest.IsRoleDefined;
+
+        public Func<int, TestRequirement, bool> PermissionPredicate { get; init; } = TenantAccessEvaluatorContractTest.HasPermission;
+
+        public ILogger Logger { get; init; } = NullLogger.Instance;
+    }
 
     public enum TestRequirement
     {

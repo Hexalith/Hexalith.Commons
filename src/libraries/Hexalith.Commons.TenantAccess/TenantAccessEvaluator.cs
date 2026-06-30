@@ -59,9 +59,17 @@ public static class TenantAccessEvaluator
         ArgumentNullException.ThrowIfNull(hasPermission);
         ArgumentNullException.ThrowIfNull(logger);
 
+        TenantAccessEvaluationRules<TRequirement> rules = new(
+            isRequirementDefined,
+            isStatusDefined,
+            isStatusActive,
+            isStatusDisabled,
+            isRoleDefined,
+            hasPermission);
+
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (!isRequirementDefined(requirement))
+        if (!rules.IsRequirementDefined(requirement))
         {
             throw new ArgumentOutOfRangeException(
                 nameof(requirement),
@@ -122,15 +130,12 @@ public static class TenantAccessEvaluator
         }
 
         return DecideFromProjectionState(
-            requirement,
-            tenantResolution.CanonicalValue!,
-            callerPrincipalId!,
+            new TenantAccessEvaluationRequest<TRequirement>(
+                requirement,
+                tenantResolution.CanonicalValue!,
+                callerPrincipalId!),
             state,
-            isStatusDefined,
-            isStatusActive,
-            isStatusDisabled,
-            isRoleDefined,
-            hasPermission,
+            rules,
             logger);
     }
 
@@ -289,8 +294,7 @@ public static class TenantAccessEvaluator
                 callerPrincipalId,
                 TenantAccessDenialKind.TenantProjectionPoisoned,
                 logger,
-                projectionVersion: health.Version,
-                projectionWatermark: health.Watermark);
+                projection: ToCheckpoint(health));
         }
 
         if (health.HasRollback)
@@ -302,8 +306,7 @@ public static class TenantAccessEvaluator
                 TenantAccessDenialKind.TenantAccessRolledBack,
                 logger,
                 isRetryable: true,
-                projectionVersion: health.Version,
-                projectionWatermark: health.Watermark);
+                projection: ToCheckpoint(health));
         }
 
         if (health.HasGap)
@@ -315,8 +318,7 @@ public static class TenantAccessEvaluator
                 TenantAccessDenialKind.TenantAccessGapDetected,
                 logger,
                 isRetryable: true,
-                projectionVersion: health.Version,
-                projectionWatermark: health.Watermark);
+                projection: ToCheckpoint(health));
         }
 
         return health.IsStale
@@ -327,57 +329,85 @@ public static class TenantAccessEvaluator
                 TenantAccessDenialKind.TenantAccessStale,
                 logger,
                 isRetryable: true,
-                projectionVersion: health.Version,
-                projectionWatermark: health.Watermark)
+                projection: ToCheckpoint(health))
             : null;
     }
 
     private static TenantAccessEvaluation<TRequirement> DecideFromProjectionState<TRequirement>(
-        TRequirement requirement,
-        string canonicalTenantId,
-        string callerPrincipalId,
+        TenantAccessEvaluationRequest<TRequirement> request,
         TenantAccessState? state,
-        Func<int, bool> isStatusDefined,
-        Func<int, bool> isStatusActive,
-        Func<int, bool> isStatusDisabled,
-        Func<int, bool> isRoleDefined,
-        Func<int, TRequirement, bool> hasPermission,
+        TenantAccessEvaluationRules<TRequirement> rules,
         ILogger logger)
+    {
+        TenantAccessDenialKind? projectionDenial = GetProjectionDenialKind(request.TenantId, state);
+        if (projectionDenial is not null)
+        {
+            return Denied(request, projectionDenial.Value, logger);
+        }
+
+        if (!TryCreateMemberMap(state!.Members!, out Dictionary<string, int> members))
+        {
+            return Denied(request, TenantAccessDenialKind.TenantProjectionPoisoned, logger);
+        }
+
+        TenantAccessDenialKind? statusDenial = GetStatusDenialKind(state.Status, rules);
+        if (statusDenial is not null)
+        {
+            return Denied(request, statusDenial.Value, logger);
+        }
+
+        if (!members.TryGetValue(request.CallerPrincipalId, out int role))
+        {
+            return Denied(request, TenantAccessDenialKind.MissingMember, logger);
+        }
+
+        if (!rules.IsRoleDefined(role))
+        {
+            return Denied(request, TenantAccessDenialKind.UnmappedRole, logger);
+        }
+
+        return rules.HasPermission(role, request.Requirement)
+            ? Allowed(request)
+            : Denied(request, TenantAccessDenialKind.InsufficientRole, logger);
+    }
+
+    private static TenantAccessDenialKind? GetProjectionDenialKind(
+        string canonicalTenantId,
+        TenantAccessState? state)
     {
         if (state is null)
         {
-            return Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.UnknownTenant, logger);
+            return TenantAccessDenialKind.UnknownTenant;
         }
 
         if (!TryValidateTenantValue(state.TenantId, out string? projectionTenantId))
         {
-            return Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.MalformedProjection, logger);
+            return TenantAccessDenialKind.MalformedProjection;
         }
 
         if (!string.Equals(canonicalTenantId, projectionTenantId, StringComparison.Ordinal))
         {
-            return Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.TenantMismatch, logger);
+            return TenantAccessDenialKind.TenantMismatch;
         }
 
-        if (state.Members is null)
-        {
-            return Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.MalformedProjection, logger);
-        }
+        return state.Members is null
+            ? TenantAccessDenialKind.MalformedProjection
+            : null;
+    }
 
-        Dictionary<string, int> members;
+    private static bool TryCreateMemberMap(
+        IReadOnlyDictionary<string, int> stateMembers,
+        out Dictionary<string, int> members)
+    {
+        members = new Dictionary<string, int>(stateMembers.Count, StringComparer.Ordinal);
+
         try
         {
-            members = new Dictionary<string, int>(state.Members.Count, StringComparer.Ordinal);
-            foreach (KeyValuePair<string, int> entry in state.Members)
+            foreach (KeyValuePair<string, int> entry in stateMembers)
             {
-                if (string.IsNullOrWhiteSpace(entry.Key) || entry.Key != entry.Key.Trim())
+                if (IsUnsafeMemberKey(entry.Key) || members.ContainsKey(entry.Key))
                 {
-                    return Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.TenantProjectionPoisoned, logger);
-                }
-
-                if (members.ContainsKey(entry.Key))
-                {
-                    return Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.TenantProjectionPoisoned, logger);
+                    return false;
                 }
 
                 members.Add(entry.Key, entry.Value);
@@ -385,44 +415,73 @@ public static class TenantAccessEvaluator
         }
         catch (ArgumentException)
         {
-            return Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.TenantProjectionPoisoned, logger);
+            members.Clear();
+            return false;
         }
 
-        if (!isStatusDefined(state.Status))
-        {
-            return Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.UnmappedStatus, logger);
-        }
-
-        if (isStatusDisabled(state.Status))
-        {
-            return Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.TenantDisabled, logger);
-        }
-
-        if (!isStatusActive(state.Status))
-        {
-            return Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.UnmappedStatus, logger);
-        }
-
-        if (!members.TryGetValue(callerPrincipalId, out int role))
-        {
-            return Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.MissingMember, logger);
-        }
-
-        if (!isRoleDefined(role))
-        {
-            return Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.UnmappedRole, logger);
-        }
-
-        return hasPermission(role, requirement)
-            ? new TenantAccessEvaluation<TRequirement>(
-                true,
-                requirement,
-                canonicalTenantId,
-                callerPrincipalId,
-                TenantAccessDenialKind.None,
-                false)
-            : Denied(requirement, canonicalTenantId, callerPrincipalId, TenantAccessDenialKind.InsufficientRole, logger);
+        return true;
     }
+
+    private static bool IsUnsafeMemberKey(string key)
+        => string.IsNullOrWhiteSpace(key) || key != key.Trim();
+
+    private static TenantAccessDenialKind? GetStatusDenialKind<TRequirement>(
+        int status,
+        TenantAccessEvaluationRules<TRequirement> rules)
+    {
+        if (!rules.IsStatusDefined(status))
+        {
+            return TenantAccessDenialKind.UnmappedStatus;
+        }
+
+        if (rules.IsStatusDisabled(status))
+        {
+            return TenantAccessDenialKind.TenantDisabled;
+        }
+
+        return rules.IsStatusActive(status)
+            ? null
+            : TenantAccessDenialKind.UnmappedStatus;
+    }
+
+    private static TenantAccessEvaluation<TRequirement> Allowed<TRequirement>(
+        TenantAccessEvaluationRequest<TRequirement> request)
+        => new(
+            true,
+            request.Requirement,
+            request.TenantId,
+            request.CallerPrincipalId,
+            TenantAccessDenialKind.None,
+            false);
+
+    private static TenantAccessEvaluation<TRequirement> Denied<TRequirement>(
+        TenantAccessEvaluationRequest<TRequirement> request,
+        TenantAccessDenialKind reason,
+        ILogger logger)
+        => Denied(
+            request.Requirement,
+            request.TenantId,
+            request.CallerPrincipalId,
+            reason,
+            logger);
+
+    private static TenantAccessProjectionCheckpoint ToCheckpoint(TenantAccessProjectionHealth health)
+        => new(health.Version, health.Watermark);
+
+    private sealed record TenantAccessEvaluationRequest<TRequirement>(
+        TRequirement Requirement,
+        string TenantId,
+        string CallerPrincipalId);
+
+    private sealed record TenantAccessEvaluationRules<TRequirement>(
+        Func<TRequirement, bool> IsRequirementDefined,
+        Func<int, bool> IsStatusDefined,
+        Func<int, bool> IsStatusActive,
+        Func<int, bool> IsStatusDisabled,
+        Func<int, bool> IsRoleDefined,
+        Func<int, TRequirement, bool> HasPermission);
+
+    private sealed record TenantAccessProjectionCheckpoint(long? Version, string? Watermark);
 
     private static TenantAccessEvaluation<TRequirement> Denied<TRequirement>(
         TRequirement requirement,
@@ -431,8 +490,7 @@ public static class TenantAccessEvaluator
         TenantAccessDenialKind reason,
         ILogger logger,
         bool isRetryable = false,
-        long? projectionVersion = null,
-        string? projectionWatermark = null)
+        TenantAccessProjectionCheckpoint? projection = null)
     {
         logger.LogInformation(
             "Tenant access denied. Requirement={Requirement}, Reason={Reason}",
@@ -446,8 +504,8 @@ public static class TenantAccessEvaluator
             callerPrincipalId,
             reason,
             isRetryable,
-            projectionVersion,
-            projectionWatermark);
+            projection?.Version,
+            projection?.Watermark);
     }
 
     private sealed record TenantResolution(bool IsValid, string? CanonicalValue, TenantAccessDenialKind DenialKind)

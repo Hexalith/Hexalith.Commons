@@ -1,4 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
 
   <PropertyGroup>
     <Description>Domain-agnostic System.Text.Json resolver composition, bounded polymorphic type registries, and ruleless value converter bases for Hexalith modules.</Description>

@@ -41,12 +41,14 @@ public class MetadataTest
             "correlation-123",
             "user-456",
             "partition-789",
-            null,
-            TimeSpan.FromMinutes(5),
-            100L,
-            "etag-value",
-            "session-abc",
-            ["scope1"]);
+            null)
+        {
+            TimeToLive = TimeSpan.FromMinutes(5),
+            SequenceNumber = 100L,
+            Etag = "etag-value",
+            SessionId = "session-abc",
+            Scopes = ["scope1"],
+        };
         DateTimeOffset newReceivedDate = DateTimeOffset.UtcNow;
 
         // Act
@@ -69,12 +71,14 @@ public class MetadataTest
             "correlation-123",
             "user-456",
             "partition-789",
-            DateTimeOffset.UtcNow,
-            TimeSpan.FromMinutes(5),
-            100L,
-            "etag-value",
-            "session-abc",
-            ["scope1", "scope2"]);
+            DateTimeOffset.UtcNow)
+        {
+            TimeToLive = TimeSpan.FromMinutes(5),
+            SequenceNumber = 100L,
+            Etag = "etag-value",
+            SessionId = "session-abc",
+            Scopes = ["scope1", "scope2"],
+        };
 
         // Assert
         context.CorrelationId.ShouldBe("correlation-123");
@@ -148,12 +152,14 @@ public class MetadataTest
             "corr-id",
             "user-id",
             "part-id",
-            new DateTimeOffset(2024, 1, 1, 12, 5, 0, TimeSpan.Zero),
-            TimeSpan.FromMinutes(10),
-            42L,
-            "etag",
-            "session",
-            ["scope1"]);
+            new DateTimeOffset(2024, 1, 1, 12, 5, 0, TimeSpan.Zero))
+        {
+            TimeToLive = TimeSpan.FromMinutes(10),
+            SequenceNumber = 42L,
+            Etag = "etag",
+            SessionId = "session",
+            Scopes = ["scope1"],
+        };
         Metadata original = new(message, context);
 
         // Act
@@ -185,12 +191,7 @@ public class MetadataTest
             "corr-001",
             "user-001",
             "partition-001",
-            null,
-            null,
-            null,
-            null,
-            null,
-            []);
+            null);
         Metadata metadata = new(message, context);
 
         // Act
@@ -218,12 +219,7 @@ public class MetadataTest
             "corr-456",
             "admin-user",
             "main-partition",
-            null,
-            null,
-            null,
-            null,
-            null,
-            []);
+            null);
         Metadata metadata = new(message, context);
 
         // Act

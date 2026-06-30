@@ -128,7 +128,7 @@ public static class MetadataHelpers
         MessageMetadata msgMeta = message.CreateMessageMetadata(dateTime);
         return new Metadata(
             msgMeta,
-            new ContextMetadata(msgMeta.Id, userId, partitionId, dateTime, null, null, null, null, []));
+            new ContextMetadata(msgMeta.Id, userId, partitionId, dateTime));
     }
 
     /// <summary>
@@ -147,6 +147,9 @@ public static class MetadataHelpers
         MessageMetadata msgMeta = message.CreateMessageMetadata(dateTime);
         return new Metadata(
             msgMeta,
-            new ContextMetadata(msgMeta.Id, userId, partitionId, dateTime, null, null, null, sessionId, []));
+            new ContextMetadata(msgMeta.Id, userId, partitionId, dateTime)
+            {
+                SessionId = sessionId,
+            });
     }
 }

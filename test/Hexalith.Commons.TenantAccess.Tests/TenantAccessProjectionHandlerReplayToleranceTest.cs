@@ -30,10 +30,20 @@ public sealed class TenantAccessProjectionHandlerReplayToleranceTest
 
         await handler.HandleAsync(Event(TenantAccessProjectionEventKind.TenantCreated, "tenant-a", "message-1", 1), cancellationToken);
         await handler.HandleAsync(
-            Event(TenantAccessProjectionEventKind.UserAddedToTenant, "tenant-a", "message-2", 2, principalId: "user-a", role: "TenantOwner"),
+            Event(
+                TenantAccessProjectionEventKind.UserAddedToTenant,
+                "tenant-a",
+                "message-2",
+                2,
+                new TestTenantEventOptions { PrincipalId = "user-a", Role = "TenantOwner" }),
             cancellationToken);
         await handler.HandleAsync(
-            Event(TenantAccessProjectionEventKind.UserRemovedFromTenant, "tenant-a", "message-3", 3, principalId: "user-a"),
+            Event(
+                TenantAccessProjectionEventKind.UserRemovedFromTenant,
+                "tenant-a",
+                "message-3",
+                3,
+                new TestTenantEventOptions { PrincipalId = "user-a" }),
             cancellationToken);
 
         TestProjection? projection = await store.GetAsync("tenant-a", cancellationToken);
@@ -56,10 +66,20 @@ public sealed class TenantAccessProjectionHandlerReplayToleranceTest
 
         await handler.HandleAsync(Event(TenantAccessProjectionEventKind.TenantCreated, "tenant-a", "message-10", 1), cancellationToken);
         await handler.HandleAsync(
-            Event(TenantAccessProjectionEventKind.UserAddedToTenant, "tenant-a", "message-11", 2, principalId: "user-a", role: "TenantReader"),
+            Event(
+                TenantAccessProjectionEventKind.UserAddedToTenant,
+                "tenant-a",
+                "message-11",
+                2,
+                new TestTenantEventOptions { PrincipalId = "user-a", Role = "TenantReader" }),
             cancellationToken);
         await handler.HandleAsync(
-            Event(TenantAccessProjectionEventKind.UserRoleChanged, "tenant-a", "message-12", 3, principalId: "user-a", role: "TenantOwner"),
+            Event(
+                TenantAccessProjectionEventKind.UserRoleChanged,
+                "tenant-a",
+                "message-12",
+                3,
+                new TestTenantEventOptions { PrincipalId = "user-a", Role = "TenantOwner" }),
             cancellationToken);
 
         TestProjection? projection = await store.GetAsync("tenant-a", cancellationToken);
@@ -194,23 +214,30 @@ public sealed class TenantAccessProjectionHandlerReplayToleranceTest
         string tenantId,
         string messageId,
         long sequenceNumber,
-        string? principalId = null,
-        string? role = null,
-        string? configurationKey = null,
-        string? payloadFingerprint = null,
-        DateTimeOffset? timestamp = null)
-        => new(new TenantAccessProjectionEvent(
+        TestTenantEventOptions? options = null)
+    {
+        options ??= new TestTenantEventOptions();
+        return new(new TenantAccessProjectionEvent(
             kind,
             tenantId,
             messageId,
             sequenceNumber,
-            timestamp ?? EventTimestamp,
-            principalId,
-            role,
-            configurationKey,
-            payloadFingerprint ?? tenantId));
+            EventTimestamp)
+        {
+            PrincipalId = options.PrincipalId,
+            Role = options.Role,
+            PayloadFingerprint = tenantId,
+        });
+    }
 
     private sealed record TestTenantEvent(TenantAccessProjectionEvent View);
+
+    private sealed record TestTenantEventOptions
+    {
+        public string? PrincipalId { get; init; }
+
+        public string? Role { get; init; }
+    }
 
     private sealed class TestProjection : TenantAccessProjectionState;
 
