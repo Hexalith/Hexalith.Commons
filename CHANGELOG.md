@@ -1,3 +1,11 @@
+## [2.24.3](https://github.com/Hexalith/Hexalith.Commons/compare/v2.24.2...v2.24.3) (2026-07-01)
+
+
+### Bug Fixes
+
+* remove outdated package version entries from Directory.Packages.props ([a0a9946](https://github.com/Hexalith/Hexalith.Commons/commit/a0a9946c7729a78bb654acfd90cbe7eca680129d))
+* update ByteAether.Ulid package version to 1.3.8 ([1a0ee1f](https://github.com/Hexalith/Hexalith.Commons/commit/1a0ee1f7f298ae545ace39da7e2ab428d9876f1f))
+
 ## [2.24.2](https://github.com/Hexalith/Hexalith.Commons/compare/v2.24.1...v2.24.2) (2026-07-01)
 
 
