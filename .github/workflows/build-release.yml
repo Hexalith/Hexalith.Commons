@@ -19,11 +19,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Build and Test
-    outputs:
-      version: ${{ steps.build.outputs.version }}
     steps:
     - name: Build and publish packages
-      id: build
       uses: Hexalith/Hexalith.Builds/Github/package-release@main
       with:
         project-name: ${{ github.event.repository.name }}
