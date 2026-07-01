@@ -8,7 +8,14 @@
     "url": "https://github.com/Hexalith/Hexalith.Commons.git"
   },
   "release": {
-    "branches": ["main"]
+    "branches": [
+      "+([0-9])?(.{+([0-9]),x}).x",
+      "main",
+      "next",
+      "next-major",
+      { "name": "beta", "prerelease": true },
+      { "name": "alpha", "prerelease": true }
+    ]
   },
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
