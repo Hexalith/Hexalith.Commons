@@ -26,7 +26,7 @@ jobs:
     name: Verify
     steps:
     - name: Verify build and tests
-      uses: Hexalith/Hexalith.Builds/Github/verify@e3be295557d7d7d6009ea2dc207084b20384e740
+      uses: Hexalith/Hexalith.Builds/Github/verify@06c0aaaae4c373ba8042a42fe7f0c2ea22eeb7cb
       with:
         project-name: ${{ github.event.repository.name }}
 
