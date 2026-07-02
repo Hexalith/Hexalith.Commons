@@ -1,3 +1,10 @@
+# [2.25.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.24.4...v2.25.0) (2026-07-02)
+
+
+### Features
+
+* add commitlint configuration and workflows ([37e537e](https://github.com/Hexalith/Hexalith.Commons/commit/37e537e93ce7648a61b5ab3940d48b9a5d7bc611))
+
 ## [2.24.4](https://github.com/Hexalith/Hexalith.Commons/compare/v2.24.3...v2.24.4) (2026-07-02)
 
 
