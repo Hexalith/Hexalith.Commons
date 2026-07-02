@@ -1,3 +1,10 @@
+## [2.24.4](https://github.com/Hexalith/Hexalith.Commons/compare/v2.24.3...v2.24.4) (2026-07-02)
+
+
+### Bug Fixes
+
+* update action versions in build-release workflow to specific commits ([b204b1d](https://github.com/Hexalith/Hexalith.Commons/commit/b204b1d90c07e5f2ca29fec7907c1f40294d351f))
+
 ## [2.24.3](https://github.com/Hexalith/Hexalith.Commons/compare/v2.24.2...v2.24.3) (2026-07-01)
 
 
