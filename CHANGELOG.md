@@ -1,3 +1,10 @@
+## [2.25.1](https://github.com/Hexalith/Hexalith.Commons/compare/v2.25.0...v2.25.1) (2026-07-02)
+
+
+### Bug Fixes
+
+* update workflow actions to use the main branch for verification and package release ([c6af031](https://github.com/Hexalith/Hexalith.Commons/commit/c6af031ab32a0037cbfcd89577e209943d1a55eb))
+
 # [2.25.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.24.4...v2.25.0) (2026-07-02)
 
 
