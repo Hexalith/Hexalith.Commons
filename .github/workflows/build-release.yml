@@ -26,7 +26,7 @@ jobs:
     name: Verify
     steps:
     - name: Verify build and tests
-      uses: Hexalith/Hexalith.Builds/Github/verify@main
+      uses: Hexalith/Hexalith.Builds/Github/verify@e3be295557d7d7d6009ea2dc207084b20384e740
       with:
         project-name: ${{ github.event.repository.name }}
 
@@ -42,7 +42,7 @@ jobs:
       packages: write        # push pre-release packages to GitHub Packages
     steps:
     - name: Build and publish packages
-      uses: Hexalith/Hexalith.Builds/Github/package-release@main
+      uses: Hexalith/Hexalith.Builds/Github/package-release@e3be295557d7d7d6009ea2dc207084b20384e740
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
