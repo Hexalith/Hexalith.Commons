@@ -1,3 +1,10 @@
+# [2.26.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.25.1...v2.26.0) (2026-07-03)
+
+
+### Features
+
+* enhance project reference handling for Hexalith.PolymorphicSerializations ([dde812b](https://github.com/Hexalith/Hexalith.Commons/commit/dde812bcc53eeb62aaf9d3c84615cb1f2ebee119))
+
 ## [2.25.1](https://github.com/Hexalith/Hexalith.Commons/compare/v2.25.0...v2.25.1) (2026-07-02)
 
 
