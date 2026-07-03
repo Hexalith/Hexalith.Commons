@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Hexalith.Commons.UniqueIds\Hexalith.Commons.UniqueIds.csproj" />
-    <ProjectReference Include="$(HexalithPolymorphicSerializationsRoot)\src\libraries\Hexalith.PolymorphicSerializations\Hexalith.PolymorphicSerializations.csproj" />
+    <ProjectReference Include="$(HexalithPolymorphicSerializationsRoot)\src\libraries\Hexalith.PolymorphicSerializations\Hexalith.PolymorphicSerializations.csproj" Condition="'$(HexalithPolymorphicSerializationsFromSource)' == 'true'" />
+    <PackageReference Include="Hexalith.PolymorphicSerializations" Condition="'$(HexalithPolymorphicSerializationsFromSource)' != 'true'" />
   </ItemGroup>
 </Project>
