@@ -1,3 +1,15 @@
+# [2.27.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.26.0...v2.27.0) (2026-07-07)
+
+
+### Bug Fixes
+
+* update subproject commits for Hexalith.Builds and Hexalith.PolymorphicSerializations ([8278596](https://github.com/Hexalith/Hexalith.Commons/commit/827859601f123aba448ad1009866ca8ca3a11a6f))
+
+
+### Features
+
+* update Hexalith project reference conditions for improved configuration handling ([275edc0](https://github.com/Hexalith/Hexalith.Commons/commit/275edc03e1fc4aa51d45340e21fc1592938eec87))
+
 # [2.26.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.25.1...v2.26.0) (2026-07-03)
 
 
