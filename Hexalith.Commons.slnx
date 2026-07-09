@@ -71,28 +71,40 @@
     <Project Path="src/libraries/Hexalith.Commons/Hexalith.Commons.csproj" />
     <Project Path="src/libraries/Hexalith.Commons.Aspire/Hexalith.Commons.Aspire.csproj" />
     <Project Path="src/libraries/Hexalith.Commons.Configurations/Hexalith.Commons.Configurations.csproj" />
+    <Project Path="src/libraries/Hexalith.Commons.Diagnostics/Hexalith.Commons.Diagnostics.csproj" />
     <Project Path="src/libraries/Hexalith.Commons.Http/Hexalith.Commons.Http.csproj" />
     <Project Path="src/libraries/Hexalith.Commons.Metadatas/Hexalith.Commons.Metadatas.csproj" />
     <Project Path="src/libraries/Hexalith.Commons.Publication/Hexalith.Commons.Publication.csproj" />
     <Project Path="src/libraries/Hexalith.Commons.Serialization/Hexalith.Commons.Serialization.csproj" />
+    <Project Path="src/libraries/Hexalith.Commons.ServiceDefaults/Hexalith.Commons.ServiceDefaults.csproj" />
     <Project Path="src/libraries/Hexalith.Commons.StringEncoders/Hexalith.Commons.StringEncoders.csproj" />
     <Project Path="src/libraries/Hexalith.Commons.TenantAccess/Hexalith.Commons.TenantAccess.csproj" />
     <Project Path="src/libraries/Hexalith.Commons.UniqueIds/Hexalith.Commons.UniqueIds.csproj" />
   </Folder>
+  <Folder Name="/scripts/">
+    <File Path="scripts/pack-release-packages.py" />
+    <File Path="scripts/validate-consumer-package-references.py" />
+    <File Path="scripts/validate-nuget-packages.py" />
+  </Folder>
   <Folder Name="/test/">
     <Project Path="test/Hexalith.Commons.Aspire.Tests/Hexalith.Commons.Aspire.Tests.csproj" />
+    <Project Path="test/Hexalith.Commons.Diagnostics.Tests/Hexalith.Commons.Diagnostics.Tests.csproj" />
     <Project Path="test/Hexalith.Commons.Tests/Hexalith.Commons.Tests.csproj" />
     <Project Path="test/Hexalith.Commons.Http.Tests/Hexalith.Commons.Http.Tests.csproj" />
     <Project Path="test/Hexalith.Commons.Publication.Tests/Hexalith.Commons.Publication.Tests.csproj" />
     <Project Path="test/Hexalith.Commons.Serialization.Tests/Hexalith.Commons.Serialization.Tests.csproj" />
+    <Project Path="test/Hexalith.Commons.ServiceDefaults.Tests/Hexalith.Commons.ServiceDefaults.Tests.csproj" />
     <Project Path="test/Hexalith.Commons.TenantAccess.Tests/Hexalith.Commons.TenantAccess.Tests.csproj" />
   </Folder>
   <Folder Name="/_builds/">
     <File Path=".editorconfig" />
-    <File Path=".github/workflows/build-release.yml" />
+    <File Path=".github/workflows/ci.yml" />
+    <File Path=".github/workflows/release.yml" />
     <File Path=".gitignore" />
+    <File Path=".releaserc.json" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
     <File Path="LICENSE" />
     <File Path="README.md" />
   </Folder>

@@ -1,0 +1,29 @@
+{
+  "branches": ["main"],
+  "tagFormat": "v${version}",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "dotnet build Hexalith.Commons.slnx --configuration Release -warnaserror -p:Version=${nextRelease.version} -p:FileVersion=${nextRelease.version} && python3 scripts/pack-release-packages.py ./nupkgs ${nextRelease.version} && python3 scripts/validate-nuget-packages.py ./nupkgs && python3 scripts/validate-consumer-package-references.py ./nupkgs",
+        "publishCmd": "for package in ./nupkgs/*.nupkg ./nupkgs/*.snupkg; do dotnet nuget push \"$package\" --source https://api.nuget.org/v3/index.json --api-key \"$NUGET_API_KEY\" --skip-duplicate; done"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": ["nupkgs/*.nupkg", "nupkgs/*.snupkg"]
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md"],
+        "message": "chore(release): ${nextRelease.version} [skip ci]"
+      }
+    ]
+  ]
+}

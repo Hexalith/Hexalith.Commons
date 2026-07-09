@@ -14,8 +14,11 @@
     <LangVersion>latest</LangVersion>
     <Deterministic>true</Deterministic>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <IsPublishable>false</IsPublishable>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Authors>Hexalith Contributors</Authors>
     <Company>Hexalith</Company>
     <Product>Hexalith.Commons</Product>
@@ -24,6 +27,7 @@
     <RepositoryUrl>https://github.com/Hexalith/Hexalith.Commons</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>hexalith;commons;aspire;dapr;apphost;dotnet</PackageTags>
+    <NoWarn>$(NoWarn);NU5104</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

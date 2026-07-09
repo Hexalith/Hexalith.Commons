@@ -24,12 +24,16 @@
     <LangVersion>latest</LangVersion>
     <Deterministic>true</Deterministic>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
     <IsPublishable>false</IsPublishable>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Authors>Hexalith Contributors</Authors>
     <Company>Hexalith</Company>
     <Product>Hexalith.Commons</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/Hexalith/Hexalith.Commons</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Hexalith/Hexalith.Commons</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -37,6 +41,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>Hexalith.Commons.Http.Tests</_Parameter1>
     </AssemblyAttribute>

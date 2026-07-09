@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * *'
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    uses: Hexalith/Hexalith.Builds/.github/workflows/domain-ci.yml@main
+    with:
+      solution: Hexalith.Commons.slnx
+      run-consumer-validation: true
+      unit-test-projects: |
+        test/Hexalith.Commons.Tests
+        test/Hexalith.Commons.Aspire.Tests
+        test/Hexalith.Commons.Diagnostics.Tests
+        test/Hexalith.Commons.Http.Tests
+        test/Hexalith.Commons.Publication.Tests
+        test/Hexalith.Commons.Serialization.Tests
+        test/Hexalith.Commons.ServiceDefaults.Tests
+        test/Hexalith.Commons.TenantAccess.Tests

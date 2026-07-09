@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push'
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    uses: Hexalith/Hexalith.Builds/.github/workflows/domain-release.yml@main
+    with:
+      solution: Hexalith.Commons.slnx
+    secrets:
+      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
