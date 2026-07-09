@@ -1,3 +1,10 @@
+# [2.28.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.27.0...v2.28.0) (2026-07-09)
+
+
+### Features
+
+* restructure CI/CD workflows and add package validation scripts ([a11c14d](https://github.com/Hexalith/Hexalith.Commons/commit/a11c14d529717ef0a70d688e460d3cd8bf60c5cd))
+
 # [2.27.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.26.0...v2.27.0) (2026-07-07)
 
 
