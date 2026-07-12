@@ -1,5 +1,11 @@
-Read instructions in [Hexalith Builds Claude.md](./references/Hexalith.Builds/CLAUDE.md) carefully before answering.
+# AI assistant instructions
 
-Also read the shared Hexalith LLM instructions — [hexalith-llm-instructions.md](https://github.com/Hexalith/Hexalith.AI.Tools/blob/main/hexalith-llm-instructions.md) — and follow it.
+Before working in this repository, read
+[`hexalith-llm-instructions.md`](./references/Hexalith.AI.Tools/hexalith-llm-instructions.md)
+(in the `references/Hexalith.AI.Tools` submodule) and follow it.
 
-Before working on any module user interface or UX, also read [Hexalith.AI.Tools/hexalith-ux-instructions.md](https://github.com/Hexalith/Hexalith.AI.Tools/blob/main/hexalith-ux-instructions.md) and follow it.
+## Git Submodules
+
+- Initialize root-declared submodules only, using the `references/...` paths declared in the root `.gitmodules` file.
+- Avoid recursive submodule commands unless they are explicitly scoped so that nested submodules are not initialized.
+- If nested submodules are initialized accidentally, deinitialize them before continuing.
