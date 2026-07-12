@@ -1,3 +1,10 @@
+## [2.28.1](https://github.com/Hexalith/Hexalith.Commons/compare/v2.28.0...v2.28.1) (2026-07-12)
+
+
+### Bug Fixes
+
+* rebuild ([b75c208](https://github.com/Hexalith/Hexalith.Commons/commit/b75c208a3f070cc3608abd340907587134491589))
+
 # [2.28.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.27.0...v2.28.0) (2026-07-09)
 
 
