@@ -1,3 +1,10 @@
+## [2.28.2](https://github.com/Hexalith/Hexalith.Commons/compare/v2.28.1...v2.28.2) (2026-07-16)
+
+
+### Bug Fixes
+
+* **deps:** mark Hexalith.Builds subproject as dirty ([1db176e](https://github.com/Hexalith/Hexalith.Commons/commit/1db176e5e86607ce73f851c256a7338ac01d7953))
+
 ## [2.28.1](https://github.com/Hexalith/Hexalith.Commons/compare/v2.28.0...v2.28.1) (2026-07-12)
 
 
