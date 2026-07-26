@@ -1,3 +1,18 @@
+# [2.29.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.28.2...v2.29.0) (2026-07-26)
+
+
+### Bug Fixes
+
+* **deps:** update subproject references for Hexalith.Builds and Hexalith.PolymorphicSerializations ([ebc6656](https://github.com/Hexalith/Hexalith.Commons/commit/ebc6656bc44b29ca390b94a98627190e16f44890))
+* **deps:** update subproject references for Hexalith.Builds and Hexalith.PolymorphicSerializations ([a444fce](https://github.com/Hexalith/Hexalith.Commons/commit/a444fce61a9a9490febd8a9b55ce8c654a94c480))
+* **deps:** update subproject references for Hexalith.Builds and Hexalith.PolymorphicSerializations; add NoWarn for compatibility in PolymorphicSerializations ([f9a4837](https://github.com/Hexalith/Hexalith.Commons/commit/f9a48373cbca9e4153f9612049681f964f302cb2))
+
+
+### Features
+
+* **deps:** add Hexalith.AI.Tools submodule reference ([b396a46](https://github.com/Hexalith/Hexalith.Commons/commit/b396a46352ffb5ab047fa97604d6527d71fca96f))
+* **workflow:** enhance release process with source verification and CI checks ([dd47efa](https://github.com/Hexalith/Hexalith.Commons/commit/dd47efa1ff80b3727e09ac54b150973d0318e233))
+
 ## [2.28.2](https://github.com/Hexalith/Hexalith.Commons/compare/v2.28.1...v2.28.2) (2026-07-16)
 
 
