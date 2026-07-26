@@ -32,6 +32,10 @@
   <Import Project="$(Hexalith3BuildBuildProps)" Condition="'$(HexalithBuildLoaded)' != 'true'" />
 
   <PropertyGroup>
+    <!-- The source-only PolymorphicSerializations submodule predates the shared
+         inside-namespace using directive rule. Keep its compatibility source
+         buildable without relaxing the rule for Commons projects. -->
+    <NoWarn Condition="'$(MSBuildProjectName)' == 'Hexalith.PolymorphicSerializations'">$(NoWarn);IDE0065</NoWarn>
     <Product>Hexalith.Commons</Product>
     <RepositoryUrl>https://github.com/Hexalith/Hexalith.Commons</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Hexalith/Hexalith.Commons</PackageProjectUrl>
