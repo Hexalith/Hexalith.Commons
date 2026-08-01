@@ -46,8 +46,22 @@ Before working in a Hexalith repository, locate, read, and follow
 
 - Before Git work, inspect the current repository's branch, working tree,
   remotes, and recent history.
-- Use Conventional Commits whenever a commit is requested. Never bypass commit
-  validation.
+- Any assistant that proposes or generates a commit message—including Claude,
+  Codex, GitHub Copilot, and Visual Studio's Copilot commit-message
+  generator—must follow the repository's commitlint configuration. Inspect
+  `commitlint.config.*` and the package scripts before generating the message;
+  those tracked files are authoritative.
+- Generate a Conventional Commit header in the form
+  `<type>[optional scope][!]: <description>`. Use an allowed type, a concise
+  lowercase imperative description, a space after the colon, and no trailing
+  period. Put supporting detail in a body after a blank line instead of
+  lengthening the header.
+- Never exceed the configured `header-max-length` for the commit title/header
+  or `body-max-line-length` for any body line. This repository sets both limits
+  to 200 characters.
+- When command execution is available, validate the proposed message with the
+  repository-pinned commitlint command before committing and validate the
+  committed range before pushing. Never bypass commit validation.
 - In an umbrella workspace, initialize or update only dependencies declared by
   the top-level workspace `.gitmodules` file.
 - Never initialize or update a submodule's nested submodules unless the user
