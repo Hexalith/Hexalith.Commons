@@ -1,3 +1,15 @@
+# [2.30.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.29.0...v2.30.0) (2026-08-01)
+
+
+### Bug Fixes
+
+* **references:** update subproject commits for Hexalith.AI.Tools, Hexalith.Builds, and Hexalith.PolymorphicSerializations ([c4176a0](https://github.com/Hexalith/Hexalith.Commons/commit/c4176a09f9b87f5a03f207ae2e7462e97b912fd1))
+
+
+### Features
+
+* **workflow:** enhance commitlint configuration for pull request title handling ([f2b5f1b](https://github.com/Hexalith/Hexalith.Commons/commit/f2b5f1b12b478dce902756876138a60cde4fde65))
+
 # [2.29.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.28.2...v2.29.0) (2026-07-26)
 
 
