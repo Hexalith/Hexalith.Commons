@@ -1,10 +1,10 @@
 # AI Assistant Instructions
 
 This is a location-independent baseline. Its normalized text is intentionally
-shared by Codex, Claude, and GitHub Copilot entry points in the superproject
-and its root-declared submodules. It contains shared safeguards only; repository
-documentation and configuration remain authoritative for repository-specific
-rules.
+shared by Codex, Claude, Cursor, and GitHub Copilot entry points in the
+superproject and its root-declared submodules. It contains shared safeguards
+only; repository documentation and configuration remain authoritative for
+repository-specific rules.
 
 ## Required Hexalith LLM Baseline
 
@@ -47,7 +47,7 @@ Before working in a Hexalith repository, locate, read, and follow
 - Before Git work, inspect the current repository's branch, working tree,
   remotes, and recent history.
 - Any assistant that proposes or generates a commit message—including Claude,
-  Codex, GitHub Copilot, and Visual Studio's Copilot commit-message
+  Codex, Cursor, GitHub Copilot, and Visual Studio's Copilot commit-message
   generator—must follow the repository's commitlint configuration. Inspect
   `commitlint.config.*` and the package scripts before generating the message;
   those tracked files are authoritative.
