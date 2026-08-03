@@ -506,9 +506,16 @@ cd Hexalith.Commons
 # Build
 dotnet build
 
+# Build the complete owned-project package-mode surface used by dependency governance
+dotnet build Hexalith.Commons.Standalone.slnx -c Release -p:UseNuGetDeps=true
+
 # Run tests
 dotnet test
 ```
+
+`Hexalith.Commons.slnx` remains the canonical development solution. The
+`Hexalith.Commons.Standalone.slnx` solution is a governance-only inventory of all
+20 owned projects and deliberately excludes projects and files under `references/`.
 
 ---
 
