@@ -78,7 +78,7 @@ jobs:
       pull-requests: write
     # Keep the workflow revision and builds-execution-sha identical. The reusable
     # workflow rejects mutable or mismatched release-tool identities.
-    uses: Hexalith/Hexalith.Builds/.github/workflows/domain-release.yml@8db7459d065926501ee045b3aaf7b816780905e5
+    uses: Hexalith/Hexalith.Builds/.github/workflows/domain-release.yml@fa6472788c14301c2c91c6beb85a8215aae1022c
     with:
       solution: Hexalith.Commons.slnx
       environment-name: production
