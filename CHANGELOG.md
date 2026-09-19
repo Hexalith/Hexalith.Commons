@@ -1,3 +1,10 @@
+## [2.30.1](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.0...v2.30.1) (2026-09-19)
+
+
+### Bug Fixes
+
+* **ci:** migrate test execution to microsoft testing platform ([92cdfc9](https://github.com/Hexalith/Hexalith.Commons/commit/92cdfc97d6d2e63bd6e5fae33dce493943951935))
+
 # [2.30.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.29.0...v2.30.0) (2026-08-01)
 
 
