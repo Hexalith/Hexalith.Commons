@@ -82,7 +82,7 @@ jobs:
     with:
       solution: Hexalith.Commons.slnx
       environment-name: production
-      builds-execution-sha: 7ac2849d79e603b88c7cb76e178cd2ba106eaf00
+      builds-execution-sha: fa6472788c14301c2c91c6beb85a8215aae1022c
       source-branch: main
       source-ci-workflow: ci.yml
       # CI already tested the exact source selected by verify-source.

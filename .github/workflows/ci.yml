@@ -21,6 +21,7 @@ jobs:
     with:
       solution: Hexalith.Commons.slnx
       run-consumer-validation: true
+      test-platform: microsoft-testing-platform
       unit-test-projects: |
         test/Hexalith.Commons.Tests
         test/Hexalith.Commons.Aspire.Tests
