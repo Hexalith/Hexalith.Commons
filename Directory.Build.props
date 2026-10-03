@@ -36,6 +36,8 @@
          inside-namespace using directive rule. Keep its compatibility source
          buildable without relaxing the rule for Commons projects. -->
     <NoWarn Condition="'$(MSBuildProjectName)' == 'Hexalith.PolymorphicSerializations'">$(NoWarn);IDE0065</NoWarn>
+    <!-- Set after the shared imports so package assets belong to Commons in every layout. -->
+    <ProjectRoot>$(MSBuildThisFileDirectory)</ProjectRoot>
     <Product>Hexalith.Commons</Product>
     <RepositoryUrl>https://github.com/Hexalith/Hexalith.Commons</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Hexalith/Hexalith.Commons</PackageProjectUrl>
