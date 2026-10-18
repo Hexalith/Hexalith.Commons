@@ -1,3 +1,11 @@
+## [2.30.3](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.2...v2.30.3) (2026-10-18)
+
+
+### Bug Fixes
+
+* **release:** publish nuget packages with trusted identity ([062da9e](https://github.com/Hexalith/Hexalith.Commons/commit/062da9e7427c31a6d9ac20505a6adcaad614d4c7))
+* **release:** stop publishing after the first package failure ([f788dab](https://github.com/Hexalith/Hexalith.Commons/commit/f788dab29007f3d64941879d3f7282395963fbb0))
+
 ## [2.30.2](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.1...v2.30.2) (2026-10-18)
 
 
