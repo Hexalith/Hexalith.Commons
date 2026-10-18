@@ -1,0 +1,52 @@
+{
+  "packages": [
+    {
+      "id": "Hexalith.Commons",
+      "project": "src/libraries/Hexalith.Commons/Hexalith.Commons.csproj"
+    },
+    {
+      "id": "Hexalith.Commons.Aspire",
+      "project": "src/libraries/Hexalith.Commons.Aspire/Hexalith.Commons.Aspire.csproj"
+    },
+    {
+      "id": "Hexalith.Commons.Configurations",
+      "project": "src/libraries/Hexalith.Commons.Configurations/Hexalith.Commons.Configurations.csproj"
+    },
+    {
+      "id": "Hexalith.Commons.Diagnostics",
+      "project": "src/libraries/Hexalith.Commons.Diagnostics/Hexalith.Commons.Diagnostics.csproj"
+    },
+    {
+      "id": "Hexalith.Commons.Http",
+      "project": "src/libraries/Hexalith.Commons.Http/Hexalith.Commons.Http.csproj"
+    },
+    {
+      "id": "Hexalith.Commons.Metadatas",
+      "project": "src/libraries/Hexalith.Commons.Metadatas/Hexalith.Commons.Metadatas.csproj"
+    },
+    {
+      "id": "Hexalith.Commons.Publication",
+      "project": "src/libraries/Hexalith.Commons.Publication/Hexalith.Commons.Publication.csproj"
+    },
+    {
+      "id": "Hexalith.Commons.Serialization",
+      "project": "src/libraries/Hexalith.Commons.Serialization/Hexalith.Commons.Serialization.csproj"
+    },
+    {
+      "id": "Hexalith.Commons.ServiceDefaults",
+      "project": "src/libraries/Hexalith.Commons.ServiceDefaults/Hexalith.Commons.ServiceDefaults.csproj"
+    },
+    {
+      "id": "Hexalith.Commons.StringEncoders",
+      "project": "src/libraries/Hexalith.Commons.StringEncoders/Hexalith.Commons.StringEncoders.csproj"
+    },
+    {
+      "id": "Hexalith.Commons.TenantAccess",
+      "project": "src/libraries/Hexalith.Commons.TenantAccess/Hexalith.Commons.TenantAccess.csproj"
+    },
+    {
+      "id": "Hexalith.Commons.UniqueIds",
+      "project": "src/libraries/Hexalith.Commons.UniqueIds/Hexalith.Commons.UniqueIds.csproj"
+    }
+  ]
+}

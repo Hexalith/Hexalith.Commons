@@ -71,23 +71,43 @@ jobs:
 
   release:
     needs: verify-source
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
     permissions:
       actions: read
-      attestations: write
       contents: write
       id-token: write
       issues: write
       pull-requests: write
-    # Keep the workflow revision and builds-execution-sha identical. The reusable
-    # workflow rejects mutable or mismatched release-tool identities.
-    uses: Hexalith/Hexalith.Builds/.github/workflows/domain-release.yml@f717a87c26a8266bdde95d18f998ef2ab366d43a
-    with:
-      solution: Hexalith.Commons.slnx
-      environment-name: production
-      builds-execution-sha: f717a87c26a8266bdde95d18f998ef2ab366d43a
-      source-branch: main
-      source-ci-workflow: ci.yml
-      # CI already tested the exact source selected by verify-source.
-      test-projects: ''
-    secrets:
-      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+    steps:
+      - name: Checkout exact release source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          submodules: false
+          persist-credentials: false
+      # Authentication stays in this job so NuGet sees release.yml in this repository.
+      - name: Prepare release
+        id: prepare
+        uses: Hexalith/Hexalith.Builds/Github/prepare-domain-release@332b2c144defba546fe0a09626a4a72f2340e22f
+        with:
+          solution: Hexalith.Commons.slnx
+          builds-execution-sha: 332b2c144defba546fe0a09626a4a72f2340e22f
+          expected-package-count: 12
+          publication-flag: ${{ vars.HEXALITH_RELEASE_PUBLISH_ENABLED }}
+          nuget-user: ${{ vars.NUGET_USER }}
+          packages-lock-file: Directory.Packages.props, global.json, references/Hexalith.Builds/Props/Directory.Packages.props
+      - name: Authenticate to NuGet with trusted publishing
+        if: ${{ steps.prepare.outputs.publish-enabled == 'true' }}
+        id: nuget-login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: ${{ vars.NUGET_USER }}
+      - name: Semantic Release
+        if: ${{ steps.prepare.outputs.publish-enabled == 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+        run: npm exec --no -- semantic-release

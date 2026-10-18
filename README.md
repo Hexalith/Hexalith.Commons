@@ -517,6 +517,18 @@ dotnet test
 `Hexalith.Commons.Standalone.slnx` solution is a governance-only inventory of all
 20 owned projects and deliberately excludes projects and files under `references/`.
 
+Releases are dispatched manually from `.github/workflows/release.yml` after CI
+passes for the current `main` commit. The `production` environment requires
+approval before publication. The release validates and publishes all 12 Commons
+packages using NuGet trusted publishing.
+
+Set the repository variable `NUGET_USER` to the individual NuGet.org username
+that created the trusted publishing policy, and keep
+`HEXALITH_RELEASE_PUBLISH_ENABLED` set to `true` to enable publication. The NuGet
+policy must trust repository `Hexalith/Hexalith.Commons`, workflow `release.yml`,
+and environment `production`. The workflow exchanges its OIDC identity for a
+short-lived credential; it does not use a stored `NUGET_API_KEY` secret.
+
 ---
 
 ## Contributing
