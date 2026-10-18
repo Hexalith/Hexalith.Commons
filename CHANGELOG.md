@@ -1,3 +1,11 @@
+## [2.30.2](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.1...v2.30.2) (2026-10-18)
+
+
+### Bug Fixes
+
+* **ci:** patch messagepack and restore release readiness ([61ba32f](https://github.com/Hexalith/Hexalith.Commons/commit/61ba32f4f2c922120ff37dc24a419aa07a34cbed))
+* **pack:** resolve package assets from the commons root ([116d268](https://github.com/Hexalith/Hexalith.Commons/commit/116d26815eb81e35b3c161e1799e5ee12805fc0a))
+
 ## [2.30.1](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.0...v2.30.1) (2026-09-19)
 
 
