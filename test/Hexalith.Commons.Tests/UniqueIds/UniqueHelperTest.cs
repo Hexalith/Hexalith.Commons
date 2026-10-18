@@ -383,19 +383,21 @@ public partial class UniqueHelperTest
     }
 
     /// <summary>
-    /// Tests that a non-ULID Guid (e.g., Guid.NewGuid()) produces a valid ULID string
-    /// with an extractable timestamp (does not throw).
+    /// Tests that arbitrary Guids preserve identity through ULID conversion, including
+    /// values whose embedded timestamp exceeds the DateTimeOffset range.
     /// </summary>
-    [Fact]
-    public void ToSortableUniqueIdFromRandomGuidProducesValidUlidWithExtractableTimestamp()
+    /// <param name="value">The Guid to round-trip through a ULID string.</param>
+    [Theory]
+    [InlineData("00112233-4455-4677-8899-aabbccddeeff")]
+    [InlineData("ffffffff-ffff-ffff-ffff-ffffffffffff")]
+    public void ToSortableUniqueIdFromGuidPreservesIdentity(string value)
     {
-        var randomGuid = Guid.NewGuid();
-        string ulid = UniqueIdHelper.ToSortableUniqueId(randomGuid);
+        var guid = Guid.Parse(value);
+        string ulid = UniqueIdHelper.ToSortableUniqueId(guid);
         ulid.Length.ShouldBe(26);
         CrockfordBase32Pattern().IsMatch(ulid).ShouldBeTrue();
 
-        // Should not throw — edge case per architecture
-        _ = UniqueIdHelper.ExtractTimestamp(ulid);
+        UniqueIdHelper.ToGuid(ulid).ShouldBe(guid);
     }
 
     /// <summary>

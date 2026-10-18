@@ -181,7 +181,7 @@ public class Rfc1123StringExtensionsTest
             "123_456",
             "Special chars: !@#$%^&*()",
             "Unicode: 你好, こんにちは, 안녕하세요",
-            "Mixed: ABC-123.xyz_"
+            "Mixed: ABC-123.xyz_",
         ];
 
         foreach (string original in testStrings)

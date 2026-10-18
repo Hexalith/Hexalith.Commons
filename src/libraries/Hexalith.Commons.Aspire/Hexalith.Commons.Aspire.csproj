@@ -11,6 +11,8 @@
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting" />
     <PackageReference Include="CommunityToolkit.Aspire.Hosting.Dapr" />
+    <!-- Keep Aspire's transitive serializer on the centrally approved patched version. -->
+    <PackageReference Include="MessagePack" />
   </ItemGroup>
 
 </Project>

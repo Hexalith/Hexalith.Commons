@@ -138,17 +138,17 @@ public sealed class AspireDaprDomainModuleTest
             .OfType<DaprSidecarAnnotation>()
             .SelectMany(static annotation => annotation.Sidecar.Annotations.OfType<DaprComponentReferenceAnnotation>())
             .Select(static annotation => annotation.Component.Name)
-            .Order(StringComparer.Ordinal)];
+            .Order(StringComparer.Ordinal),];
 
     private static string[] ResourceNamesReferencedBy(ProjectResource resource)
         => [.. resource.Annotations
             .OfType<ResourceRelationshipAnnotation>()
             .Select(static annotation => annotation.Resource.Name)
-            .Order(StringComparer.Ordinal)];
+            .Order(StringComparer.Ordinal),];
 
     private static string[] ResourceNamesWaitedOnBy(ProjectResource resource)
         => [.. resource.Annotations
             .OfType<WaitAnnotation>()
             .Select(static annotation => annotation.Resource.Name)
-            .Order(StringComparer.Ordinal)];
+            .Order(StringComparer.Ordinal),];
 }

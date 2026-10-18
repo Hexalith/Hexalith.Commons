@@ -90,7 +90,7 @@ public sealed class HexalithServiceDefaultsTest
         string[] routes = [.. ((IEndpointRouteBuilder)app).DataSources
             .SelectMany(static source => source.Endpoints)
             .OfType<RouteEndpoint>()
-            .Select(static endpoint => endpoint.RoutePattern.RawText ?? string.Empty)];
+            .Select(static endpoint => endpoint.RoutePattern.RawText ?? string.Empty),];
         routes.ShouldContain("/status");
         routes.ShouldContain("/health/live");
         routes.ShouldContain("/health/ready");
