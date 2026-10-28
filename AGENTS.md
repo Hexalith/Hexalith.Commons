@@ -62,6 +62,11 @@ Before working in a Hexalith repository, locate, read, and follow
 - When command execution is available, validate the proposed message with the
   repository-pinned commitlint command before committing and validate the
   committed range before pushing. Never bypass commit validation.
+- Before integrating a dependency or bot branch, validate every incoming commit
+  with the pinned commitlint command, including commits a merge would carry into
+  `main`.
+- Integrate branches with invalid messages using a squash merge and one validated
+  Conventional Commit. Keep published history and commitlint rules intact.
 - In an umbrella workspace, initialize or update only dependencies declared by
   the top-level workspace `.gitmodules` file.
 - Never initialize or update a submodule's nested submodules unless the user
