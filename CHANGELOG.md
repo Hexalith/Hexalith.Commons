@@ -1,3 +1,10 @@
+## [2.30.4](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.3...v2.30.4) (2026-10-30)
+
+
+### Bug Fixes
+
+* **skills:** skip origin HEAD in pushall merges ([696a6d5](https://github.com/Hexalith/Hexalith.Commons/commit/696a6d5856428304bb42f61951991115d30e9beb))
+
 ## [2.30.3](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.2...v2.30.3) (2026-10-18)
 
 
