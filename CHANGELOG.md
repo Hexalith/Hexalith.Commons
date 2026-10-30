@@ -1,3 +1,14 @@
+## [2.30.7](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.6...v2.30.7) (2026-10-30)
+
+
+### Bug Fixes
+
+* **ci:** synchronize isolated shared lifecycle fixtures ([7a35f6c](https://github.com/Hexalith/Hexalith.Commons/commit/7a35f6c1007d742036920ea83164105b27524b82))
+* **ci:** synchronize shared ci context and validation repairs ([0dbe137](https://github.com/Hexalith/Hexalith.Commons/commit/0dbe1373683c75a52f297303fd695f4a2f5693ad))
+* **ci:** synchronize shared nuget runner initialization ([f79a7a2](https://github.com/Hexalith/Hexalith.Commons/commit/f79a7a2e21f21058dba206f1f21c8224d6d8d78d))
+* **ci:** synchronize the latest shared build merge ([3a8d151](https://github.com/Hexalith/Hexalith.Commons/commit/3a8d1513319a211e2836c2fe77ea63236e105778))
+* **deps:** synchronize the latest redis patch and package audit ([e07748b](https://github.com/Hexalith/Hexalith.Commons/commit/e07748b466589d66f24831ff6151ebca361610f5))
+
 ## [2.30.6](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.5...v2.30.6) (2026-10-30)
 
 
