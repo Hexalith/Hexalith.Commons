@@ -72,7 +72,7 @@ jobs:
   release:
     needs: verify-source
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
     environment: production
     permissions:
       actions: read
@@ -91,10 +91,10 @@ jobs:
       # Authentication stays in this job so NuGet sees release.yml in this repository.
       - name: Prepare release
         id: prepare
-        uses: Hexalith/Hexalith.Builds/Github/prepare-domain-release@332b2c144defba546fe0a09626a4a72f2340e22f
+        uses: Hexalith/Hexalith.Builds/Github/prepare-domain-release@3dfe5e3ec7d8df462b7d8230d2501c83a182d30c
         with:
           solution: Hexalith.Commons.slnx
-          builds-execution-sha: 332b2c144defba546fe0a09626a4a72f2340e22f
+          builds-execution-sha: 3dfe5e3ec7d8df462b7d8230d2501c83a182d30c
           expected-package-count: 12
           publication-flag: ${{ vars.HEXALITH_RELEASE_PUBLISH_ENABLED }}
           nuget-user: ${{ vars.NUGET_USER }}
@@ -111,3 +111,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
         run: npm exec --no -- semantic-release
+      - name: Verify GitHub release and every NuGet package download
+        if: ${{ steps.prepare.outputs.publish-enabled == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_SOURCE: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          tag="$(git describe --tags --exact-match HEAD)"
+          gh release view "$tag" --json isDraft,isPrerelease --jq '.isDraft or .isPrerelease' | grep -qx false
+          python3 tools/verify_nuget_release.py "${tag#v}" --commit "$RELEASE_SOURCE"
+      - name: Preserve packages for release recovery
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-packages-${{ github.run_id }}-${{ github.run_attempt }}
+          path: nupkgs/*.*nupkg
+          if-no-files-found: ignore
+          retention-days: 14
