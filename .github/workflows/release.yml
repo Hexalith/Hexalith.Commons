@@ -91,10 +91,10 @@ jobs:
       # Authentication stays in this job so NuGet sees release.yml in this repository.
       - name: Prepare release
         id: prepare
-        uses: Hexalith/Hexalith.Builds/Github/prepare-domain-release@3dfe5e3ec7d8df462b7d8230d2501c83a182d30c
+        uses: Hexalith/Hexalith.Builds/Github/prepare-domain-release@ce2fe0f149fbeadae370c29e1d9f962fd25c6de8
         with:
           solution: Hexalith.Commons.slnx
-          builds-execution-sha: 3dfe5e3ec7d8df462b7d8230d2501c83a182d30c
+          builds-execution-sha: ce2fe0f149fbeadae370c29e1d9f962fd25c6de8
           expected-package-count: 12
           publication-flag: ${{ vars.HEXALITH_RELEASE_PUBLISH_ENABLED }}
           nuget-user: ${{ vars.NUGET_USER }}
