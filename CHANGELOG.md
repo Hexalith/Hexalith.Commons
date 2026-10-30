@@ -1,3 +1,11 @@
+## [2.30.6](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.5...v2.30.6) (2026-10-30)
+
+
+### Bug Fixes
+
+* **ci:** synchronize shared test and sdk repairs ([e96a1c3](https://github.com/Hexalith/Hexalith.Commons/commit/e96a1c36fac7fd40a345ddd53860fb4231dd6d02))
+* **ci:** synchronize the repaired shared build host ([6dcacf1](https://github.com/Hexalith/Hexalith.Commons/commit/6dcacf18e4271170e3514228a6f31405060acec3))
+
 ## [2.30.5](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.4...v2.30.5) (2026-10-30)
 
 
