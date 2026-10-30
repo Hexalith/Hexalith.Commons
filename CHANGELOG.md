@@ -1,3 +1,10 @@
+## [2.30.5](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.4...v2.30.5) (2026-10-30)
+
+
+### Bug Fixes
+
+* **deps:** update sdk and packages and verify nuget publication ([945a1fb](https://github.com/Hexalith/Hexalith.Commons/commit/945a1fbe45dcd29a83368ba06f2ff46be90b40c4))
+
 ## [2.30.4](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.3...v2.30.4) (2026-10-30)
 
 
