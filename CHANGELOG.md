@@ -1,3 +1,10 @@
+## [2.30.9](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.8...v2.30.9) (2026-11-01)
+
+
+### Bug Fixes
+
+* **deps:** synchronize shared builds and serialization updates ([55fa473](https://github.com/Hexalith/Hexalith.Commons/commit/55fa4731b4b6383d93ac841fb0024915a0580d87))
+
 ## [2.30.8](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.7...v2.30.8) (2026-11-01)
 
 
