@@ -1,3 +1,11 @@
+## [2.30.8](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.7...v2.30.8) (2026-11-01)
+
+
+### Bug Fixes
+
+* **build:** preserve package provenance with shared build update ([81ed542](https://github.com/Hexalith/Hexalith.Commons/commit/81ed54264fc4adb0446f782ab14693c2e4021534))
+* **ci:** pin the legacy domain workflow ([6820f0a](https://github.com/Hexalith/Hexalith.Commons/commit/6820f0a0365636284aa5c160b23a6d4373033b9f))
+
 ## [2.30.7](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.6...v2.30.7) (2026-10-30)
 
 
