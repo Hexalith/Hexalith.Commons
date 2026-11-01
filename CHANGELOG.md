@@ -1,3 +1,10 @@
+## [2.30.10](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.9...v2.30.10) (2026-11-01)
+
+
+### Bug Fixes
+
+* **build:** synchronize the latest shared runtime update ([dca0ad4](https://github.com/Hexalith/Hexalith.Commons/commit/dca0ad4c530ed2a6813c2f5138b8202b9a6db193))
+
 ## [2.30.9](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.8...v2.30.9) (2026-11-01)
 
 
