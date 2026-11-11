@@ -248,7 +248,7 @@ public sealed class TenantAccessProjectionHandlerReplayToleranceTest
 
     private sealed class CountingStore : ITenantAccessProjectionStore<TestProjection>
     {
-        private readonly Dictionary<string, TestProjection> _projections = new(StringComparer.Ordinal);
+        private readonly Dictionary<string, TestProjection> _projections = [with(StringComparer.Ordinal)];
 
         public int GetCount { get; private set; }
 
@@ -270,7 +270,7 @@ public sealed class TenantAccessProjectionHandlerReplayToleranceTest
 
     private sealed class AlwaysFailingStore(Func<Exception> exceptionFactory) : ITenantAccessProjectionStore<TestProjection>
     {
-        private readonly Dictionary<string, TestProjection> _projections = new(StringComparer.Ordinal);
+        private readonly Dictionary<string, TestProjection> _projections = [with(StringComparer.Ordinal)];
 
         public int SaveAttempts { get; private set; }
 

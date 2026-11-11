@@ -46,7 +46,7 @@ public class ObjectToDictionaryHelper
     /// <returns>A dictionary containing the object's property names and values.</returns>
     private static Dictionary<string, object?> ToDictionary(object obj)
     {
-        Dictionary<string, object?> dictionary = new(StringComparer.Ordinal);
+        Dictionary<string, object?> dictionary = [with(StringComparer.Ordinal)];
         foreach (System.Reflection.PropertyInfo prop in obj.GetType().GetProperties())
         {
             dictionary.Add(prop.Name, prop.GetValue(obj));

@@ -134,21 +134,30 @@ public sealed class AspireDaprDomainModuleTest
             .Single();
 
     private static string[] ResourceNamesReferencedBySidecar(ProjectResource resource)
-        => [.. resource.Annotations
-            .OfType<DaprSidecarAnnotation>()
-            .SelectMany(static annotation => annotation.Sidecar.Annotations.OfType<DaprComponentReferenceAnnotation>())
-            .Select(static annotation => annotation.Component.Name)
-            .Order(StringComparer.Ordinal),];
+        =>
+        [
+            .. resource.Annotations
+                .OfType<DaprSidecarAnnotation>()
+                .SelectMany(static annotation => annotation.Sidecar.Annotations.OfType<DaprComponentReferenceAnnotation>())
+                .Select(static annotation => annotation.Component.Name)
+                .Order(StringComparer.Ordinal),
+        ];
 
     private static string[] ResourceNamesReferencedBy(ProjectResource resource)
-        => [.. resource.Annotations
-            .OfType<ResourceRelationshipAnnotation>()
-            .Select(static annotation => annotation.Resource.Name)
-            .Order(StringComparer.Ordinal),];
+        =>
+        [
+            .. resource.Annotations
+                .OfType<ResourceRelationshipAnnotation>()
+                .Select(static annotation => annotation.Resource.Name)
+                .Order(StringComparer.Ordinal),
+        ];
 
     private static string[] ResourceNamesWaitedOnBy(ProjectResource resource)
-        => [.. resource.Annotations
-            .OfType<WaitAnnotation>()
-            .Select(static annotation => annotation.Resource.Name)
-            .Order(StringComparer.Ordinal),];
+        =>
+        [
+            .. resource.Annotations
+                .OfType<WaitAnnotation>()
+                .Select(static annotation => annotation.Resource.Name)
+                .Order(StringComparer.Ordinal),
+        ];
 }

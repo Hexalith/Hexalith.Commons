@@ -292,7 +292,7 @@ public sealed class TenantAccessProjectionHandlerTest
 
     private class InMemoryStore : ITenantAccessProjectionStore<TestProjection>
     {
-        private readonly Dictionary<string, TestProjection> _projections = new(StringComparer.Ordinal);
+        private readonly Dictionary<string, TestProjection> _projections = [with(StringComparer.Ordinal)];
 
         public Task<TestProjection?> GetAsync(string tenantId, CancellationToken cancellationToken = default)
             => Task.FromResult(_projections.GetValueOrDefault(tenantId));
