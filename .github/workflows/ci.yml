@@ -26,10 +26,10 @@ jobs:
       - run: python3 -m unittest discover -s tools -p 'test_verify_nuget_release.py' -v
 
   ci:
-    uses: Hexalith/Hexalith.Builds/.github/workflows/domain-ci.yml@6e77e79e8914a375b0c43b0af3bd142405675ecd
+    uses: Hexalith/Hexalith.Builds/.github/workflows/domain-ci.yml@163f3d0deac6b0db5ec4bdfcc0934b12e6adb46a
     with:
       solution: Hexalith.Commons.slnx
-      additional-sdk-version: '10.0.x'
+      additional-sdk-version: '10.0.404'
       run-consumer-validation: true
       test-platform: microsoft-testing-platform
       unit-test-projects: |
