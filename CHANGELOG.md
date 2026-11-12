@@ -1,3 +1,10 @@
+## [2.30.11](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.10...v2.30.11) (2026-11-12)
+
+
+### Bug Fixes
+
+* **ci:** consume the repaired shared package catalog ([1e292e3](https://github.com/Hexalith/Hexalith.Commons/commit/1e292e3e99232a28462b2a35d5547a94dd612e57))
+
 ## [2.30.10](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.9...v2.30.10) (2026-11-01)
 
 
