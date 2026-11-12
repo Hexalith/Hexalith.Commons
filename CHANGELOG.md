@@ -1,3 +1,13 @@
+# [3.0.0](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.11...v3.0.0) (2026-11-12)
+
+
+* feat!: require .NET 11 for common libraries ([1705ebc](https://github.com/Hexalith/Hexalith.Commons/commit/1705ebc20195a9f830da066144dd97b6bc4c0ace))
+
+
+### BREAKING CHANGES
+
+* All current Commons runtime packages require .NET 11.
+
 ## [2.30.11](https://github.com/Hexalith/Hexalith.Commons/compare/v2.30.10...v2.30.11) (2026-11-12)
 
 
