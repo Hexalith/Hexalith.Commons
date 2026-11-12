@@ -96,10 +96,10 @@ jobs:
           dotnet-version: '10.0.x'
       - name: Prepare release
         id: prepare
-        uses: Hexalith/Hexalith.Builds/Github/prepare-domain-release@a6cd5532cf3003a12c89f05fb0e08d8cbc5c4b25
+        uses: Hexalith/Hexalith.Builds/Github/prepare-domain-release@6ad5854aa14a9950e1fbfc32d7e27953a1c4b82b
         with:
           solution: Hexalith.Commons.slnx
-          builds-execution-sha: a6cd5532cf3003a12c89f05fb0e08d8cbc5c4b25
+          builds-execution-sha: 6ad5854aa14a9950e1fbfc32d7e27953a1c4b82b
           expected-package-count: 12
           publication-flag: ${{ vars.HEXALITH_RELEASE_PUBLISH_ENABLED }}
           nuget-user: ${{ vars.NUGET_USER }}
