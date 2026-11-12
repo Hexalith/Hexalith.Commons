@@ -29,7 +29,7 @@ Each package is lightweight, well-tested, and easy to integrate.
 
 ## Requirements
 
-- **.NET 10.0** or later
+- **.NET 11.0** or later
 - Compatible with ASP.NET Core, Console, Worker Services, and library projects
 
 ---

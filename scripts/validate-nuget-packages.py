@@ -33,7 +33,7 @@ EXPECTED_PACKAGE_IDS = frozenset(
 class PackageMetadata:
     package_id: str
     version: str
-    has_net10_assets: bool
+    has_net11_assets: bool
 
 
 def main() -> int:
@@ -55,10 +55,10 @@ def main() -> int:
         raise ValueError(f"Expected one shared package version, found {sorted(versions)}")
 
     missing_assets = sorted(
-        package.package_id for package in packages.values() if not package.has_net10_assets
+        package.package_id for package in packages.values() if not package.has_net11_assets
     )
     if missing_assets:
-        raise ValueError(f"Packages missing lib/net10.0 assets: {missing_assets}")
+        raise ValueError(f"Packages missing lib/net11.0 assets: {missing_assets}")
 
     symbol_ids = package_ids_from_symbols(args.package_directory)
     missing_symbols = sorted(EXPECTED_PACKAGE_IDS - symbol_ids)
@@ -97,8 +97,8 @@ def read_package(package_path: Path) -> PackageMetadata:
 
         package_id = text(metadata, "id", ns, package_path)
         version = text(metadata, "version", ns, package_path)
-        has_net10_assets = any(name.startswith("lib/net10.0/") for name in package.namelist())
-        return PackageMetadata(package_id, version, has_net10_assets)
+        has_net11_assets = any(name.startswith("lib/net11.0/") for name in package.namelist())
+        return PackageMetadata(package_id, version, has_net11_assets)
 
 
 def text(metadata: ElementTree.Element, name: str, ns: dict[str, str], package_path: Path) -> str:

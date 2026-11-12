@@ -89,17 +89,16 @@ jobs:
           submodules: false
           persist-credentials: false
       # Authentication stays in this job so NuGet sees release.yml in this repository.
-      - name: Install build SDK and .NET 10 runtime
+      - name: Install the selected .NET 11 SDK
         uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
         with:
           global-json-file: global.json
-          dotnet-version: '10.0.x'
       - name: Prepare release
         id: prepare
-        uses: Hexalith/Hexalith.Builds/Github/prepare-domain-release@6ad5854aa14a9950e1fbfc32d7e27953a1c4b82b
+        uses: Hexalith/Hexalith.Builds/Github/prepare-domain-release@9f5d751f7ab0b7a621dcd18b589bf061fabac6ec
         with:
           solution: Hexalith.Commons.slnx
-          builds-execution-sha: 6ad5854aa14a9950e1fbfc32d7e27953a1c4b82b
+          builds-execution-sha: 9f5d751f7ab0b7a621dcd18b589bf061fabac6ec
           expected-package-count: 12
           publication-flag: ${{ vars.HEXALITH_RELEASE_PUBLISH_ENABLED }}
           nuget-user: ${{ vars.NUGET_USER }}

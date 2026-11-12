@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <NoWarn>$(NoWarn);CS1591;IDE0005;IDE0022;IDE0065;IDE0079;RCS1251;CA1014;CA1822;SA1600;SA1636;S1144;S2325;VSTHRD111;xUnit1030;</NoWarn>
   </PropertyGroup>
