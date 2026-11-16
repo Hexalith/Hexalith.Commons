@@ -5,6 +5,12 @@
       "Skill(commit-commands:commit-push-pr:*)",
       "Bash(gh pr:*)",
       "Bash(grep -E \"\\\\.md$|\\\\.yaml$|Hexalith.Builds\")"
+    ],
+    "deny": [
+      "Edit(/.github/workflows/**)",
+      "Edit(/.github/hexalith-ci.json)",
+      "Edit(/.github/dependabot.yml)",
+      "Edit(/references/Hexalith.Builds/**)"
     ]
   }
 }
