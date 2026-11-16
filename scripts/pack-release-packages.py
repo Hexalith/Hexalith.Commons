@@ -30,6 +30,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Pack Hexalith.Commons release packages.")
     parser.add_argument("output_directory", type=Path, help="Directory where packages are written.")
     parser.add_argument("version", help="Package version to apply.")
+    parser.add_argument("--nuget-config", type=Path,
+                        default=Path(__file__).resolve().parents[1] / "references/Hexalith.Builds/NuGet.ci.Config")
     args = parser.parse_args()
 
     output_directory = args.output_directory
@@ -48,12 +50,19 @@ def main() -> int:
                 "pack",
                 project,
                 "--no-build",
+                "--no-restore",
                 "--configuration",
                 "Release",
                 "--output",
                 str(output_directory),
                 f"-p:Version={args.version}",
                 f"-p:FileVersion={args.version}",
+                f"-p:MinVerVersionOverride={args.version}",
+                "-noAutoResponse",
+                "-warnaserror",
+                "-p:UseHexalithProjectReferences=false",
+                "-p:NuGetAudit=false",
+                f"-p:RestoreConfigFile={args.nuget_config.resolve()}",
                 "-p:GeneratePackageOnBuild=false",
                 "-p:IDEBuild=false",
                 "/m:1",

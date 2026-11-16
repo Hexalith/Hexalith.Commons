@@ -1,0 +1,13 @@
+name: Validate Commons packages and isolated consumer
+description: Pack existing Release outputs, validate payloads and symbols, and compile a package-only consumer.
+runs:
+  using: composite
+  steps:
+    - name: Validate package outputs and consumption
+      shell: bash
+      run: |
+        packages=$(mktemp -d "$RUNNER_TEMP/commons-packages.XXXXXX")
+        trap 'rm -rf "$packages"' EXIT
+        python3 scripts/pack-release-packages.py "$packages" 0.0.0
+        python3 scripts/validate-nuget-packages.py "$packages"
+        python3 scripts/validate-consumer-package-references.py "$packages"

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -37,6 +38,7 @@ def main() -> int:
     versions = package_versions(args.package_directory)
     with tempfile.TemporaryDirectory(prefix="hexalith-commons-consumer-") as temp:
         root = Path(temp)
+        shutil.copyfile(Path(__file__).resolve().parents[1] / "global.json", root / "global.json")
         write_nuget_config(root, args.package_directory)
         write_consumer_project(root, versions)
         write_consumer_source(root)
@@ -150,8 +152,14 @@ def run_dotnet(args: list[str], working_directory: Path) -> None:
     env = os.environ.copy()
     env.setdefault("DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER", "1")
     env.setdefault("MSBUILDDISABLENODEREUSE", "1")
-    env["NUGET_PACKAGES"] = str(working_directory.parent / ".nuget" / "packages")
-    subprocess.run(["dotnet", *args], cwd=working_directory, check=True, env=env)
+    env["NUGET_PACKAGES"] = str(working_directory / ".nuget" / "packages")
+    env["NUGET_HTTP_CACHE_PATH"] = str(working_directory / ".nuget" / "http-cache")
+    env["NUGET_PLUGINS_CACHE_PATH"] = str(working_directory / ".nuget" / "plugins-cache")
+    env["DOTNET_CLI_HOME"] = str(working_directory)
+    subprocess.run(["dotnet", *args, "-noAutoResponse", "-warnaserror",
+                    "-p:UseHexalithProjectReferences=false", "-p:NuGetAudit=false",
+                    f"-p:RestoreConfigFile={working_directory / 'NuGet.Config'}"],
+                   cwd=working_directory, check=True, env=env)
 
 
 if __name__ == "__main__":
