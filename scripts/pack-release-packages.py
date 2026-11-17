@@ -39,9 +39,8 @@ def main() -> int:
     for package in [*output_directory.glob("*.nupkg"), *output_directory.glob("*.snupkg")]:
         package.unlink()
 
-    env = os.environ.copy()
-    env.setdefault("DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER", "1")
-    env.setdefault("MSBUILDDISABLENODEREUSE", "1")
+    os.environ.setdefault("DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER", "1")
+    os.environ.setdefault("MSBUILDDISABLENODEREUSE", "1")
 
     for project in PACKAGE_PROJECTS:
         subprocess.run(
@@ -69,7 +68,6 @@ def main() -> int:
                 "/nr:false",
             ],
             check=True,
-            env=env,
         )
 
     return 0

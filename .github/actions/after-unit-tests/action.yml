@@ -6,8 +6,7 @@ runs:
     - name: Validate package outputs and consumption
       shell: bash
       run: |
-        packages=$(mktemp -d "$RUNNER_TEMP/commons-packages.XXXXXX")
-        trap 'rm -rf "$packages"' EXIT
-        python3 scripts/pack-release-packages.py "$packages" 0.0.0
-        python3 scripts/validate-nuget-packages.py "$packages"
-        python3 scripts/validate-consumer-package-references.py "$packages"
+        mkdir -p "$RUNNER_TEMP/commons-packages"
+        python3 scripts/pack-release-packages.py "$RUNNER_TEMP/commons-packages" 0.0.0
+        python3 scripts/validate-nuget-packages.py "$RUNNER_TEMP/commons-packages"
+        python3 scripts/validate-consumer-package-references.py "$RUNNER_TEMP/commons-packages"

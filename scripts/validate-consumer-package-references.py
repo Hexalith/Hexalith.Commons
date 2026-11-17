@@ -43,8 +43,16 @@ def main() -> int:
         write_consumer_project(root, versions)
         write_consumer_source(root)
         assert_package_only(root / "Consumer.csproj")
-        run_dotnet(["restore", "Consumer.csproj"], root)
-        run_dotnet(["build", "Consumer.csproj", "--no-restore", "--configuration", "Release"], root)
+        isolate_nuget(root)
+        project = str(root / "Consumer.csproj")
+        restore_config = str(root / "NuGet.Config")
+        subprocess.run(["dotnet", "restore", project, "-noAutoResponse", "-warnaserror",
+                        "-p:UseHexalithProjectReferences=false", "-p:NuGetAudit=false",
+                        "-p:RestoreConfigFile=" + restore_config], check=True)
+        subprocess.run(["dotnet", "build", project, "--no-restore", "--configuration", "Release",
+                        "-noAutoResponse", "-warnaserror",
+                        "-p:UseHexalithProjectReferences=false", "-p:NuGetAudit=false",
+                        "-p:RestoreConfigFile=" + restore_config], check=True)
 
     print("Validated isolated package-only consumer build.")
     return 0
@@ -148,18 +156,13 @@ def assert_package_only(project_file: Path) -> None:
             raise ValueError(f"{project_file}: missing PackageReference for {package_id}")
 
 
-def run_dotnet(args: list[str], working_directory: Path) -> None:
-    env = os.environ.copy()
-    env.setdefault("DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER", "1")
-    env.setdefault("MSBUILDDISABLENODEREUSE", "1")
-    env["NUGET_PACKAGES"] = str(working_directory / ".nuget" / "packages")
-    env["NUGET_HTTP_CACHE_PATH"] = str(working_directory / ".nuget" / "http-cache")
-    env["NUGET_PLUGINS_CACHE_PATH"] = str(working_directory / ".nuget" / "plugins-cache")
-    env["DOTNET_CLI_HOME"] = str(working_directory)
-    subprocess.run(["dotnet", *args, "-noAutoResponse", "-warnaserror",
-                    "-p:UseHexalithProjectReferences=false", "-p:NuGetAudit=false",
-                    f"-p:RestoreConfigFile={working_directory / 'NuGet.Config'}"],
-                   cwd=working_directory, check=True, env=env)
+def isolate_nuget(working_directory: Path) -> None:
+    os.environ.setdefault("DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER", "1")
+    os.environ.setdefault("MSBUILDDISABLENODEREUSE", "1")
+    os.environ["NUGET_PACKAGES"] = str(working_directory / ".nuget" / "packages")
+    os.environ["NUGET_HTTP_CACHE_PATH"] = str(working_directory / ".nuget" / "http-cache")
+    os.environ["NUGET_PLUGINS_CACHE_PATH"] = str(working_directory / ".nuget" / "plugins-cache")
+    os.environ["DOTNET_CLI_HOME"] = str(working_directory)
 
 
 if __name__ == "__main__":
