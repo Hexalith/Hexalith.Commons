@@ -6,6 +6,7 @@
 
   <PropertyGroup>
     <Description>Domain-agnostic Aspire and Dapr hosting helpers for Hexalith modules.</Description>
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);CS0618</WarningsNotAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
