@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/github/license/hexalith/hexalith.commons)](https://github.com/hexalith/hexalith/blob/main/LICENSE)
 [![Discord](https://img.shields.io/discord/1063152441819942922?label=Discord&logo=discord&logoColor=white&color=d82679)](https://discordapp.com/channels/1102166958918610994/1102166958918610997)
-[![Build status](https://github.com/Hexalith/Hexalith.Commons/actions/workflows/build-release.yml/badge.svg)](https://github.com/Hexalith/Hexalith.Commons/actions)
+[![Build status](https://github.com/Hexalith/Hexalith.Commons/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Hexalith/Hexalith.Commons/actions/workflows/ci.yml)
 [![NuGet](https://img.shields.io/nuget/v/Hexalith.Commons.svg)](https://www.nuget.org/packages/Hexalith.Commons)
 
 ---
@@ -63,17 +63,16 @@ The core library provides essential utilities organized into focused namespaces.
 
 ### String Utilities
 
-**Namespace:** `Hexalith.Extensions.Helpers`
+**Namespace:** `Hexalith.Commons.Strings`
 
 ```csharp
-using Hexalith.Extensions.Helpers;
+using System.Globalization;
+using Hexalith.Commons.Strings;
 
-// Format strings with named placeholders
 string template = "Hello {name}, your order #{orderId} is ready";
-string result = template.FormatWithNamedPlaceholders(
-    new Dictionary<string, object> { ["name"] = "John", ["orderId"] = 12345 }
-);
-// Result: "Hello John, your order #12345 is ready"
+string result = StringHelper.FormatWithNamedPlaceholders(
+    CultureInfo.InvariantCulture, template, ["John", 12345]);
+Console.WriteLine(result);
 
 // Culture-invariant number conversions
 string number = "42.5";
@@ -82,6 +81,12 @@ decimal value = number.ToDecimal();  // Works regardless of system culture
 // RFC1123 hostname validation
 bool isValid = "my-server.example.com".IsRfc1123Compliant();  // true
 bool isInvalid = "my_server".IsRfc1123Compliant();            // false
+```
+
+The program prints this line.
+
+```text
+Hello John, your order #12345 is ready
 ```
 
 ### Error Handling

@@ -75,6 +75,8 @@ def load_packages(package_directory: Path) -> dict[str, PackageMetadata]:
         if package_path.name.endswith(".symbols.nupkg"):
             continue
         package = read_package(package_path)
+        if package.package_id in packages:
+            raise ValueError(f"Duplicate package ID: {package.package_id}")
         packages[package.package_id] = package
 
     if not packages:
@@ -97,6 +99,16 @@ def read_package(package_path: Path) -> PackageMetadata:
 
         package_id = text(metadata, "id", ns, package_path)
         version = text(metadata, "version", ns, package_path)
+        if package_id not in EXPECTED_PACKAGE_IDS:
+            raise ValueError(f"{package_path.name}: unexpected package {package_id}")
+        repo = Path(__file__).resolve().parents[1]
+        readme_path = repo / "src" / "libraries" / package_id / "README.md"
+        if not readme_path.is_file():
+            readme_path = repo / "README.md"
+        if text(metadata, "readme", ns, package_path) != "README.md":
+            raise ValueError(f"{package_path.name}: nuspec must identify README.md")
+        if package.namelist().count("README.md") != 1 or package.read("README.md") != readme_path.read_bytes():
+            raise ValueError(f"{package_path.name}: packed README differs from {readme_path.relative_to(repo)}")
         has_net11_assets = any(name.startswith("lib/net11.0/") for name in package.namelist())
         return PackageMetadata(package_id, version, has_net11_assets)
 

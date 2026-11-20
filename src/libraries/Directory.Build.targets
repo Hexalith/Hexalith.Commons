@@ -1,0 +1,20 @@
+<Project>
+  <!-- Preserve target customizations from an enclosing workspace. -->
+  <PropertyGroup>
+    <_CommonsParentTargets>$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)..'))</_CommonsParentTargets>
+  </PropertyGroup>
+  <Import Project="$(_CommonsParentTargets)" Condition="'$(_CommonsParentTargets)' != ''" />
+  <PropertyGroup>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <_CommonsRootReadme>$(MSBuildThisFileDirectory)../../README.md</_CommonsRootReadme>
+    <_CommonsProjectReadme>$(MSBuildProjectDirectory)/README.md</_CommonsProjectReadme>
+    <_CommonsPackageReadme>$(_CommonsRootReadme)</_CommonsPackageReadme>
+    <_CommonsPackageReadme Condition="Exists('$(_CommonsProjectReadme)')">$(_CommonsProjectReadme)</_CommonsPackageReadme>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Some projects inherit the repository README, others declare their own. -->
+    <_CommonsReadmeCandidates Include="$(_CommonsRootReadme);$(_CommonsProjectReadme)" />
+    <None Remove="@(_CommonsReadmeCandidates)" MatchOnMetadata="FullPath" MatchOnMetadataOptions="PathLike" />
+    <None Include="$(_CommonsPackageReadme)" Pack="true" PackagePath="/" />
+  </ItemGroup>
+</Project>

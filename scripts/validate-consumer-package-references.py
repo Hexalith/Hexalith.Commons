@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -12,6 +13,7 @@ import tempfile
 import zipfile
 from pathlib import Path
 from xml.etree import ElementTree
+from xml.sax.saxutils import quoteattr
 
 
 PACKAGE_IDS = [
@@ -46,16 +48,50 @@ def main() -> int:
         isolate_nuget(root)
         project = str(root / "Consumer.csproj")
         restore_config = str(root / "NuGet.Config")
-        subprocess.run(["dotnet", "restore", project, "-noAutoResponse", "-warnaserror",
-                        "-p:UseHexalithProjectReferences=false", "-p:NuGetAudit=false",
-                        "-p:RestoreConfigFile=" + restore_config], check=True)
+        restore(project, restore_config)
         subprocess.run(["dotnet", "build", project, "--no-restore", "--configuration", "Release",
                         "-noAutoResponse", "-warnaserror",
-                        "-p:UseHexalithProjectReferences=false", "-p:NuGetAudit=false",
+                        "-p:UseHexalithProjectReferences=false",
                         "-p:RestoreConfigFile=" + restore_config], check=True)
 
-    print("Validated isolated package-only consumer build.")
+        # The quickstart installs only the core package. Keep the full-family
+        # consumer above to catch dependency conflicts across the other packages.
+        sample = root / "quickstart"
+        sample.mkdir()
+        write_consumer_project(sample, {"Hexalith.Commons": versions["Hexalith.Commons"]}, executable=True)
+        sample_project = str(sample / "Consumer.csproj")
+        restore(sample_project, restore_config)
+        repo = Path(__file__).resolve().parents[1]
+        for readme, heading in (
+            (repo / "README.md", "### String Utilities"),
+            (repo / "src/libraries/Hexalith.Commons/README.md", "#### Named Placeholder Formatting"),
+        ):
+            run_example(sample, readme, heading)
+
+    print("Validated all package references and both documented core examples.")
     return 0
+
+
+def restore(project: str, config: str) -> None:
+    subprocess.run(["dotnet", "restore", project, "-noAutoResponse", "-warnaserror",
+                    "-p:UseHexalithProjectReferences=false", "--configfile", config], check=True)
+
+
+def run_example(directory: Path, readme: Path, heading: str) -> None:
+    document = readme.read_text(encoding="utf-8-sig")
+    section = re.search(rf"^{re.escape(heading)}$\n(.*?)(?=^#|\Z)", document, re.MULTILINE | re.DOTALL)
+    if section is None:
+        raise ValueError(f"{readme}: missing {heading}")
+    code = re.findall(r"^```csharp\n(.*?)\n```$", section[1], re.MULTILINE | re.DOTALL)
+    output = re.findall(r"^```text\n(.*?)\n```$", section[1], re.MULTILINE | re.DOTALL)
+    if len(code) != 1 or len(output) != 1:
+        raise ValueError(f"{readme}: expected one C# example and one expected output under {heading}")
+    (directory / "Program.cs").write_text(code[0] + "\n", encoding="utf-8")
+    subprocess.run(["dotnet", "build", "Consumer.csproj", "--no-restore", "-c", "Release"],
+                   cwd=directory, check=True)
+    result = subprocess.check_output(["dotnet", "bin/Release/net11.0/Consumer.dll"], cwd=directory, text=True)
+    if result.splitlines() != output[0].splitlines():
+        raise ValueError(f"{readme}: expected {output[0]!r}, got {result!r}")
 
 
 def package_versions(package_directory: Path) -> dict[str, str]:
@@ -96,29 +132,37 @@ def text(metadata: ElementTree.Element, name: str, ns: dict[str, str], package_p
 
 
 def write_nuget_config(root: Path, package_directory: Path) -> None:
+    local_patterns = "\n".join(f'      <package pattern="{name}" />' for name in PACKAGE_IDS)
     root.joinpath("NuGet.Config").write_text(
         f"""<?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <packageSources>
     <clear />
-    <add key="local-commons-packages" value="{package_directory.resolve()}" />
+    <add key="local-commons-packages" value={quoteattr(str(package_directory.resolve()))} />
     <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
   </packageSources>
+  <packageSourceMapping>
+    <packageSource key="local-commons-packages">
+{local_patterns}
+    </packageSource>
+    <packageSource key="nuget.org"><package pattern="*" /></packageSource>
+  </packageSourceMapping>
 </configuration>
 """,
         encoding="utf-8",
     )
 
 
-def write_consumer_project(root: Path, versions: dict[str, str]) -> None:
+def write_consumer_project(root: Path, versions: dict[str, str], *, executable: bool = False) -> None:
     package_references = "\n".join(
-        f'    <PackageReference Include="{package_id}" Version="{versions[package_id]}" />'
-        for package_id in PACKAGE_IDS
+        f'    <PackageReference Include="{package_id}" Version="[{version}]" />'
+        for package_id, version in versions.items()
     )
     root.joinpath("Consumer.csproj").write_text(
         f"""<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net11.0</TargetFramework>
+    <OutputType>{"Exe" if executable else "Library"}</OutputType>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>

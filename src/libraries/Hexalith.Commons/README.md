@@ -26,7 +26,7 @@ dotnet add package Hexalith.Commons
 
 | Namespace | Purpose |
 |-----------|---------|
-| `Hexalith.Extensions.Helpers` | String manipulation and conversion utilities |
+| `Hexalith.Commons.Strings` | String manipulation and conversion utilities |
 | `Hexalith.Commons.Errors` | Structured error handling and railway-oriented programming |
 | `Hexalith.Commons.Objects` | Object equality, description, and comparison |
 | `Hexalith.Commons.Reflections` | Type discovery and mapping |
@@ -39,7 +39,7 @@ dotnet add package Hexalith.Commons
 
 ## String Utilities
 
-**Namespace:** `Hexalith.Extensions.Helpers`
+**Namespace:** `Hexalith.Commons.Strings`
 
 ### StringHelper
 
@@ -48,18 +48,19 @@ Comprehensive string manipulation and conversion utilities.
 #### Named Placeholder Formatting
 
 ```csharp
-using Hexalith.Extensions.Helpers;
+using System.Globalization;
+using Hexalith.Commons.Strings;
 
 string template = "Order {orderId} for {customer} is {status}";
-var values = new Dictionary<string, object>
-{
-    ["orderId"] = "ORD-001",
-    ["customer"] = "John Doe",
-    ["status"] = "shipped"
-};
+string result = StringHelper.FormatWithNamedPlaceholders(
+    CultureInfo.InvariantCulture, template, ["ORD-001", "John Doe", "shipped"]);
+Console.WriteLine(result);
+```
 
-string result = template.FormatWithNamedPlaceholders(values);
-// Result: "Order ORD-001 for John Doe is shipped"
+The program prints this line.
+
+```text
+Order ORD-001 for John Doe is shipped
 ```
 
 #### Culture-Invariant Conversions
